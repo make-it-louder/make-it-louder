@@ -6,7 +6,7 @@ public class PlayerMove2D : MonoBehaviour
 {
     // Start is called before the first frame update
     Rigidbody2D rb;
-    new BoxCollider2D collider;
+    new CapsuleCollider2D collider;
     new SpriteRenderer renderer;
     Animator animator;
 
@@ -15,7 +15,7 @@ public class PlayerMove2D : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        collider = GetComponent<BoxCollider2D>();
+        collider = GetComponent<CapsuleCollider2D>();
         renderer = transform.Find("Renderer").GetComponent<SpriteRenderer>();
         animator = transform.Find("Renderer").GetComponent<Animator>();
         //rb.centerOfMass = rb.centerOfMass - new Vector2(0, 0.15f);
@@ -42,14 +42,9 @@ public class PlayerMove2D : MonoBehaviour
     }
     bool isGrounded()
     {
-        Vector3 feet = rb.transform.position + transform.up * transform.lossyScale.y * (collider.offset.y - collider.size.y / 2 - 0.01f);
-        Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.offset.x + collider.size.x / 2) * 0.9f;
-        Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.offset.x + collider.size.x / 2) * 0.9f;
-        RaycastHit2D hitLeft = Physics2D.Raycast(feetLeft, -transform.up, 0.2f);
-        RaycastHit2D hitRight = Physics2D.Raycast(feetRight, -transform.up, 0.2f);
-        Debug.DrawRay(feetLeft, -transform.up * 0.2f);
-        Debug.DrawRay(feetRight, -transform.up * 0.2f);
-        Debug.Log($"{hitLeft.collider} {hitRight.collider}");
-        return (hitLeft.collider != null) || (hitRight.collider != null);
+        Vector3 feet = rb.transform.position + transform.up * transform.lossyScale.y * (collider.offset.y - collider.size.y / 2 - 0.01f) + transform.right * transform.lossyScale.x * collider.offset.x; ;
+        Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.99f;
+        Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.99f;
+        return (Physics2D.OverlapPoint(feetLeft) != null) || (Physics2D.OverlapPoint(feetRight) != null);
     }
 }
