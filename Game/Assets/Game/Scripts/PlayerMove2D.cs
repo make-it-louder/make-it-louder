@@ -14,6 +14,8 @@ public class PlayerMove2D : MonoBehaviour
 
     public float speed; 
     public float jumpPower;
+    float inputV;
+    float inputH;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -24,11 +26,8 @@ public class PlayerMove2D : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        float inputV = Input.GetAxis("Jump");
-        float inputH = Input.GetAxis("Horizontal");
-        Debug.Log($"inputH: {inputH}, is it zero? {inputH == 0}");
         if (inputH != 0)
         {
             rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
@@ -43,13 +42,18 @@ public class PlayerMove2D : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
         }
 
-        if (!isGrounded() && rb.velocity.y < -3 && micInput.DB > 0)
+        if (!isGrounded() && micInput.DB > 0)
         {
-            rb.AddForce(Vector2.up * 2.5f);
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -3.5f));
         }
         animator.SetFloat("hVelocity", Mathf.Abs(inputH));
         animator.SetFloat("vVelocity", rb.velocity.y);
         animator.SetBool("isGrounded", isGrounded());
+    }
+    void Update()
+    {
+        inputV = Input.GetAxis("Jump");
+        inputH = Input.GetAxis("Horizontal");
     }
     bool isGrounded()
     {
@@ -58,4 +62,5 @@ public class PlayerMove2D : MonoBehaviour
         Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.99f;
         return (Physics2D.OverlapPoint(feetLeft) != null) || (Physics2D.OverlapPoint(feetRight) != null);
     }
+    
 }
