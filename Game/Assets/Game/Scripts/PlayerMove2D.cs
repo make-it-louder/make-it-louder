@@ -12,7 +12,7 @@ public class PlayerMove2D : MonoBehaviour
 
     public MicInputManager micInput;
 
-    public float speed; 
+    public float speed;
     public float jumpPower;
     float inputV;
     float inputH;
@@ -62,3 +62,4 @@ public class PlayerMove2D : MonoBehaviour
         Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.99f;
         return (Physics2D.OverlapPoint(feetLeft) != null) || (Physics2D.OverlapPoint(feetRight) != null);
     }
+}
