@@ -28,7 +28,6 @@ public class PlayerMove2D : MonoBehaviour
     {
         float inputV = Input.GetAxis("Jump");
         float inputH = Input.GetAxis("Horizontal");
-        Debug.Log($"inputH: {inputH}, is it zero? {inputH == 0}");
         if (inputH != 0)
         {
             rb.velocity = new Vector2(inputH * speed, rb.velocity.y);

@@ -34,7 +34,7 @@ public class soundBlockController : MonoBehaviour
         if(input.DB > -5)
         {
             curY = transform.position.y;
-            Debug.Log($"db:{input.DB} / {curY}");
+            //Debug.Log($"db:{input.DB} / {curY}");
             Vector2 newPosition = rb.position + new Vector2(0, 0.1f);
             if (newPosition.y > maxY)
             {
