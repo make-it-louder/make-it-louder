@@ -57,19 +57,8 @@ public class PlayerMove2D : MonoBehaviour
     }
     bool isGrounded()
     {
-        Vector3[] feet = getBottomPoints(0.99f);
-        return (Physics2D.OverlapPoint(feet[0]) != null) || (Physics2D.OverlapPoint(feet[1]) != null);
-    }
-    bool isJumpable()
-    {
-        Vector3[] feet = getBottomPoints(0.8f);
-        return (Physics2D.OverlapPoint(feet[0]) != null) || (Physics2D.OverlapPoint(feet[1] ) != null);
-    }
-
-    Vector3[] getBottomPoints(float widthRadius) {
         Vector3 feet = rb.transform.position + transform.up * transform.lossyScale.y * (collider.offset.y - collider.size.y / 2 - 0.01f) + transform.right * transform.lossyScale.x * collider.offset.x; ;
-        Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.size.x / 2) * widthRadius;
-        Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * widthRadius;
-        return new Vector3[]{ feetLeft, feetRight };
+        Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.99f;
+        Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.99f;
+        return (Physics2D.OverlapPoint(feetLeft) != null) || (Physics2D.OverlapPoint(feetRight) != null);
     }
-}
