@@ -42,7 +42,7 @@ public class PlayerMove2D : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
         }
 
-        if (!isGrounded() && micInput.DB > 0)
+        if (!isGrounded() && micInput != null && micInput.DB > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -3.5f));
         }
