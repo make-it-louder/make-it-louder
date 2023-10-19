@@ -6,7 +6,7 @@ public class PlayerMove2D : MonoBehaviour
 {
     // Start is called before the first frame update
     Rigidbody2D rb;
-    new CapsuleCollider2D collider;
+    new BoxCollider2D collider;
     new SpriteRenderer renderer;
     Animator animator;
 
@@ -19,7 +19,7 @@ public class PlayerMove2D : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        collider = GetComponent<CapsuleCollider2D>();
+        collider = GetComponent<BoxCollider2D>();
         renderer = transform.Find("Renderer").GetComponent<SpriteRenderer>();
         animator = transform.Find("Renderer").GetComponent<Animator>();
         //rb.centerOfMass = rb.centerOfMass - new Vector2(0, 0.15f);
@@ -57,10 +57,19 @@ public class PlayerMove2D : MonoBehaviour
     }
     bool isGrounded()
     {
-        Vector3 feet = rb.transform.position + transform.up * transform.lossyScale.y * (collider.offset.y - collider.size.y / 2 - 0.01f) + transform.right * transform.lossyScale.x * collider.offset.x; ;
-        Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.99f;
-        Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.99f;
-        return (Physics2D.OverlapPoint(feetLeft) != null) || (Physics2D.OverlapPoint(feetRight) != null);
+        Vector3[] feet = getBottomPoints(0.99f);
+        return (Physics2D.OverlapPoint(feet[0]) != null) || (Physics2D.OverlapPoint(feet[1]) != null);
     }
-    
+    bool isJumpable()
+    {
+        Vector3[] feet = getBottomPoints(0.8f);
+        return (Physics2D.OverlapPoint(feet[0]) != null) || (Physics2D.OverlapPoint(feet[1] ) != null);
+    }
+
+    Vector3[] getBottomPoints(float widthRadius) {
+        Vector3 feet = rb.transform.position + transform.up * transform.lossyScale.y * (collider.offset.y - collider.size.y / 2 - 0.01f) + transform.right * transform.lossyScale.x * collider.offset.x; ;
+        Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.size.x / 2) * widthRadius;
+        Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * widthRadius;
+        return new Vector3[]{ feetLeft, feetRight };
+    }
 }
