@@ -316,7 +316,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.96, y: 0, z: -10}
+  m_LocalPosition: {x: -0.02, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -376,7 +376,7 @@ Transform:
   m_GameObject: {fileID: 793552379}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.62, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4606,46 +4606,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 14, y: 36, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 1
-      m_TileSpriteIndex: 0
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: 15, y: 36, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 1
-      m_TileSpriteIndex: 0
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: 16, y: 36, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 1
-      m_TileSpriteIndex: 0
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: 17, y: 36, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 1
-      m_TileSpriteIndex: 0
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   - first: {x: 37, y: 36, z: 0}
     second:
       serializedVersion: 2
@@ -4681,6 +4641,46 @@ Tilemap:
       serializedVersion: 2
       m_TileIndex: 18
       m_TileSpriteIndex: 18
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 14, y: 37, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 0
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 15, y: 37, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 0
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 16, y: 37, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 0
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 17, y: 37, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -4766,7 +4766,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 21, y: 39, z: 0}
+  - first: {x: 22, y: 39, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 1
@@ -4776,7 +4776,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 22, y: 39, z: 0}
+  - first: {x: 23, y: 39, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 1
@@ -6729,13 +6729,13 @@ CompositeCollider2D:
       - X: 140000000
         Y: 170000000
       - X: 140000000
-        Y: 360000000
-      - X: 180000000
-        Y: 360000000
+        Y: 370000000
       - X: 180000000
         Y: 370000000
+      - X: 180000000
+        Y: 380000000
       - X: 140000000
-        Y: 370000000
+        Y: 380000000
       - X: 140000000
         Y: 790000000
       - X: 120000000
@@ -6752,13 +6752,13 @@ CompositeCollider2D:
         Y: 410000000
       - X: 300000000
         Y: 410000000
-    - - X: 230000000
+    - - X: 240000000
         Y: 400000000
-      - X: 210000000
+      - X: 220000000
         Y: 400000000
-      - X: 210000000
+      - X: 220000000
         Y: 390000000
-      - X: 230000000
+      - X: 240000000
         Y: 390000000
     - - X: 300000000
         Y: 260000000
@@ -6930,10 +6930,10 @@ CompositeCollider2D:
       - {x: 18.999971, y: 13}
       - {x: 17.999992, y: 13.000008}
       - {x: 14, y: 17.000011}
-      - {x: 14.000029, y: 36}
-      - {x: 18, y: 36.00003}
-      - {x: 17.999971, y: 37}
-      - {x: 14, y: 37.00003}
+      - {x: 14.000029, y: 37}
+      - {x: 18, y: 37.00003}
+      - {x: 17.999971, y: 38}
+      - {x: 14, y: 38.00003}
       - {x: 13.999971, y: 79}
       - {x: 12, y: 78.99997}
       - {x: 12.00003, y: -2}
@@ -6941,10 +6941,10 @@ CompositeCollider2D:
       - {x: 29.999971, y: 42}
       - {x: 27, y: 41.999973}
       - {x: 27.000029, y: 41}
-    - - {x: 22.999971, y: 39}
-      - {x: 22.999971, y: 40}
-      - {x: 21, y: 39.999973}
-      - {x: 21.000029, y: 39}
+    - - {x: 23.999971, y: 39}
+      - {x: 23.999971, y: 40}
+      - {x: 22, y: 39.999973}
+      - {x: 22.000029, y: 39}
     - - {x: 29.999971, y: 25}
       - {x: 29.999971, y: 26}
       - {x: 29, y: 26.000029}
@@ -7447,7 +7447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   micInput: {fileID: 1949186154}
   speed: 7.5
-  jumpPower: 17
+  jumpPower: 18
 --- !u!251 &1603902945
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -7467,8 +7467,8 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
---- !u!70 &1603902946
-CapsuleCollider2D:
+--- !u!61 &1603902946
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -7476,7 +7476,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1603902938}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: c9558816ff433404bb36007f47a72b77, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -7499,9 +7499,19 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: -0.01475904, y: -0.043674923}
-  m_Size: {x: 0.18051088, y: 0.23631243}
-  m_Direction: 0
+  m_Offset: {x: -0.007678535, y: -0.057655968}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16100457, y: 0.20723067}
+  m_EdgeRadius: 0
 --- !u!1 &1949186152
 GameObject:
   m_ObjectHideFlags: 0
@@ -7681,7 +7691,7 @@ Transform:
   m_GameObject: {fileID: 2095735992}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.97, y: 0.13, z: 0}
+  m_LocalPosition: {x: -2.97, y: -1.93, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

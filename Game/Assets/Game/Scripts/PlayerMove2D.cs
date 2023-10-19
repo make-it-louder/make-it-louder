@@ -6,28 +6,28 @@ public class PlayerMove2D : MonoBehaviour
 {
     // Start is called before the first frame update
     Rigidbody2D rb;
-    new CapsuleCollider2D collider;
+    new BoxCollider2D collider;
     new SpriteRenderer renderer;
     Animator animator;
 
     public MicInputManager micInput;
 
-    public float speed; 
+    public float speed;
     public float jumpPower;
+    float inputV;
+    float inputH;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        collider = GetComponent<CapsuleCollider2D>();
+        collider = GetComponent<BoxCollider2D>();
         renderer = transform.Find("Renderer").GetComponent<SpriteRenderer>();
         animator = transform.Find("Renderer").GetComponent<Animator>();
         //rb.centerOfMass = rb.centerOfMass - new Vector2(0, 0.15f);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        float inputV = Input.GetAxis("Jump");
-        float inputH = Input.GetAxis("Horizontal");
         if (inputH != 0)
         {
             rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
@@ -42,13 +42,18 @@ public class PlayerMove2D : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
         }
 
-        if (!isGrounded() && rb.velocity.y < -3 && micInput.DB > 0)
+        if (!isGrounded() && micInput.DB > 0)
         {
-            rb.AddForce(Vector2.up * 2.5f);
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -3.5f));
         }
         animator.SetFloat("hVelocity", Mathf.Abs(inputH));
         animator.SetFloat("vVelocity", rb.velocity.y);
         animator.SetBool("isGrounded", isGrounded());
+    }
+    void Update()
+    {
+        inputV = Input.GetAxis("Jump");
+        inputH = Input.GetAxis("Horizontal");
     }
     bool isGrounded()
     {
