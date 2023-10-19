@@ -10,6 +10,8 @@ public class PlayerMove2D : MonoBehaviour
     new SpriteRenderer renderer;
     Animator animator;
 
+    public MicInputManager micInput;
+
     public float speed; 
     public float jumpPower;
     void Start()
@@ -26,7 +28,11 @@ public class PlayerMove2D : MonoBehaviour
     {
         float inputV = Input.GetAxis("Jump");
         float inputH = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
+        Debug.Log($"inputH: {inputH}, is it zero? {inputH == 0}");
+        if (inputH != 0)
+        {
+            rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
+        }
         if ((inputH != 0) && (inputH < 0) != renderer.flipX)
         {
             renderer.flipX = inputH < 0;
@@ -35,6 +41,11 @@ public class PlayerMove2D : MonoBehaviour
         if (inputV > 0 && isGrounded())
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
+        }
+
+        if (!isGrounded() && rb.velocity.y < -3 && micInput.DB > 0)
+        {
+            rb.AddForce(Vector2.up * 2.5f);
         }
         animator.SetFloat("hVelocity", Mathf.Abs(inputH));
         animator.SetFloat("vVelocity", rb.velocity.y);
