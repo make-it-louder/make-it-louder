@@ -10,12 +10,14 @@ public class soundBlockController : MonoBehaviour
     Rigidbody2D rb;
 
     private float maxY;
+    private float minY;
     private float curY;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         maxY = transform.position.y + 3;
+        minY = transform.position.y;
     }
 
     // Update is called once per frame
@@ -41,6 +43,15 @@ public class soundBlockController : MonoBehaviour
             }
             rb.MovePosition(newPosition);
 
+        }
+        else
+        {
+            Vector2 newPosition = rb.position + new Vector2(0, -0.02f);
+            if (newPosition.y < minY)
+            {
+                newPosition.y = minY;
+            }
+            rb.MovePosition(newPosition);
         }
     }
 }
