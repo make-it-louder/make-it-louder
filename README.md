@@ -23,7 +23,7 @@
 |:----:|:---:|:----:|
 |박정훈|팀장|Client|
 |김상현|팀원|Client|
-|임채상|팀원|UI/UX|
+|임채상|팀원|Client|
 |김웅서|팀원|UI/UX|
-|박태규|팀원|Backend|
-|용효창|팀원|Backend|
+|박태규|팀원|Backend(Firebase)|
+|용효창|팀원|Backend(Photon)|
