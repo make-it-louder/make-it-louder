@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Game/Scenes/2D sanghyun.unity
-    guid: 50c60ca327ca48349ab59ce363de8f77
+    path: Assets/Game/Scenes/PhotonVoiceTest.unity
+    guid: acaa845723129ee4ea9062c8dd9e6009
   m_configObjects: {}

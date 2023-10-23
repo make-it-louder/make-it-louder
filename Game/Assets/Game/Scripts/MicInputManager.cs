@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using TMPro;
 using UnityEngine;
+using Photon.Voice.Unity;
+using Photon.Voice.PUN;
 
 public class MicInputManager : MonoBehaviour
 {
@@ -48,7 +50,7 @@ public class MicInputManager : MonoBehaviour
         }
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = Microphone.Start(null, true, 1, sampleRate);
-        audioSource.loop = true;
+        audioSource.loop = false;
         //audioSource.mute = true; // Prevent feedback
         while (!(Microphone.GetPosition(null) > 0)) { } // Wait until the recording has started
         audioSource.Play(); // Play the audio source
