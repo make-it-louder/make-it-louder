@@ -5,7 +5,7 @@ using UnityEngine;
 public class GridCamera2D : MonoBehaviour
 {
     [SerializeField]
-    private GameObject follows;
+    public GameObject follows;
     [SerializeField]
     private Vector2 gridScale;
     [SerializeField]
