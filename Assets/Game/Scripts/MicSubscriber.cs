@@ -17,12 +17,6 @@ public class MicSubscriber : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        if (input == null)
-        {
-            setScale(0);
-            return;
-        }
         renderer = GetComponent<SpriteRenderer>();
     }
 
@@ -31,7 +25,11 @@ public class MicSubscriber : MonoBehaviour
     {
         if (input == null)
         {
-            return;
+            input = transform.parent.GetComponentInChildren<MicInputManager>();
+            if (input == null)
+            {
+                return;
+            }
         }
         if (input.DB < minDB)
         {
