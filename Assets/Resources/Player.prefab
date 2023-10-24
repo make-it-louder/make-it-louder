@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa08c5911dca48499218515af0f46b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  micInput: {fileID: 0}
+  micInput: {fileID: 9211182872176381057}
   speed: 7.5
   jumpPower: 18
 --- !u!251 &5913336260058086479
