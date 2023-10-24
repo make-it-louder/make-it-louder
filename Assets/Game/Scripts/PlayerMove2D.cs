@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerMove2D : MonoBehaviour
+public class PlayerMove2D : MonoBehaviourPun
 {
     // Start is called before the first frame update
     Rigidbody2D rb;
@@ -32,10 +33,6 @@ public class PlayerMove2D : MonoBehaviour
         {
             rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
         }
-        if ((inputH != 0) && (inputH < 0) != renderer.flipX)
-        {
-            renderer.flipX = inputH < 0;
-        }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
         if (inputV > 0 && isGrounded())
         {
@@ -46,14 +43,22 @@ public class PlayerMove2D : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -3.5f));
         }
+
+        if ((rb.velocity.x < -0.003f) != renderer.flipX)
+        {
+            renderer.flipX = rb.velocity.x < 0;
+        }
         animator.SetFloat("hVelocity", Mathf.Abs(inputH));
         animator.SetFloat("vVelocity", rb.velocity.y);
         animator.SetBool("isGrounded", isGrounded());
     }
     void Update()
     {
-        inputV = Input.GetAxis("Jump");
-        inputH = Input.GetAxis("Horizontal");
+        if (photonView.IsMine)
+        {
+            inputV = Input.GetAxis("Jump");
+            inputH = Input.GetAxis("Horizontal");
+        }
     }
     bool isGrounded()
     {

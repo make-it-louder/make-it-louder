@@ -37,7 +37,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.Log("IAmMasterClient");
-            PhotonNetwork.LoadLevel("Game/Scenes/MakeItLoudertest"); // 게임씬으로 전환
+            PhotonNetwork.LoadLevel(1); // 게임씬으로 전환
         }
     }
     public override void OnJoinRandomFailed(short returnCode, string message)
