@@ -19,6 +19,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         if (!string.IsNullOrEmpty(nicknameInputField.text))
         {
             PhotonNetwork.NickName = nicknameInputField.text;
+            PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.ConnectUsingSettings();
         }
     }
@@ -30,7 +31,10 @@ public class NicknameManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        SceneManager.LoadScene(1); // 게임씬으로 전환
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel("Game/Scenes/MakeItLoudertest"); // 게임씬으로 전환
+        }
     }
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
