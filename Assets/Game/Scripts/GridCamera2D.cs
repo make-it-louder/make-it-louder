@@ -17,7 +17,7 @@ public class GridCamera2D : MonoBehaviour
     {
         if (follows == null)
         {
-            Debug.LogError("follows not given on the inspector");
+            Debug.Log("follows not given on the inspector");
         }
     }
 
@@ -39,6 +39,10 @@ public class GridCamera2D : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (follows == null)
+        {
+            return;
+        }
         Vector2Int targetGridIdx = Pos2GridIdx(follows.transform.position);
         Vector3 targetPos = GridIdx2Pos(targetGridIdx);
         transform.position = Vector3.Lerp(transform.position, targetPos, transitionSpeed * Time.deltaTime);
