@@ -112,6 +112,7 @@ public class FirebaseManager : MonoBehaviour
 
     public void SignUp(string email, string username, string password)
     {
+        bool flag = false;
         auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
@@ -123,10 +124,21 @@ public class FirebaseManager : MonoBehaviour
             AuthResult result = task.Result;
             FirebaseUser newUser = result.User;
             Debug.LogError("successfully signed up");
-
+            flag = true;
             WriteNewUser(newUser.UserId, username);
             Debug.LogError("successfully writed up");
         });
+
+        if (flag)
+        {
+            SceneManager.LoadScene("Lobby");
+        }
+        else
+        {
+            popupTitle.text = "실패";
+            popupContent.text = "입력한 정보를 확인해주세요!";
+            popupWinodow.SetActive(true);
+        }
     }
 
     public async void SignIn(string email, string password)
@@ -146,11 +158,12 @@ public class FirebaseManager : MonoBehaviour
             flag = true;
         });
         if (flag) { 
-            SceneManager.LoadScene("Lobby");
+            loginForm.SetActive(true);
+            signupForm.SetActive(false);
         } else
         {
-            popupTitle.text = "����";
-            popupContent.text = "ID/PW�� Ȯ�����ּ���!";
+            popupTitle.text = "실패";
+            popupContent.text = "ID/PW를 확인해주세요!";
             popupWinodow.SetActive(true);
         }
     }

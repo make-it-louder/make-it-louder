@@ -1730,6 +1730,7 @@ GameObject:
   m_Component:
   - component: {fileID: 326693374}
   - component: {fileID: 326693373}
+  - component: {fileID: 326693375}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1766,6 +1767,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &326693375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326693372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a80a1404e4b650749952ef4065790436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClickController: {fileID: 0}
+  audioSettingsForm: {fileID: 0}
+  VideoSettingsForm: {fileID: 0}
+  popupWindow: {fileID: 358243790}
 --- !u!1 &333481899
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,7 +1930,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &358243791
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2324,9 +2341,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 326693375}
         m_TargetAssemblyTypeName: FormOnClick, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: ClosePopupWindow
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4434,6 +4451,8 @@ MonoBehaviour:
   signupForm: {fileID: 131915278}
   loginForm: {fileID: 1387374017}
   popupWinodow: {fileID: 358243790}
+  popupTitle: {fileID: 1001344258}
+  popupContent: {fileID: 1044912359}
 --- !u!4 &1377088646
 Transform:
   m_ObjectHideFlags: 0
