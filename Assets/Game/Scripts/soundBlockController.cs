@@ -5,8 +5,8 @@ using UnityEngine;
 public class soundBlockController : MonoBehaviour
 {
     [SerializeField]
-    MicInputManager input;
-
+    SoundEventManager soundManager;
+    SoundSubscriber input;
     Rigidbody2D rb;
 
     private float maxY;
@@ -18,6 +18,7 @@ public class soundBlockController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         maxY = transform.position.y + 3;
         minY = transform.position.y;
+        input = soundManager.Subscribe(this.gameObject);
     }
 
     // Update is called once per frame
@@ -33,7 +34,7 @@ public class soundBlockController : MonoBehaviour
 
     void moveUp()
     {
-        if (input.DB > -5)
+        if (input.normalizedDB > 0.0f)
         {
             curY = transform.position.y;
             Vector2 newPosition = rb.position + new Vector2(0, 0.1f);

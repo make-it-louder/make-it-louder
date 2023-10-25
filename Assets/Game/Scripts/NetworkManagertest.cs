@@ -37,7 +37,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.Log("IAmMasterClient");
-            PhotonNetwork.LoadLevel(1); // 게임씬으로 전환
+            PhotonNetwork.LoadLevel(3); // 게임씬으로 전환
         }
     }
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -50,7 +50,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         Debug.Log("OnSceneLoaded");
         Debug.Log($"Scene name: {scene.name}, InRoom: {PhotonNetwork.InRoom}");
         // 게임 씬이 로드된 경우
-        if (scene.buildIndex == 1)
+        if (scene.buildIndex == 3)
         {
             StartCoroutine(OnScene1Loaded());
         }
@@ -73,6 +73,16 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         GameObject spawnedPlayer = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(Random.Range(-5f, 5f), 1, Random.Range(-5f, 5f)), Quaternion.identity);
         GridCamera2D camera = GameObject.Find("Main Camera").GetComponent<GridCamera2D>();
         camera.follows = spawnedPlayer;
+
+        SoundEventManager soundEventManager = GameObject.Find("SoundEventManager").GetComponent<SoundEventManager>();
+        soundEventManager.AddPublisher(spawnedPlayer.GetComponentInChildren<INormalizedSoundInput>());
+
+        PlayerMove2D playerMoveBehavior = spawnedPlayer.GetComponent<PlayerMove2D>();
+        TMP_Text jumpCountText = GameObject.Find("JumpCount").GetComponent<TMP_Text>();
+        TMP_Text playTimeText = GameObject.Find("PlayTime").GetComponent<TMP_Text>();
+
+        playerMoveBehavior.jumpCountText = jumpCountText;
+        playerMoveBehavior.playTimeText = playTimeText;
         yield break;
     }
 }
