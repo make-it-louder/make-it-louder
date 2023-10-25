@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class SoundEventManager : MonoBehaviour
+public class SoundEventManager : MonoBehaviourPun
 {
     [Tooltip("Ignore voice beyond maxDistance")]
     public float maxDistance;
@@ -19,21 +20,35 @@ public class SoundEventManager : MonoBehaviour
 
     }
 
-    public void AddPublisher(INormalizedSoundInput other)
+    [PunRPC]
+    public void SyncAddPublisher(int viewID)
     {
+        INormalizedSoundInput other = PhotonView.Find(viewID).gameObject.GetComponent<INormalizedSoundInput>();
         soundInputs.Add(other);
     }
 
-    public void DeletePublisher(INormalizedSoundInput other)
+    [PunRPC]
+    public void SyncRemovePublisher(int viewID)
     {
+        INormalizedSoundInput other = PhotonView.Find(viewID).gameObject.GetComponent<INormalizedSoundInput>();
         soundInputs.Remove(other);
+    }
+
+    public void AddPublisher(INormalizedSoundInput other)
+    {
+        photonView.RPC("SyncAddPublisher", RpcTarget.All, other.gameObject.GetComponent<PhotonView>().ViewID);
+    }
+
+    public void RemovePublisher(INormalizedSoundInput other)
+    {
+        photonView.RPC("SyncRemovePublisher", RpcTarget.All, other.gameObject.GetComponent<PhotonView>().ViewID);
     }
     public float GetLocalDBAt(GameObject other)
     {
         float DB = 0.0f;
         foreach (INormalizedSoundInput soundInput in soundInputs)
         {
-            float distance = Vector2.Distance(soundInput.transform.position, other.transform.position);
+            float distance = Vector2.Distance(soundInput.gameObject.transform.position, other.transform.position);
             if (distance < maxDistance)
             {
                 float localDBEffect = soundInput.normalizedDB / (distance * distance);
@@ -56,14 +71,7 @@ public class SoundEventManager : MonoBehaviour
 public class SoundSubscriber : INormalizedSoundInput
 {
     SoundEventManager manager;
-    GameObject gameObject;
-    public Transform transform
-    {
-        get
-        {
-            return gameObject?.transform;
-        }
-    }
+    public GameObject gameObject{ get; set; }
     public SoundSubscriber(SoundEventManager manager, GameObject gameObject)
     {
         this.manager = manager;

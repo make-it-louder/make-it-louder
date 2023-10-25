@@ -8,7 +8,7 @@ public interface INormalizedSoundInput
     {
         get;
     }
-    Transform transform
+    GameObject gameObject
     {
         get;
     }

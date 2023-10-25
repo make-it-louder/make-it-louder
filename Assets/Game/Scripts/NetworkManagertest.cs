@@ -52,7 +52,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         // 게임 씬이 로드된 경우
         if (scene.buildIndex == 3)
         {
-            StartCoroutine(OnScene1Loaded());
+            StartCoroutine(OnScene3Loaded());
         }
     }
 
@@ -61,14 +61,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         // 게임 오브젝트가 파괴될 때 이벤트에서 메서드를 제거
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-    IEnumerator waitForLevelLoad()
-    {
-        if (PhotonNetwork.LevelLoadingProgress < 1)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-    }
-    IEnumerator OnScene1Loaded() {
+    IEnumerator OnScene3Loaded() {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
         GameObject spawnedPlayer = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(Random.Range(-5f, 5f), 1, Random.Range(-5f, 5f)), Quaternion.identity);
         GridCamera2D camera = GameObject.Find("Main Camera").GetComponent<GridCamera2D>();
@@ -83,6 +76,8 @@ public class NicknameManager : MonoBehaviourPunCallbacks
 
         playerMoveBehavior.jumpCountText = jumpCountText;
         playerMoveBehavior.playTimeText = playTimeText;
+
+        
         yield break;
     }
 }

@@ -48,7 +48,6 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
             db = value;
         }
     }
-    [SerializeField]
     private float db;
     
     void Start()
@@ -74,7 +73,6 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
         DB = 0;
         if (soundEventManager != null)
         {
-            Debug.Log($"soundEventManager.AddPublisher({this})");
             soundEventManager.AddPublisher(this);
         }
     }
@@ -124,4 +122,5 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
         Pitch = pitchN * (sampleRate / 2) / sampleCount; // convert index to pitchuency
         DB = dbValue;
     }
+    
 }
