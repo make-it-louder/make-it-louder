@@ -30,7 +30,7 @@ public class PlayerMove2D : MonoBehaviour
 
     // y축의 최대,최소높이 설정
     private float minY = -5.178f;
-    private float maxY = 43.000f;
+    private float maxY = 84.000f;
     private float segmentLength;
 
     // 부드러운 Skybox 전환을 위한 변수들
@@ -101,14 +101,14 @@ public class PlayerMove2D : MonoBehaviour
     // 점프횟수 카운트
     void UpdateJumpCountUI()
     {
-        jumpCountText.text = "JumpCount: " + jumpCount;
+        jumpCountText.text = "점프카운트: " + jumpCount;
     }
     // 플레이타임 변화
     void UpdatePlayTimeUI()
     {
         int minutes = (int)(playTime / 60);
         int seconds = (int)(playTime % 60);
-        playTimeText.text = $"PlayTime: {minutes:00}:{seconds:00}";
+        playTimeText.text = $"플레이타임: {minutes:00}:{seconds:00}";
     }
 
 
