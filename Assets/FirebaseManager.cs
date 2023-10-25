@@ -7,6 +7,8 @@ using System.Threading.Tasks; // Needed for the Unwrap extension method.
 using Firebase;
 using Firebase.Database;
 using UnityEngine.SceneManagement;
+using TMPro;
+
 public class FirebaseManager : MonoBehaviour
 {
     private static FirebaseManager instance = null;
@@ -15,10 +17,13 @@ public class FirebaseManager : MonoBehaviour
     private FirebaseAuth auth;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
-    //����Ƽ ������Ʈ
+    //����Ƽ ������Ʈ
     public GameObject signupForm;
     public GameObject loginForm;
     public GameObject popupWinodow;
+    public TMP_Text popupTitle;
+    public TMP_Text popupContent;
+
     public static FirebaseManager Instance
     {
         get
@@ -107,6 +112,7 @@ public class FirebaseManager : MonoBehaviour
 
     public void SignUp(string email, string username, string password)
     {
+        bool flag = false;
         auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
@@ -118,14 +124,26 @@ public class FirebaseManager : MonoBehaviour
             AuthResult result = task.Result;
             FirebaseUser newUser = result.User;
             Debug.LogError("successfully signed up");
-
+            flag = true;
             WriteNewUser(newUser.UserId, username);
             Debug.LogError("successfully writed up");
         });
+
+        if (flag)
+        {
+            SceneManager.LoadScene("Lobby");
+        }
+        else
+        {
+            popupTitle.text = "실패";
+            popupContent.text = "입력한 정보를 확인해주세요!";
+            popupWinodow.SetActive(true);
+        }
     }
 
     public async void SignIn(string email, string password)
     {
+        bool flag = false;
         await auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
@@ -137,8 +155,17 @@ public class FirebaseManager : MonoBehaviour
             AuthResult result = task.Result;
             FirebaseUser newUser = result.User;
             Debug.LogError("successfully signed in");
+            flag = true;
         });
-        SceneManager.LoadScene("Lobby");
+        if (flag) { 
+            loginForm.SetActive(true);
+            signupForm.SetActive(false);
+        } else
+        {
+            popupTitle.text = "실패";
+            popupContent.text = "ID/PW를 확인해주세요!";
+            popupWinodow.SetActive(true);
+        }
     }
 
     public void SignOut()
