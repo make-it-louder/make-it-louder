@@ -1,33 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
-using Firebase.Auth;
 using System;
+using Firebase.Auth;
+using System.Threading.Tasks; // Needed for the Unwrap extension method.
 using Firebase;
 using Firebase.Database;
-
-public class FirebaseManager
+using UnityEngine.SceneManagement;
+public class FirebaseManager : MonoBehaviour
 {
     private static FirebaseManager instance = null;
+
     private Firebase.DependencyStatus dependencyStatus;
     private FirebaseAuth auth;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
-
+    //유니티 오브젝트
+    public GameObject signupForm;
+    public GameObject loginForm;
+    public GameObject popupWinodow;
     public static FirebaseManager Instance
     {
         get
         {
-            if (instance == null)
-            {
-                instance = new FirebaseManager();
-            }
             return instance;
         }
     }
 
-    public void InitializeFirebase()
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    void Start()
     {
         Firebase.FirebaseApp.CheckDependenciesAsync().ContinueWith(checkTask =>
         {
@@ -48,21 +61,28 @@ public class FirebaseManager
             dependencyStatus = task.Result;
             if (dependencyStatus == Firebase.DependencyStatus.Available)
             {
-                auth = FirebaseAuth.DefaultInstance;
-                if (auth.CurrentUser != null)
-                {
-                    SignOut();
-                }
-                auth.StateChanged += AuthStateChanged;
-                AuthStateChanged(this, null);
-
-                databaseReference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance, "https://c102-30105-default-rtdb.firebaseio.com/").RootReference;
+                Debug.LogError("All firebase dependencies have been resolved.: " + dependencyStatus);
             }
             else
             {
                 Debug.LogError("Could not resolve all Firebase dependencies: " + dependencyStatus);
             }
         });
+    }
+
+    public void InitializeFirebase()
+    {
+        //
+        auth = FirebaseAuth.DefaultInstance;
+        if (auth.CurrentUser != null)
+        {
+            SignOut();
+        }
+        auth.StateChanged += AuthStateChanged;
+        AuthStateChanged(this, null);
+
+        //
+        databaseReference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance, "https://test-d2900-default-rtdb.firebaseio.com/").RootReference;
     }
 
     // Set authentication state change event handler and get user data
@@ -97,18 +117,16 @@ public class FirebaseManager
 
             AuthResult result = task.Result;
             FirebaseUser newUser = result.User;
-
             Debug.LogError("successfully signed up");
 
             WriteNewUser(newUser.UserId, username);
-
             Debug.LogError("successfully writed up");
         });
     }
 
-    public void SignIn(string email, string password)
+    public async void SignIn(string email, string password)
     {
-        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+        await auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
             {
@@ -120,6 +138,7 @@ public class FirebaseManager
             FirebaseUser newUser = result.User;
             Debug.LogError("successfully signed in");
         });
+        SceneManager.LoadScene("Lobby");
     }
 
     public void SignOut()
