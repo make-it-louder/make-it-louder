@@ -13,7 +13,7 @@ public class SoundManager : MonoBehaviour
     public TMP_Dropdown micSelector;
     public TMP_Text volumeText;
     public TMP_Text micVolumeText;
-
+    public float microphoneVolume = 0.8f;
     // Start is called before the first frame update
     void Start()
     {
