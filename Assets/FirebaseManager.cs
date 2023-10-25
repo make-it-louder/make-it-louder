@@ -124,9 +124,9 @@ public class FirebaseManager : MonoBehaviour
         });
     }
 
-    public void SignIn(string email, string password)
+    public async void SignIn(string email, string password)
     {
-        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+        await auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
             {
@@ -138,6 +138,7 @@ public class FirebaseManager : MonoBehaviour
             FirebaseUser newUser = result.User;
             Debug.LogError("successfully signed in");
         });
+        SceneManager.LoadScene("Lobby");
     }
 
     public void SignOut()
