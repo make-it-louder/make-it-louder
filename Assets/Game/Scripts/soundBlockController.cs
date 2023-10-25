@@ -47,7 +47,7 @@ public class soundBlockController : MonoBehaviour
         }
         else
         {
-            Vector2 newPosition = rb.position + new Vector2(0, -0.02f);
+            Vector2 newPosition = rb.position + new Vector2(0, -1f);
             if (newPosition.y < minY)
             {
                 newPosition.y = minY;
