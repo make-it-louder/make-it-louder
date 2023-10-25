@@ -145,6 +145,9 @@ public class FirebaseManager : MonoBehaviour
     {
         auth.SignOut();
         Debug.LogError("successfully signed out");
+
+        // 로그아웃 후 "Login" 씬으로 전환
+        SceneManager.LoadScene("Login");
     }
 
     public class User
