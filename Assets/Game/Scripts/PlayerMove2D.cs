@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
+using TMPro;
 
 public class PlayerMove2D : MonoBehaviourPun
 {
@@ -17,6 +19,12 @@ public class PlayerMove2D : MonoBehaviourPun
     public float jumpPower;
     float inputV;
     float inputH;
+
+    public TMP_Text jumpCountText;  // ���� Ƚ���� ǥ���� UI �ؽ�Ʈ
+    public int jumpCount = 0;  // ������ Ƚ��
+
+    public TMP_Text playTimeText;  // �÷��� Ÿ���� ǥ���ϴ� UI
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -24,8 +32,24 @@ public class PlayerMove2D : MonoBehaviourPun
         renderer = transform.Find("Renderer").GetComponent<SpriteRenderer>();
         animator = transform.Find("Renderer").GetComponent<Animator>();
         //rb.centerOfMass = rb.centerOfMass - new Vector2(0, 0.15f);
-    }
 
+        segmentLength = (maxY - minY) / 4f; // Skybox ���ϴ� ���� ����
+    }
+    private float playTime = 0f; // �÷��� Ÿ��
+
+    // ���ȭ�� ���ø���
+    public Material[] SkyboxMaterials;
+
+    // y���� �ִ�,�ּҳ��� ����
+    private float minY = -5.178f;
+    private float maxY = 43.000f;
+    private float segmentLength;
+
+    // �ε巯�� Skybox ��ȯ�� ���� ������
+    private Material currentSkyboxMaterial;
+    private Material targetSkyboxMaterial;
+    private float lerpValue = 0f;
+    private float lerpSpeed = 0.5f;
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -51,20 +75,95 @@ public class PlayerMove2D : MonoBehaviourPun
         animator.SetFloat("hVelocity", Mathf.Abs(inputH));
         animator.SetFloat("vVelocity", rb.velocity.y);
         animator.SetBool("isGrounded", isGrounded());
+
+        // ���� UI ������Ʈ
+        if (inputV > 0 && isGrounded())
+        {
+            rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
+            jumpCount++;           // ������ ������ ī��Ʈ ����
+            UpdateJumpCountUI();   // UI ������Ʈ
+        }
+
     }
     void Update()
     {
-        if (photonView.IsMine)
+        inputV = Input.GetAxis("Jump");
+        inputH = Input.GetAxis("Horizontal");
+
+        // �÷��� Ÿ�� ����
+        playTime += Time.deltaTime;
+        UpdatePlayTimeUI();
+
+        // Skybox Material ����
+        ChangeSkyboxMaterial();
+
+        // �ε巯�� Skybox ��ȯ
+        SmoothSkyboxTransition();
+    }
+    // ����Ƚ�� ī��Ʈ
+    void UpdateJumpCountUI()
+    {
+        jumpCountText.text = "JumpCount: " + jumpCount;
+    }
+    // �÷���Ÿ�� ��ȭ
+    void UpdatePlayTimeUI()
+    {
+        int minutes = (int)(playTime / 60);
+        int seconds = (int)(playTime % 60);
+        playTimeText.text = $"PlayTime: {minutes:00}:{seconds:00}";
+    }
+
+
+    // ���ȭ�� ��ȭ
+    void ChangeSkyboxMaterial()
+    {
+        float currentY = transform.position.y;
+        Material newTarget = null;
+
+        if (currentY < minY + segmentLength)
         {
-            inputV = Input.GetAxis("Jump");
-            inputH = Input.GetAxis("Horizontal");
+            newTarget = SkyboxMaterials[0];
+        }
+        else if (currentY < minY + 2 * segmentLength)
+        {
+            newTarget = SkyboxMaterials[1];
+        }
+        else if (currentY < minY + 3 * segmentLength)
+        {
+            newTarget = SkyboxMaterials[2];
+        }
+        else
+        {
+            newTarget = SkyboxMaterials[3];
+        }
+
+        if (newTarget != targetSkyboxMaterial)
+        {
+            currentSkyboxMaterial = RenderSettings.skybox;
+            targetSkyboxMaterial = newTarget;
+            lerpValue = 0f;
         }
     }
+
+    // �ε巯�� ���ȭ�� ��ȭ
+    void SmoothSkyboxTransition()
+    {
+        if (lerpValue < 1f && targetSkyboxMaterial != null)
+        {
+            lerpValue += Time.deltaTime * lerpSpeed;
+            Material lerpMat = new Material(currentSkyboxMaterial);
+            lerpMat.Lerp(currentSkyboxMaterial, targetSkyboxMaterial, lerpValue);
+            RenderSettings.skybox = lerpMat;
+            DynamicGI.UpdateEnvironment();
+        }
+    }
+
     bool isGrounded()
     {
         Vector3 feet = rb.transform.position + transform.up * transform.lossyScale.y * (collider.offset.y - collider.size.y / 2 - 0.01f) + transform.right * transform.lossyScale.x * collider.offset.x; ;
-        Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.99f;
-        Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.99f;
+        Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
+        Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
+        Debug.DrawLine(feetLeft, feetRight, Color.red);
         return (Physics2D.OverlapPoint(feetLeft) != null) || (Physics2D.OverlapPoint(feetRight) != null);
     }
 }
