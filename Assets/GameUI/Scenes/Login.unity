@@ -4448,9 +4448,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f3a483f17ccb084c893410f2c50a85e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signupForm: {fileID: 131915278}
-  loginForm: {fileID: 1387374017}
-  popupWinodow: {fileID: 358243790}
+  signupForm: {fileID: 0}
+  loginForm: {fileID: 0}
+  popupWinodow: {fileID: 0}
 --- !u!4 &1377088646
 Transform:
   m_ObjectHideFlags: 0
