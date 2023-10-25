@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -4034248035231900166}
   - component: {fileID: 5989694636482046082}
   - component: {fileID: 6734097524220791403}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 8587436528135344961}
   - component: {fileID: 5932152640351943523}
   - component: {fileID: 1372652115117475944}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -386,6 +386,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundIconManager
       objectReference: {fileID: 0}
+    - target: {fileID: 9096191245750307871, guid: 9101969b2bd970c448e4219233448e83, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -455,6 +459,10 @@ PrefabInstance:
     - target: {fileID: 6592985560190667947, guid: 1cc9d89684e653b45a1124240d420bdb, type: 3}
       propertyPath: m_Name
       value: Speaker
+      objectReference: {fileID: 0}
+    - target: {fileID: 6592985560190667947, guid: 1cc9d89684e653b45a1124240d420bdb, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
