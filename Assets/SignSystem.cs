@@ -17,11 +17,7 @@ public class SignSystem : MonoBehaviour
 
     public void SignUp()
     {
-        string e = email.text;
-        string u = username.text;
-        string p = password.text;
-
-        FirebaseManager.Instance.SignUp(e, u, p);
+        FirebaseManager.Instance.SignUp(email.text, username.text, password.text);
     }
 
     public void SignIn()
