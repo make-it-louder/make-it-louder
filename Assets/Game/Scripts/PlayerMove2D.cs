@@ -72,7 +72,7 @@ public class PlayerMove2D : MonoBehaviourPun
         {
             renderer.flipX = rb.velocity.x < 0;
         }
-        animator.SetFloat("hVelocity", Mathf.Abs(inputH));
+        animator.SetFloat("hVelocity", Mathf.Abs(rb.velocity.x));
         animator.SetFloat("vVelocity", rb.velocity.y);
         animator.SetBool("isGrounded", isGrounded());
 
@@ -87,9 +87,11 @@ public class PlayerMove2D : MonoBehaviourPun
     }
     void Update()
     {
-        inputV = Input.GetAxis("Jump");
-        inputH = Input.GetAxis("Horizontal");
-
+        if (photonView.IsMine)
+        {
+            inputV = Input.GetAxis("Jump");
+            inputH = Input.GetAxis("Horizontal");
+        }
         // �÷��� Ÿ�� ����
         playTime += Time.deltaTime;
         UpdatePlayTimeUI();
@@ -103,14 +105,28 @@ public class PlayerMove2D : MonoBehaviourPun
     // ����Ƚ�� ī��Ʈ
     void UpdateJumpCountUI()
     {
-        jumpCountText.text = "JumpCount: " + jumpCount;
+        if (jumpCountText != null)
+        {
+            jumpCountText.text = "JumpCount: " + jumpCount;
+        }
+        else
+        {
+            Debug.Log("cannot find jumpCountText");
+        }
     }
     // �÷���Ÿ�� ��ȭ
     void UpdatePlayTimeUI()
     {
         int minutes = (int)(playTime / 60);
         int seconds = (int)(playTime % 60);
-        playTimeText.text = $"PlayTime: {minutes:00}:{seconds:00}";
+        if (playTimeText != null)
+        {
+            playTimeText.text = $"PlayTime: {minutes:00}:{seconds:00}";
+        }
+        else
+        {
+            Debug.Log("cannot find playTimeText");
+        }
     }
 
 

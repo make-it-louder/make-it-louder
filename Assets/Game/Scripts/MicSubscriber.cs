@@ -31,29 +31,20 @@ public class MicSubscriber : MonoBehaviour
                 return;
             }
         }
-        if (input.DB < minDB)
-        {
-            setScale(0);
-            setColor(normalColor);
-        }
-        else if (input.DB > maxDB)
+        if (input.normalizedDB == 1.0f)
         {
             setScale(1);
             setColor(bigSoundColor);
         }
         else
         {
-            setScale(getDBRatio(input.DB));
+            setScale(input.normalizedDB);
             setColor(normalColor);
         }
     }
     void setScale(float scale)
     {
         transform.localScale = new Vector3(scale, scale, scale) * scaleFactor;
-    }
-    float getDBRatio(float db)
-    {
-        return (db - minDB) / (maxDB - minDB);
     }
     void setColor(Color color)
     {
