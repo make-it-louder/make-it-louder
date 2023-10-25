@@ -1,0 +1,169 @@
+.App {
+  text-align: center;
+  background-color: #105652;
+  width: 100vw;
+  height: 100vh;
+}
+.nav-bar {
+  width: 100%;
+  height: 76px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  background-color: #114946;
+}
+.nav-bar button {
+  display: flex;
+  align-items: center;
+  background-color: #114946;
+  margin-right: 10px;
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bold;
+}
+.nav-bar img {
+  width: 30px;
+  height: 30px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 76px);
+}
+
+.heaven {
+  display: flex;
+  justify-content: center;
+}
+.heaven img {
+  height: 20vh;
+}
+
+.heaven :nth-child(2n) {
+  position: relative;
+  right: 10px;
+  top: 20px;
+  animation: cloudMove 2s linear infinite;
+}
+.heaven :nth-child(2n + 1) {
+  animation: cloudMove2 2s linear infinite;
+}
+.angels {
+  position: absolute;
+  width: 50vw;
+  left: 25vw;
+}
+.ang {
+  display: flex;
+  justify-content: space-between;
+  height: 25vh;
+}
+.middle {
+  display: flex;
+  justify-content: center;
+  height: calc(55vh - 76px);
+}
+.middle img {
+  position: relative;
+  top: 40px;
+  animation: logoMove 0.5s ease infinite;
+}
+.devils {
+  position: absolute;
+  width: 50vw;
+  left: 25vw;
+  bottom: 0;
+}
+.dev {
+  display: flex;
+  justify-content: space-between;
+  height: 25vh;
+}
+.hell {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+
+.hell img {
+  height: 20vh;
+}
+
+.hell :nth-child(2n) {
+  height: 25vh;
+  animation: burning 1s linear infinite;
+}
+.hell :nth-child(2n + 1) {
+  animation: burning2 1s linear infinite;
+}
+
+@keyframes cloudMove {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(10%);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(-10%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes cloudMove2 {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-10%);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(10%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes burning {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes burning2 {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes logoMove {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2); /* 커짐 */
+  }
+  100% {
+    transform: scale(1);
+  }
+}
