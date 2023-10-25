@@ -2400,6 +2400,7 @@ MonoBehaviour:
   micSelector: {fileID: 3976587333196794720}
   volumeText: {fileID: 4683573277924588019}
   micVolumeText: {fileID: 5571849434314334783}
+  microphoneVolume: 0.8
 --- !u!1 &4858623491690788832
 GameObject:
   m_ObjectHideFlags: 0
