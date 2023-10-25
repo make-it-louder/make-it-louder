@@ -7,6 +7,7 @@ public class FormOnClick : MonoBehaviour
     public FixedUIController onClickController;
     public GameObject audioSettingsForm;
     public GameObject VideoSettingsForm;
+    public GameObject popupWindow;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,9 +20,9 @@ public class FormOnClick : MonoBehaviour
     {
         
     }
-    public void ChangeFormHandler()
+    public void ClosePopupWindow()
     {
-
+        popupWindow.SetActive(false);
     }
 
 }
