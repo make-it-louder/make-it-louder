@@ -7,6 +7,8 @@ using System.Threading.Tasks; // Needed for the Unwrap extension method.
 using Firebase;
 using Firebase.Database;
 using UnityEngine.SceneManagement;
+using TMPro;
+
 public class FirebaseManager : MonoBehaviour
 {
     private static FirebaseManager instance = null;
@@ -15,10 +17,13 @@ public class FirebaseManager : MonoBehaviour
     private FirebaseAuth auth;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
-    //À¯´ÏÆ¼ ¿ÀºêÁ§Æ®
+    //ï¿½ï¿½ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     public GameObject signupForm;
     public GameObject loginForm;
     public GameObject popupWinodow;
+    public TMP_Text popupTitle;
+    public TMP_Text popupContent;
+
     public static FirebaseManager Instance
     {
         get
@@ -82,7 +87,7 @@ public class FirebaseManager : MonoBehaviour
         AuthStateChanged(this, null);
 
         //
-        databaseReference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance, "https://test-d2900-default-rtdb.firebaseio.com/").RootReference;
+        databaseReference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance, "https://c102-30105-default-rtdb.firebaseio.com/").RootReference;
     }
 
     // Set authentication state change event handler and get user data
@@ -107,6 +112,7 @@ public class FirebaseManager : MonoBehaviour
 
     public void SignUp(string email, string username, string password)
     {
+        bool flag = false;
         auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
@@ -118,14 +124,26 @@ public class FirebaseManager : MonoBehaviour
             AuthResult result = task.Result;
             FirebaseUser newUser = result.User;
             Debug.LogError("successfully signed up");
-
+            flag = true;
             WriteNewUser(newUser.UserId, username);
             Debug.LogError("successfully writed up");
         });
+
+        if (flag)
+        {
+            SceneManager.LoadScene("Lobby");
+        }
+        else
+        {
+            popupTitle.text = "ì‹¤íŒ¨";
+            popupContent.text = "ì…ë ¥í•œ ì •ë³´ë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”!";
+            popupWinodow.SetActive(true);
+        }
     }
 
     public async void SignIn(string email, string password)
     {
+        bool flag = false;
         await auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
@@ -137,17 +155,23 @@ public class FirebaseManager : MonoBehaviour
             AuthResult result = task.Result;
             FirebaseUser newUser = result.User;
             Debug.LogError("successfully signed in");
+            flag = true;
         });
-        SceneManager.LoadScene("Lobby");
+        if (flag) { 
+            loginForm.SetActive(true);
+            signupForm.SetActive(false);
+        } else
+        {
+            popupTitle.text = "ì‹¤íŒ¨";
+            popupContent.text = "ID/PWë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”!";
+            popupWinodow.SetActive(true);
+        }
     }
 
     public void SignOut()
     {
         auth.SignOut();
         Debug.LogError("successfully signed out");
-
-        // ·Î±×¾Æ¿ô ÈÄ "Login" ¾ÀÀ¸·Î ÀüÈ¯
-        SceneManager.LoadScene("Login");
     }
 
     public class User
