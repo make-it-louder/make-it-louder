@@ -28,7 +28,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
-        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 6 }, null); // ·£´ýÇÑ ¹æ¿¡ Á¢¼Ó
+        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 6 }, null); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½æ¿¡ ï¿½ï¿½ï¿½ï¿½
     }
 
     public override void OnJoinedRoom()
@@ -37,7 +37,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.Log("IAmMasterClient");
-            PhotonNetwork.LoadLevel(3); // °ÔÀÓ¾ÀÀ¸·Î ÀüÈ¯
+            PhotonNetwork.LoadLevel(3); // ï¿½ï¿½ï¿½Ó¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
         }
     }
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -49,7 +49,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("OnSceneLoaded");
         Debug.Log($"Scene name: {scene.name}, InRoom: {PhotonNetwork.InRoom}");
-        // °ÔÀÓ ¾ÀÀÌ ·ÎµåµÈ °æ¿ì
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½
         if (scene.buildIndex == 3)
         {
             StartCoroutine(OnScene1Loaded());
@@ -58,7 +58,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
 
     private void OnDestroy()
     {
-        // °ÔÀÓ ¿ÀºêÁ§Æ®°¡ ÆÄ±«µÉ ¶§ ÀÌº¥Æ®¿¡¼­ ¸Þ¼­µå¸¦ Á¦°Å
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ä±ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     IEnumerator waitForLevelLoad()
