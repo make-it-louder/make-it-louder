@@ -17,7 +17,7 @@ public class FirebaseManager : MonoBehaviour
     private FirebaseAuth auth;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
-    //À¯´ÏÆ¼ ¿ÀºêÁ§Æ®
+    //ï¿½ï¿½ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     public GameObject signupForm;
     public GameObject loginForm;
     public GameObject popupWinodow;
@@ -87,7 +87,7 @@ public class FirebaseManager : MonoBehaviour
         AuthStateChanged(this, null);
 
         //
-        databaseReference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance, "https://test-d2900-default-rtdb.firebaseio.com/").RootReference;
+        databaseReference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance, "https://c102-30105-default-rtdb.firebaseio.com/").RootReference;
     }
 
     // Set authentication state change event handler and get user data
@@ -149,8 +149,8 @@ public class FirebaseManager : MonoBehaviour
             SceneManager.LoadScene("Lobby");
         } else
         {
-            popupTitle.text = "½ÇÆÐ";
-            popupContent.text = "ID/PW¸¦ È®ÀÎÇØÁÖ¼¼¿ä!";
+            popupTitle.text = "ï¿½ï¿½ï¿½ï¿½";
+            popupContent.text = "ID/PWï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½!";
             popupWinodow.SetActive(true);
         }
     }
