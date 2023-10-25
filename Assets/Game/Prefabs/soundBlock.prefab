@@ -293,7 +293,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206a73403a94f254bbe5759b4a9d7d1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 0}
+  soundManager: {fileID: 0}
+  dropPower: 1
 --- !u!50 &6232381294967216416
 Rigidbody2D:
   serializedVersion: 4
