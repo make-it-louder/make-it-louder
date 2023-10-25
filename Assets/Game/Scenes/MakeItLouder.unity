@@ -1329,6 +1329,10 @@ PrefabInstance:
       propertyPath: input
       value: 
       objectReference: {fileID: 1949186154}
+    - target: {fileID: 6790348110103339285, guid: a327731edaf5ae9459f953373ce04882, type: 3}
+      propertyPath: dropPower
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7814739504449971286, guid: a327731edaf5ae9459f953373ce04882, type: 3}
       propertyPath: m_Name
       value: soundBlockLong
@@ -1969,6 +1973,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 1949186154}
+  dropPower: 0.2
 --- !u!50 &805205057
 Rigidbody2D:
   serializedVersion: 4
@@ -13757,6 +13762,10 @@ PrefabInstance:
       propertyPath: input
       value: 
       objectReference: {fileID: 1949186154}
+    - target: {fileID: 2073235624223043151, guid: 149b1785f2e6ccc49b67c5018e332d53, type: 3}
+      propertyPath: dropPower
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8817743935108461722, guid: 149b1785f2e6ccc49b67c5018e332d53, type: 3}
       propertyPath: m_Layer
       value: 6
