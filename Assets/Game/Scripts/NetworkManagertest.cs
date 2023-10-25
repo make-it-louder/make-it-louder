@@ -33,7 +33,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("Game/Scenes/MakeItLoudertest"); // 게임씬으로 전환
+            PhotonNetwork.LoadLevel("Game/Scenes/chatting"); // 게임씬으로 전환
         }
     }
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -48,7 +48,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         {
             GameObject spawnedPlayer = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(Random.Range(-5f, 5f), 1, Random.Range(-5f, 5f)), Quaternion.identity);
             Debug.Log(spawnedPlayer.name);
-
+            spawnedPlayer.name = "me";
             GridCamera2D camera = GameObject.Find("Main Camera").GetComponent<GridCamera2D>();
             camera.follows = spawnedPlayer;
         }
