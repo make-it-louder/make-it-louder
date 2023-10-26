@@ -39,6 +39,8 @@ MonoBehaviour:
   - ClickRpc
   - DestroyRpc
   - HeresWhy
+  - ReceiveMessageRPC
+  - RPC_Chat
   - SyncAddPublisher
   - SyncRemovePublisher
   DisableAutoOpenWizard: 1

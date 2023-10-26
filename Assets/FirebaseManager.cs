@@ -110,10 +110,10 @@ public class FirebaseManager : MonoBehaviour
         }
     }
 
-    public void SignUp(string email, string username, string password)
+    public async void SignUp(string email, string username, string password)
     {
         bool flag = false;
-        auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+        await auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
             {
@@ -131,13 +131,15 @@ public class FirebaseManager : MonoBehaviour
 
         if (flag)
         {
-            SceneManager.LoadScene("Lobby");
+            loginForm.SetActive(true);
+            signupForm.SetActive(false);
         }
         else
         {
             popupTitle.text = "실패";
             popupContent.text = "입력한 정보를 확인해주세요!";
             popupWinodow.SetActive(true);
+
         }
     }
 
@@ -157,9 +159,9 @@ public class FirebaseManager : MonoBehaviour
             Debug.LogError("successfully signed in");
             flag = true;
         });
-        if (flag) { 
-            loginForm.SetActive(true);
-            signupForm.SetActive(false);
+        if (flag) {
+            SceneManager.LoadScene("Lobby");
+
         } else
         {
             popupTitle.text = "실패";
@@ -171,7 +173,7 @@ public class FirebaseManager : MonoBehaviour
     public void SignOut()
     {
         auth.SignOut();
-        Debug.LogError("successfully signed out");
+        SceneManager.LoadScene("Login");
     }
 
     public class User
@@ -194,5 +196,9 @@ public class FirebaseManager : MonoBehaviour
         string json = JsonUtility.ToJson(user);
 
         databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(json);
+    }
+    public void ClosePopup()
+    {
+        popupWinodow.SetActive(false);
     }
 }
