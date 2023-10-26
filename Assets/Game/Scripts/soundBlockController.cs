@@ -32,6 +32,11 @@ public class soundBlockController : MonoBehaviourPun
 
     void FixedUpdate()
     {
+        if (PhotonNetwork.IsMasterClient && !photonView.IsMine)
+        {
+            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+            Debug.Log("TransferOwnership");
+        }
         if (photonView.IsMine)
         {
             moveUp();
