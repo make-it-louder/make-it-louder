@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2419612131667720056}
   - component: {fileID: 6476640340107633873}
   - component: {fileID: 5042399714464528987}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: wing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,9 +141,9 @@ GameObject:
   - component: {fileID: 8520230456564560833}
   - component: {fileID: 4016229323703567776}
   - component: {fileID: 7384826377866771395}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RotateObstacleCross
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 5353414152736658105}
   - component: {fileID: 3596612469423237700}
   - component: {fileID: 7490555393955614273}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: wing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
