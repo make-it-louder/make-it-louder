@@ -32,7 +32,7 @@ public class soundBlockController : MonoBehaviourPun
 
     void FixedUpdate()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (photonView.IsMine)
         {
             moveUp();
         }

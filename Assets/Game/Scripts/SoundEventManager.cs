@@ -147,6 +147,10 @@ public class SoundSubscriber : INormalizedSoundInput
     {
         get
         {
+            if (gameObject == null)
+            {
+                return 0.0f;
+            }
             return manager.GetLocalDBAt(gameObject);
         }
     }
