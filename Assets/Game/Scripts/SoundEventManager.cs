@@ -12,10 +12,12 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
     public float maxDistance;
     
     public List<INormalizedSoundInput> soundInputs;
+    public List<GameObject> soundInputsDebug;
 
     void Awake()
     {
         soundInputs = new List<INormalizedSoundInput>();
+        soundInputsDebug = new List<GameObject>();
     }
 
     private void OnEnable()
@@ -50,12 +52,14 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
     {
         INormalizedSoundInput other = PhotonView.Find(viewID).gameObject.GetComponentInChildren<INormalizedSoundInput>();
         soundInputs.Add(other);
+        soundInputsDebug.Add(other.gameObject);
     }
 
     public void SyncRemovePublisher(int viewID)
     {
         INormalizedSoundInput other = PhotonView.Find(viewID).gameObject.GetComponentInChildren<INormalizedSoundInput>();
         soundInputs.Remove(other);
+        soundInputsDebug.Remove(other.gameObject);
     }
     
 

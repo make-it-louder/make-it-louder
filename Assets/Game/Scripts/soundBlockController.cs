@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class soundBlockController : MonoBehaviour
+public class soundBlockController : MonoBehaviourPun
 {
     [SerializeField]
     SoundEventManager soundManager;
@@ -29,7 +30,10 @@ public class soundBlockController : MonoBehaviour
 
     void FixedUpdate()
     {
-        moveUp();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            moveUp();
+        }
     }
 
     void moveUp()
