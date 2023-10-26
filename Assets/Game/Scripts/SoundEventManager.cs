@@ -137,7 +137,7 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
         {
             foreach (INormalizedSoundInput soundInput in soundInputs)
             {
-                if (soundInput == null)
+                if (soundInput == null || soundInput.gameObject == null)
                 {
                     RemovePublisher(soundInput);
                     continue;
