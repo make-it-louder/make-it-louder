@@ -68,16 +68,20 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         camera.follows = spawnedPlayer;
 
         SoundEventManager soundEventManager = GameObject.Find("SoundEventManager").GetComponent<SoundEventManager>();
-        soundEventManager.AddPublisher(spawnedPlayer.GetComponentInChildren<INormalizedSoundInput>());
-
+        if (PhotonNetwork.IsMasterClient)
+        {
+            soundEventManager.AddPublisher(spawnedPlayer.GetComponentInChildren<INormalizedSoundInput>());
+        }
+        else
+        {
+            soundEventManager.AddAndSyncPublisher(spawnedPlayer.GetComponentInChildren<INormalizedSoundInput>());
+        }
         PlayerMove2D playerMoveBehavior = spawnedPlayer.GetComponent<PlayerMove2D>();
         TMP_Text jumpCountText = GameObject.Find("JumpCount").GetComponent<TMP_Text>();
         TMP_Text playTimeText = GameObject.Find("PlayTime").GetComponent<TMP_Text>();
 
         playerMoveBehavior.jumpCountText = jumpCountText;
         playerMoveBehavior.playTimeText = playTimeText;
-
-        
         yield break;
     }
 }

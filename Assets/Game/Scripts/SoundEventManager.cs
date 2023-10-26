@@ -33,26 +33,53 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
     public void OnEvent(EventData photonEvent)
     {
         Debug.Log($"Event Received: {photonEvent}");
-        if (photonEvent.Code == PunEventCode.ModifySoundEvent)
+        if (photonEvent.Code == (byte)PunEventCode.Code.ModifySoundEvent)
         {
-            var dto = new PunEventCode.ModifySoundEventDTO((object[])photonEvent.CustomData);
+            object[] data = (object[])photonEvent.CustomData;
+            var dto = new PunEventCode.ModifySoundEventDTO(data);
             Debug.Log($"OnEvent Received: dto={dto}");
-            if (dto.add)
+            switch (dto.code)
             {
-                SyncAddPublisher(dto.viewID);
+                case PunEventCode.ModifySoundEventDTO.Code.add:
+                    SyncAddPublisher(dto.viewID);
+                    break;
+                case PunEventCode.ModifySoundEventDTO.Code.remove:
+                    SyncRemovePublisher(dto.viewID);
+                    break;
+                case PunEventCode.ModifySoundEventDTO.Code.addAndGet:
+                    SyncAddPublisher(dto.viewID);
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        byte code = (byte)PunEventCode.Code.GetSoundEventResponse;
+                        var Serializable = new PunEventCode.GetSoundEventResponseDTO(soundInputs);
+                        PunEventSender.Send(code, Serializable, new int[] { photonEvent.Sender }, SendOptions.SendReliable);
+                    }
+                    break;
             }
-            else
-            {
-                SyncRemovePublisher(dto.viewID);
-            }
+        }
+        if (photonEvent.Code == (byte)PunEventCode.Code.GetSoundEventResponse) {
+            var dto = new PunEventCode.GetSoundEventResponseDTO((object[])photonEvent.CustomData);
+            List<int> viewIDs = dto.list;
+            SyncSetPublisher(viewIDs.ToArray());
         }
     }
 
     public void SyncAddPublisher(int viewID)
     {
         INormalizedSoundInput other = PhotonView.Find(viewID).gameObject.GetComponentInChildren<INormalizedSoundInput>();
-        soundInputs.Add(other);
+        if (!soundInputs.Contains(other))
+        {
+            soundInputs.Add(other);
+        }
         soundInputsDebug.Add(other.gameObject);
+    }
+    public void SyncSetPublisher(int[] viewIDs)
+    {
+        soundInputs = new List<INormalizedSoundInput>();
+        foreach (var viewID in viewIDs)
+        {
+            SyncAddPublisher(viewID);
+        }
     }
 
     public void SyncRemovePublisher(int viewID)
@@ -66,15 +93,22 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
     public void AddPublisher(INormalizedSoundInput other)
     {
         int viewID = other.gameObject.transform.parent.GetComponent<PhotonView>().ViewID;
-        var dto = new PunEventCode.ModifySoundEventDTO(true, viewID);
-        PunEventSender.SendToAll(PunEventCode.ModifySoundEvent, dto);
+        var dto = new PunEventCode.ModifySoundEventDTO(PunEventCode.ModifySoundEventDTO.Code.add, viewID);
+        PunEventSender.SendToAll((byte)PunEventCode.Code.ModifySoundEvent, dto);
     }
 
     public void RemovePublisher(INormalizedSoundInput other)
     {
         int viewID = other.gameObject.transform.parent.GetComponent<PhotonView>().ViewID;
-        var dto = new PunEventCode.ModifySoundEventDTO(false, viewID);
-        PunEventSender.SendToAll(PunEventCode.ModifySoundEvent, dto);
+        var dto = new PunEventCode.ModifySoundEventDTO(PunEventCode.ModifySoundEventDTO.Code.remove, viewID);
+        PunEventSender.SendToAll((byte)PunEventCode.Code.ModifySoundEvent, dto);
+    }
+
+    public void AddAndSyncPublisher(INormalizedSoundInput other)
+    {
+        int viewID = other.gameObject.transform.parent.GetComponent<PhotonView>().ViewID;
+        var dto = new PunEventCode.ModifySoundEventDTO(PunEventCode.ModifySoundEventDTO.Code.addAndGet, viewID);
+        PunEventSender.SendToOthers((byte)PunEventCode.Code.ModifySoundEvent, dto);
     }
     public float GetLocalDBAt(GameObject other)
     {
