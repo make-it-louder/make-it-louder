@@ -13,6 +13,7 @@ public class FirebaseManager : MonoBehaviour
 {
     // firebase
     private static FirebaseManager instance = null;
+
     private Firebase.DependencyStatus dependencyStatus;
     private FirebaseAuth auth;
     private FirebaseUser user;
@@ -27,6 +28,8 @@ public class FirebaseManager : MonoBehaviour
 
     // write, update, or delete data at a reference
     private User userdata;
+
+    public GameObject loadingSpinner;
 
     public class User
     {
@@ -140,6 +143,8 @@ public class FirebaseManager : MonoBehaviour
     {
         bool flag = false;
 
+        loadingSpinner.SetActive(true);
+        
         await auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
@@ -169,13 +174,14 @@ public class FirebaseManager : MonoBehaviour
             popupWinodow.SetActive(true);
 
         }
+
+        loadingSpinner.SetActive(false);
     }
 
-    // sign in existing users
     public async void SignIn(string email, string password)
     {
         bool flag = false;
-
+        loadingSpinner.SetActive(true);
         await auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
@@ -184,22 +190,22 @@ public class FirebaseManager : MonoBehaviour
                 return;
             }
 
-            Firebase.Auth.AuthResult result = task.Result;          
+            AuthResult result = task.Result;
+            FirebaseUser newUser = result.User;
             Debug.LogError("successfully signed in");
-
             flag = true;
         });
-
-        if (flag)
-        {
+        if (flag) {
             SceneManager.LoadScene("Lobby");
-        }
-        else
+
+        } else
         {
             popupTitle.text = "실패";
             popupContent.text = "ID/PW를 확인해주세요!";
             popupWinodow.SetActive(true);
         }
+
+        loadingSpinner.SetActive(false);
     }
 
     public void SignOut()
@@ -219,7 +225,6 @@ public class FirebaseManager : MonoBehaviour
 
         databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(json);
     }
-
     public void ClosePopup()
     {
         popupWinodow.SetActive(false);
