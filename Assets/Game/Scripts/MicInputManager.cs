@@ -53,7 +53,7 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        if (!PhotonNetwork.IsConnected)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.OfflineMode)
         {
             if (Microphone.devices.Length == 0)
             {

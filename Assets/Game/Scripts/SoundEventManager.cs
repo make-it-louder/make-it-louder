@@ -2,46 +2,75 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
+using System.Linq;
 
-public class SoundEventManager : MonoBehaviourPun
+public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
 {
     [Tooltip("Ignore voice beyond maxDistance")]
     public float maxDistance;
-    [SerializeField]
-    private List<INormalizedSoundInput> soundInputs;
+    
+    public List<INormalizedSoundInput> soundInputs;
 
     void Awake()
     {
         soundInputs = new List<INormalizedSoundInput>();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
 
+    private void OnEnable()
+    {
+        PhotonNetwork.AddCallbackTarget(this);
     }
 
-    [PunRPC]
+    private void OnDisable()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
+    }
+
+    public void OnEvent(EventData photonEvent)
+    {
+        Debug.Log($"Event Received: {photonEvent}");
+        if (photonEvent.Code == PunEventCode.ModifySoundEvent)
+        {
+            var dto = new PunEventCode.ModifySoundEventDTO((object[])photonEvent.CustomData);
+            Debug.Log($"OnEvent Received: dto={dto}");
+            if (dto.add)
+            {
+                SyncAddPublisher(dto.viewID);
+            }
+            else
+            {
+                SyncRemovePublisher(dto.viewID);
+            }
+        }
+    }
+
     public void SyncAddPublisher(int viewID)
     {
-        INormalizedSoundInput other = PhotonView.Find(viewID).gameObject.GetComponent<INormalizedSoundInput>();
+        INormalizedSoundInput other = PhotonView.Find(viewID).gameObject.GetComponentInChildren<INormalizedSoundInput>();
         soundInputs.Add(other);
     }
 
-    [PunRPC]
     public void SyncRemovePublisher(int viewID)
     {
-        INormalizedSoundInput other = PhotonView.Find(viewID).gameObject.GetComponent<INormalizedSoundInput>();
+        INormalizedSoundInput other = PhotonView.Find(viewID).gameObject.GetComponentInChildren<INormalizedSoundInput>();
         soundInputs.Remove(other);
     }
+    
 
     public void AddPublisher(INormalizedSoundInput other)
     {
-        photonView.RPC("SyncAddPublisher", RpcTarget.All, other.gameObject.GetComponent<PhotonView>().ViewID);
+        int viewID = other.gameObject.transform.parent.GetComponent<PhotonView>().ViewID;
+        var dto = new PunEventCode.ModifySoundEventDTO(true, viewID);
+        PunEventSender.SendToAll(PunEventCode.ModifySoundEvent, dto);
     }
 
     public void RemovePublisher(INormalizedSoundInput other)
     {
-        photonView.RPC("SyncRemovePublisher", RpcTarget.All, other.gameObject.GetComponent<PhotonView>().ViewID);
+        int viewID = other.gameObject.transform.parent.GetComponent<PhotonView>().ViewID;
+        var dto = new PunEventCode.ModifySoundEventDTO(false, viewID);
+        PunEventSender.SendToAll(PunEventCode.ModifySoundEvent, dto);
     }
     public float GetLocalDBAt(GameObject other)
     {
@@ -54,9 +83,6 @@ public class SoundEventManager : MonoBehaviourPun
                 float localDBEffect = soundInput.normalizedDB / (distance * distance);
                 DB += localDBEffect;
             }
-            else
-            {
-            }
         }
         DB = Mathf.Clamp(DB, 0.0f, 1.0f);
         return DB;
@@ -65,7 +91,6 @@ public class SoundEventManager : MonoBehaviourPun
     {
         return new SoundSubscriber(this, other);
     }
-    
 }
 
 public class SoundSubscriber : INormalizedSoundInput
