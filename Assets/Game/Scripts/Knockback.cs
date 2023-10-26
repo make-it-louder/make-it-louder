@@ -19,6 +19,7 @@ public class Knockback : MonoBehaviour
             // 플레이어의 Rigidbody2D 컴포넌트를 가져옵니다.
             Rigidbody2D playerRb = collider.gameObject.GetComponent<Rigidbody2D>();
             playerMove2D = collider.gameObject.GetComponent<PlayerMove2D>();
+            if (playerMove2D.IgnoreInput == true) return;
             playerMove2D.IgnoreInput = true;
             StartCoroutine(ResetIgnoreInput());
 
