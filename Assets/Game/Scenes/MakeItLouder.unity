@@ -201,19 +201,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 312804361869036093, guid: a119a5c2e1b8d964995bd56fc3e151d2, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 908112457637050168, guid: a119a5c2e1b8d964995bd56fc3e151d2, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1447143061283155613, guid: a119a5c2e1b8d964995bd56fc3e151d2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2288638376194316160, guid: a119a5c2e1b8d964995bd56fc3e151d2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4247914470856283562, guid: a119a5c2e1b8d964995bd56fc3e151d2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4717914730158048531, guid: a119a5c2e1b8d964995bd56fc3e151d2, type: 3}
       propertyPath: audioSources.Array.size
@@ -225,7 +229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7792862949707600343, guid: a119a5c2e1b8d964995bd56fc3e151d2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8429149891804430644, guid: a119a5c2e1b8d964995bd56fc3e151d2, type: 3}
       propertyPath: m_Pivot.x
@@ -309,7 +313,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8644447301691382432, guid: a119a5c2e1b8d964995bd56fc3e151d2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
