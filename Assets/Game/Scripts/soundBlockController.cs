@@ -14,7 +14,7 @@ public class soundBlockController : MonoBehaviour
     private float minY;
     private float curY;
 
-    public float dropPower = 0.2f;
+    public float dropPower = 0.1f;
     // Start is called before the first frame update
     void Start()
     {
