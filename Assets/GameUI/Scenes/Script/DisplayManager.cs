@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-public class TempStart : MonoBehaviour
+using UnityEngine.UI;
+public class DisplayManager : MonoBehaviour
 {
+    public Slider brightnessSlider;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,10 +16,5 @@ public class TempStart : MonoBehaviour
     void Update()
     {
         
-    }
-
-    public void GameStart()
-    {
-        SceneManager.LoadScene("MakeItLouder");
     }
 }

@@ -139,6 +139,7 @@ public class FirebaseManager : MonoBehaviour
             popupTitle.text = "실패";
             popupContent.text = "입력한 정보를 확인해주세요!";
             popupWinodow.SetActive(true);
+
         }
     }
 
@@ -195,5 +196,9 @@ public class FirebaseManager : MonoBehaviour
         string json = JsonUtility.ToJson(user);
 
         databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(json);
+    }
+    public void ClosePopup()
+    {
+        popupWinodow.SetActive(false);
     }
 }
