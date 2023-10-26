@@ -55,13 +55,13 @@ public class SoundManager : MonoBehaviour
     {
         PlayerPrefs.SetFloat("Volume", value);
         PlayerPrefs.Save();
-            /*
-                foreach (AudioSource source in audioSources)
-                {
-                    source.volume = value;
-                }*/
 
-            // volumeText 텍스트 업데이트
+        foreach (AudioSource source in audioSources)
+        {
+            source.volume = value;
+        }
+
+        // volumeText 텍스트 업데이트
         int intValue = Mathf.RoundToInt(value * 100);
         volumeText.text = intValue.ToString();
     }
@@ -73,4 +73,8 @@ public class SoundManager : MonoBehaviour
         int intValue = Mathf.RoundToInt(value * 100);
         micVolumeText.text = intValue.ToString();
     }
+
+    // 여기에 플레이어들 볼륨함수? 
+
+
 }
