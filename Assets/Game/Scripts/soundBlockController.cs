@@ -14,7 +14,19 @@ public class soundBlockController : MonoBehaviour
     private float minY;
     private float curY;
 
-    public float dropPower = 0.2f;
+    public float dropPower = 0.1f;
+
+    // limit operating time of soundBlock
+    private bool isMovingUp = false;
+
+    private float upTime = 0.0f;
+    private float disableInputTime = 0.0f;
+
+    public float maxUpTime = 3.0f;
+    public float disavleInputPeriod = 2.0f;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +39,28 @@ public class soundBlockController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (disableInputTime > 0.0f)
+        {
+            disableInputTime -= Time.deltaTime;
+        }
+        else
+        {
+            if (input.normalizedDB > 0.0f)
+            {
+                isMovingUp = true;
+                upTime += Time.deltaTime;
+            }
+            else
+            {
+                isMovingUp = false;
+            }
 
+            if (upTime >= maxUpTime)
+            {
+                disableInputTime = disavleInputPeriod;
+                upTime = 0.0f;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -37,7 +70,8 @@ public class soundBlockController : MonoBehaviour
 
     void moveUp()
     {
-        if (input.normalizedDB > 0.0f)
+
+        if (isMovingUp)
         {
             curY = transform.position.y;
             Vector2 newPosition = rb.position + new Vector2(0, 0.1f);
