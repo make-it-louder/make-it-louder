@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1656880986309314260}
   - component: {fileID: 4491048303230110017}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: soundBlock
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,9 +60,7 @@ GameObject:
   - component: {fileID: 2073235624223043151}
   - component: {fileID: 6232381294967216416}
   - component: {fileID: 6331051750144600871}
-  - component: {fileID: 8741205581095552122}
-  - component: {fileID: 8185810471116053684}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: blockRender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,6 +295,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundManager: {fileID: 0}
   dropPower: 1
+  maxUpTime: 3
+  disavleInputPeriod: 2
 --- !u!50 &6232381294967216416
 Rigidbody2D:
   serializedVersion: 4
@@ -381,42 +381,3 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 8817743935108461722}
---- !u!114 &8741205581095552122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8817743935108461722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 1
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 8185810471116053684}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &8185810471116053684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8817743935108461722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
