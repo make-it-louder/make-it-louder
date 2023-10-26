@@ -72,23 +72,36 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
         INormalizedSoundInput other = PhotonView.Find(viewID).gameObject.GetComponentInChildren<INormalizedSoundInput>();
         if (!soundInputs.Contains(other))
         {
-            soundInputs.Add(other);
+            lock (soundInputs)
+            {
+                soundInputs.Add(other);
+            }
         }
         soundInputsDebug.Add(other.gameObject);
     }
     public void SyncSetPublisher(int[] viewIDs)
     {
-        soundInputs = new List<INormalizedSoundInput>();
-        foreach (var viewID in viewIDs)
+        lock (soundInputs)
         {
-            SyncAddPublisher(viewID);
+            soundInputs = new List<INormalizedSoundInput>();
+            soundInputsDebug = new List<GameObject>();
+            foreach (var viewID in viewIDs)
+            {
+                SyncAddPublisher(viewID);
+            }
         }
     }
 
     public void SyncRemovePublisher(int viewID)
     {
         INormalizedSoundInput other = PhotonView.Find(viewID).gameObject.GetComponentInChildren<INormalizedSoundInput>();
-        soundInputs.Remove(other);
+        if (soundInputs.Contains(other))
+        {
+            lock (soundInputs)
+            {
+                soundInputs.Remove(other);
+            }
+        }
         soundInputsDebug.Remove(other.gameObject);
     }
     
@@ -116,13 +129,21 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
     public float GetLocalDBAt(GameObject other)
     {
         float DB = 0.0f;
-        foreach (INormalizedSoundInput soundInput in soundInputs)
+        lock (soundInputs)
         {
-            float distance = Vector2.Distance(soundInput.gameObject.transform.position, other.transform.position);
-            if (distance < maxDistance)
+            foreach (INormalizedSoundInput soundInput in soundInputs)
             {
-                float localDBEffect = soundInput.normalizedDB / (distance * distance);
-                DB += localDBEffect;
+                if (soundInput == null)
+                {
+                    RemovePublisher(soundInput);
+                    continue;
+                }
+                float distance = Vector2.Distance(soundInput.gameObject.transform.position, other.transform.position);
+                if (distance < maxDistance)
+                {
+                    float localDBEffect = soundInput.normalizedDB / (distance * distance);
+                    DB += localDBEffect;
+                }
             }
         }
         DB = Mathf.Clamp(DB, 0.0f, 1.0f);
