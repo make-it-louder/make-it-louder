@@ -32,11 +32,11 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
 
     public void OnEvent(EventData photonEvent)
     {
-        Debug.Log($"Event Received: {photonEvent}");
         if (photonEvent.Code == (byte)PunEventCode.Code.ModifySoundEvent)
         {
             object[] data = (object[])photonEvent.CustomData;
             var dto = new PunEventCode.ModifySoundEventDTO(data);
+            Debug.Log($"Event Received: {photonEvent}");
             Debug.Log($"OnEvent Received: dto={dto}");
             switch (dto.code)
             {
@@ -57,8 +57,11 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
                     break;
             }
         }
-        if (photonEvent.Code == (byte)PunEventCode.Code.GetSoundEventResponse) {
+        if (photonEvent.Code == (byte)PunEventCode.Code.GetSoundEventResponse)
+        {
             var dto = new PunEventCode.GetSoundEventResponseDTO((object[])photonEvent.CustomData);
+            Debug.Log($"Event Received: {photonEvent}");
+            Debug.Log($"OnEvent Received: dto={dto}");
             List<int> viewIDs = dto.list;
             SyncSetPublisher(viewIDs.ToArray());
         }

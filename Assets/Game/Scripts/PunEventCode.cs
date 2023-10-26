@@ -37,12 +37,9 @@ public static class PunEventCode
 
         public object[] PunSerialize()
         {
-            Debug.Log($"Original Value: {_codeValue}, {viewID}");
             object[] result = new object[2];
             result[0] = _codeValue;
             result[1] = viewID;
-            Debug.Log($"Serialized: {result}");
-            Debug.Log($"{result[0]}, {result[1]}");
             return result;
         }
 

@@ -28,7 +28,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
-        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 6 }, null); // ������ �濡 ����
+        PhotonNetwork.JoinOrCreateRoom("Roomrr", new RoomOptions { MaxPlayers = 6 }, null); // ������ �濡 ����
     }
 
     public override void OnJoinedRoom()

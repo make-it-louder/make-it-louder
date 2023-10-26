@@ -18,7 +18,6 @@ public class PunEventSender
         Send(code, serializable, ReceiverGroup.Others, SendOptions.SendReliable);
     }
     public static void Send(byte code, IPunSerializable serializable, ReceiverGroup receiver, SendOptions sendOptions) {
-        Debug.Log($"Sent:Code={code}, Serialized={serializable.PunSerialize()}, Receiver={receiver}");
         PhotonNetwork.RaiseEvent(
             code,
             serializable.PunSerialize(),
@@ -28,7 +27,6 @@ public class PunEventSender
     }
     public static void Send(byte code, IPunSerializable serializable, int[] receiver, SendOptions sendOptions)
     {
-        Debug.Log($"Sent:Code={code}, Serialized={serializable.PunSerialize()}, Receiver={receiver}");
         PhotonNetwork.RaiseEvent(
             code,
             serializable.PunSerialize(),
