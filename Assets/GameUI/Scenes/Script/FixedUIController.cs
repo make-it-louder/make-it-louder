@@ -1,6 +1,8 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public class FixedUIController : MonoBehaviour
 {
     public GameObject settingsForm; // Panel GameObject¸¦ ÂüÁ¶ÇÒ º¯¼ö
@@ -10,6 +12,10 @@ public class FixedUIController : MonoBehaviour
     private static FixedUIController instance = null;
     public TMP_Text title;
 
+    //ÆË¾÷
+    public GameObject exitPopup;
+
+    public GameObject quitPopup;
     void Awake()
     {
         if (null == instance)
@@ -118,4 +124,35 @@ public class FixedUIController : MonoBehaviour
         audioSettingsForm.SetActive(false);
         displaySettingsForm.SetActive(false);
     }*/
+    
+    //ÆË¾÷¶ç¿ì±â
+    public void openExitPopupWindow ()
+    {
+        exitPopup.SetActive(true);
+    }
+    
+    public void closeExitPopupWindow ()
+    {
+        exitPopup.SetActive(false);
+    }    
+    
+    public void openQuitPopupWindow ()
+    {
+        quitPopup.SetActive(true);
+    }
+    
+    public void closeQuitPopupWindow ()
+    {
+        quitPopup.SetActive(false);
+    }
+    public void LeaveThisRoom()
+    {
+        SceneManager.LoadScene("Lobby");
+        Destroy(this.gameObject);
+    }
+
+    public void QuitGame ()
+    {
+        Application.Quit();
+    }
 }

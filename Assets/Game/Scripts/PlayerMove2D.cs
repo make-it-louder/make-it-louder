@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 using TMPro;
 
-public class PlayerMove2D : MonoBehaviour
+public class PlayerMove2D : MonoBehaviourPun
 {
     // Start is called before the first frame update
     Rigidbody2D rb;
@@ -19,25 +20,10 @@ public class PlayerMove2D : MonoBehaviour
     float inputV;
     float inputH;
 
-    public TMP_Text jumpCountText;  // Á¡ÇÁ È½¼ö¸¦ Ç¥½ÃÇÒ UI ÅØ½ºÆ®
-    public int jumpCount = 0;  // Á¡ÇÁÇÑ È½¼ö
+    public TMP_Text jumpCountText;  // ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ UI ï¿½Ø½ï¿½Æ®
+    public int jumpCount = 0;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½
 
-    public TMP_Text playTimeText;  // ÇÃ·¹ÀÌ Å¸ÀÓÀ» Ç¥½ÃÇÏ´Â UI
-    private float playTime = 0f; // ÇÃ·¹ÀÌ Å¸ÀÓ
-
-    // ¹è°æÈ­¸é ÅÛÇÃ¸´µé
-    public Material[] SkyboxMaterials;
-
-    // yÃàÀÇ ÃÖ´ë,ÃÖ¼Ò³ôÀÌ ¼³Á¤
-    private float minY = -5.178f;
-    private float maxY = 84.000f;
-    private float segmentLength;
-
-    // ºÎµå·¯¿î Skybox ÀüÈ¯À» À§ÇÑ º¯¼öµé
-    private Material currentSkyboxMaterial;
-    private Material targetSkyboxMaterial;
-    private float lerpValue = 0f;
-    private float lerpSpeed = 0.5f;
+    public TMP_Text playTimeText;  // ï¿½Ã·ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ï´ï¿½ UI
 
     void Start()
     {
@@ -47,33 +33,29 @@ public class PlayerMove2D : MonoBehaviour
         animator = transform.Find("Renderer").GetComponent<Animator>();
         //rb.centerOfMass = rb.centerOfMass - new Vector2(0, 0.15f);
 
-        segmentLength = (maxY - minY) / 4f; // Skybox º¯ÇÏ´Â ±âÁØ ¼³Á¤
+        segmentLength = (maxY - minY) / 4f; // Skybox ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
-    void Update()
-    {
-        inputV = Input.GetAxis("Jump");
-        inputH = Input.GetAxis("Horizontal");
+    private float playTime = 0f; // ï¿½Ã·ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½
 
-        // ÇÃ·¹ÀÌ Å¸ÀÓ ·ÎÁ÷
-        playTime += Time.deltaTime;
-        UpdatePlayTimeUI();
+    // ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½
+    public Material[] SkyboxMaterials;
 
-        // Skybox Material º¯°æ
-        ChangeSkyboxMaterial();
+    // yï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½,ï¿½Ö¼Ò³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float minY = -5.178f;
+    private float maxY = 84.000f;
+    private float segmentLength;
 
-        // ºÎµå·¯¿î Skybox ÀüÈ¯
-        SmoothSkyboxTransition();
-    }
+    // ï¿½Îµå·¯ï¿½ï¿½ Skybox ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private Material currentSkyboxMaterial;
+    private Material targetSkyboxMaterial;
+    private float lerpValue = 0f;
+    private float lerpSpeed = 0.5f;
     // Update is called once per frame
     void FixedUpdate()
     {
         if (inputH != 0)
         {
             rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
-        }
-        if ((inputH != 0) && (inputH < 0) != renderer.flipX)
-        {
-            renderer.flipX = inputH < 0;
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
         if (inputV > 0 && isGrounded())
@@ -85,34 +67,56 @@ public class PlayerMove2D : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -3.5f));
         }
-        animator.SetFloat("hVelocity", Mathf.Abs(inputH));
+
+        if ((rb.velocity.x < -0.003f) != renderer.flipX)
+        {
+            renderer.flipX = rb.velocity.x < 0;
+        }
+        animator.SetFloat("hVelocity", Mathf.Abs(rb.velocity.x));
         animator.SetFloat("vVelocity", rb.velocity.y);
         animator.SetBool("isGrounded", isGrounded());
 
-        // Á¡ÇÁ UI ¾÷µ¥ÀÌÆ®
+        // ï¿½ï¿½ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         if (inputV > 0 && isGrounded())
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
-            jumpCount++;           // Á¡ÇÁÇÒ ¶§¸¶´Ù Ä«¿îÆ® Áõ°¡
-            UpdateJumpCountUI();   // UI ¾÷µ¥ÀÌÆ®
+            jumpCount++;           // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+            UpdateJumpCountUI();   // UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         }
 
     }
-    // Á¡ÇÁÈ½¼ö Ä«¿îÆ®
+    void Update()
+    {
+        if (photonView.IsMine)
+        {
+            inputV = Input.GetAxis("Jump");
+            inputH = Input.GetAxis("Horizontal");
+        }
+        // ï¿½Ã·ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        playTime += Time.deltaTime;
+        UpdatePlayTimeUI();
+
+        // Skybox Material ï¿½ï¿½ï¿½ï¿½
+        ChangeSkyboxMaterial();
+
+        // ï¿½Îµå·¯ï¿½ï¿½ Skybox ï¿½ï¿½È¯
+        SmoothSkyboxTransition();
+    }
+    // ï¿½ï¿½ï¿½ï¿½È½ï¿½ï¿½ Ä«ï¿½ï¿½Æ®
     void UpdateJumpCountUI()
     {
-        jumpCountText.text = "Á¡ÇÁÄ«¿îÆ®: " + jumpCount;
+        jumpCountText.text = "ï¿½ï¿½ï¿½ï¿½Ä«ï¿½ï¿½Æ®: " + jumpCount;
     }
-    // ÇÃ·¹ÀÌÅ¸ÀÓ º¯È­
+    // ï¿½Ã·ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½È­
     void UpdatePlayTimeUI()
     {
         int minutes = (int)(playTime / 60);
         int seconds = (int)(playTime % 60);
-        playTimeText.text = $"ÇÃ·¹ÀÌÅ¸ÀÓ: {minutes:00}:{seconds:00}";
+        playTimeText.text = $"ï¿½Ã·ï¿½ï¿½ï¿½Å¸ï¿½ï¿½: {minutes:00}:{seconds:00}";
     }
 
 
-    // ¹è°æÈ­¸é º¯È­
+    // ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½È­
     void ChangeSkyboxMaterial()
     {
         float currentY = transform.position.y;
@@ -143,7 +147,7 @@ public class PlayerMove2D : MonoBehaviour
         }
     }
 
-    // ºÎµå·¯¿î ¹è°æÈ­¸é º¯È­
+    // ï¿½Îµå·¯ï¿½ï¿½ ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½È­
     void SmoothSkyboxTransition()
     {
         if (lerpValue < 1f && targetSkyboxMaterial != null)

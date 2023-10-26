@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using TMPro;
 using UnityEngine;
-
-public class MicInputManager : MonoBehaviour
+using Photon.Pun;
+public class MicInputManager : MonoBehaviour, INormalizedSoundInput
 {
+
+    public float minDB = -15.0f;
+    public float maxDB = 5.0f;
+    public SoundEventManager soundEventManager;
     private AudioSource audioSource;
     private float[] samples;
     private float[] spectrum;
@@ -20,44 +24,59 @@ public class MicInputManager : MonoBehaviour
         {
             return pitch;
         }
-        set
+        private set
         {
             pitch = value;
         }
     }
     private float pitch;
+    public float normalizedDB
+    {
+        get
+        {
+            return Mathf.Clamp((db - minDB) / (maxDB - minDB), 0.0f, 1.0f);
+        }
+    }
     public float DB
     {
         get
         {
             return db;
         }
-        set
+        private set
         {
             db = value;
         }
     }
+    [SerializeField]
     private float db;
     
     void Start()
     {
-        if (Microphone.devices.Length == 0)
-        {
-            Debug.LogError("No microphone detected");
-            return;
-        }
         audioSource = GetComponent<AudioSource>();
-        audioSource.clip = Microphone.Start(null, true, 1, sampleRate);
-        audioSource.loop = true;
-        //audioSource.mute = true; // Prevent feedback
-        while (!(Microphone.GetPosition(null) > 0)) { } // Wait until the recording has started
-        audioSource.Play(); // Play the audio source
-
+        if (!PhotonNetwork.IsConnected)
+        {
+            if (Microphone.devices.Length == 0)
+            {
+                Debug.LogError("No microphone detected");
+                return;
+            }
+            audioSource.clip = Microphone.Start(null, true, 1, sampleRate);
+            audioSource.loop = true;
+            //audioSource.mute = true; // Prevent feedback
+            while (!(Microphone.GetPosition(null) > 0)) { } // Wait until the recording has started
+            audioSource.Play(); // Play the audio source
+        }
         samples = new float[sampleCount];
         spectrum = new float[sampleCount];
 
         Pitch = 0;
         DB = 0;
+        if (soundEventManager != null)
+        {
+            Debug.Log($"soundEventManager.AddPublisher({this})");
+            soundEventManager.AddPublisher(this);
+        }
     }
 
     void Update()

@@ -1243,6 +1243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41ba761504b242e4fb82bb4a30e9df6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pvCache: {fileID: 0}
   nicknameInputField: {fileID: 164063054}
   playerPrefab: {fileID: 5120038271507591434, guid: 167be1a9a48e8df42ae0e4dfad85346c, type: 3}
 --- !u!4 &2052145396
