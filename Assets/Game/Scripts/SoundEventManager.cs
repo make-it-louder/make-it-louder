@@ -128,6 +128,10 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
     }
     public float GetLocalDBAt(GameObject other)
     {
+        if (other == null)
+        {
+            return 0f;
+        }
         float DB = 0.0f;
         lock (soundInputs)
         {
