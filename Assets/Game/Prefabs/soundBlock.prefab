@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1656880986309314260}
   - component: {fileID: 4491048303230110017}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: soundBlock
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 2073235624223043151}
   - component: {fileID: 6232381294967216416}
   - component: {fileID: 6331051750144600871}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: blockRender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,6 +295,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundManager: {fileID: 0}
   dropPower: 1
+  maxUpTime: 3
+  disavleInputPeriod: 2
 --- !u!50 &6232381294967216416
 Rigidbody2D:
   serializedVersion: 4
