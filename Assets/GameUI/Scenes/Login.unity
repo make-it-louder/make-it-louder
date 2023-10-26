@@ -3868,6 +3868,7 @@ MonoBehaviour:
   popupWinodow: {fileID: 358243790}
   popupTitle: {fileID: 1001344258}
   popupContent: {fileID: 1044912359}
+  loadingSpinner: {fileID: 262871807}
 --- !u!4 &1377088646
 Transform:
   m_ObjectHideFlags: 0

@@ -24,6 +24,8 @@ public class FirebaseManager : MonoBehaviour
     public TMP_Text popupTitle;
     public TMP_Text popupContent;
 
+    public GameObject loadingSpinner;
+
     public static FirebaseManager Instance
     {
         get
@@ -113,6 +115,7 @@ public class FirebaseManager : MonoBehaviour
     public async void SignUp(string email, string username, string password)
     {
         bool flag = false;
+        loadingSpinner.SetActive(true);
         await auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
@@ -141,11 +144,14 @@ public class FirebaseManager : MonoBehaviour
             popupWinodow.SetActive(true);
 
         }
+
+        loadingSpinner.SetActive(false);
     }
 
     public async void SignIn(string email, string password)
     {
         bool flag = false;
+        loadingSpinner.SetActive(true);
         await auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
@@ -168,6 +174,8 @@ public class FirebaseManager : MonoBehaviour
             popupContent.text = "ID/PW를 확인해주세요!";
             popupWinodow.SetActive(true);
         }
+
+        loadingSpinner.SetActive(false);
     }
 
     public void SignOut()
