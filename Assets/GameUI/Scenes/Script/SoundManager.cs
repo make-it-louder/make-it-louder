@@ -73,4 +73,8 @@ public class SoundManager : MonoBehaviour
         int intValue = Mathf.RoundToInt(value * 100);
         micVolumeText.text = intValue.ToString();
     }
+
+    // 여기에 플레이어들 볼륨함수? 
+
+
 }
