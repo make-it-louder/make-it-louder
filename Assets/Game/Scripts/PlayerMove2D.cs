@@ -25,6 +25,8 @@ public class PlayerMove2D : MonoBehaviourPun
 
     public TMP_Text playTimeText;  // �÷��� Ÿ���� ǥ���ϴ� UI
 
+    public bool IgnoreInput { get; set; }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -42,7 +44,7 @@ public class PlayerMove2D : MonoBehaviourPun
 
     // y���� �ִ�,�ּҳ��� ����
     private float minY = -5.178f;
-    private float maxY = 84.000f;
+    private float maxY = 43.000f;
     private float segmentLength;
 
     // �ε巯�� Skybox ��ȯ�� ���� ������
@@ -53,12 +55,12 @@ public class PlayerMove2D : MonoBehaviourPun
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (inputH != 0)
+        if (inputH != 0 && !IgnoreInput)
         {
             rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
-        if (inputV > 0 && isGrounded())
+        if (inputV > 0 && isGrounded() && !IgnoreInput)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
         }
@@ -77,7 +79,7 @@ public class PlayerMove2D : MonoBehaviourPun
         animator.SetBool("isGrounded", isGrounded());
 
         // ���� UI ������Ʈ
-        if (inputV > 0 && isGrounded())
+        if (inputV > 0 && isGrounded() && !IgnoreInput)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
             jumpCount++;           // ������ ������ ī��Ʈ ����
@@ -87,7 +89,7 @@ public class PlayerMove2D : MonoBehaviourPun
     }
     void Update()
     {
-        if (photonView.IsMine)
+        if (photonView.IsMine && !IgnoreInput)
         {
             inputV = Input.GetAxis("Jump");
             inputH = Input.GetAxis("Horizontal");
@@ -105,14 +107,28 @@ public class PlayerMove2D : MonoBehaviourPun
     // ����Ƚ�� ī��Ʈ
     void UpdateJumpCountUI()
     {
-        jumpCountText.text = "����ī��Ʈ: " + jumpCount;
+        if (jumpCountText != null)
+        {
+            jumpCountText.text = "JumpCount: " + jumpCount;
+        }
+        else
+        {
+            Debug.Log("cannot find jumpCountText");
+        }
     }
     // �÷���Ÿ�� ��ȭ
     void UpdatePlayTimeUI()
     {
         int minutes = (int)(playTime / 60);
         int seconds = (int)(playTime % 60);
-        playTimeText.text = $"�÷���Ÿ��: {minutes:00}:{seconds:00}";
+        if (playTimeText != null)
+        {
+            playTimeText.text = $"PlayTime: {minutes:00}:{seconds:00}";
+        }
+        else
+        {
+            Debug.Log("cannot find playTimeText");
+        }
     }
 
 
@@ -166,6 +182,7 @@ public class PlayerMove2D : MonoBehaviourPun
         Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
         Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
         Debug.DrawLine(feetLeft, feetRight, Color.red);
-        return (Physics2D.OverlapPoint(feetLeft) != null) || (Physics2D.OverlapPoint(feetRight) != null);
+
+        return (Physics2D.OverlapPoint(feetLeft,1<<LayerMask.NameToLayer("Ground")) != null) || (Physics2D.OverlapPoint(feetRight,1<<LayerMask.NameToLayer("Ground")) != null || (Physics2D.OverlapPoint(feetRight, 1 << LayerMask.NameToLayer("Player"))) || (Physics2D.OverlapPoint(feetLeft, 1 << LayerMask.NameToLayer("Player"))));
     }
 }
