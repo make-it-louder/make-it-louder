@@ -12,13 +12,13 @@ public class ChatManager : MonoBehaviourPun
     public PhotonView pv;
     public GameObject chatInput;
     public GameObject scrollView;
-
+    public PlayerMove2D playerMove2D { get; set; }
     private void Update()
     {
         KeyDownEnter();
     }
 
-    // Input Ã¢ ¿·¿¡ ¹öÆ° ´©¸¦ ¶§ È£ÃâµÇ´Â ÇÔ¼ö
+    // Input ì°½ ì˜†ì— ë²„íŠ¼ ëˆ„ë¥¼ ë•Œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
     public void OnEndEditEventMethod()
     {
 
@@ -30,28 +30,28 @@ public class ChatManager : MonoBehaviourPun
 
     public void UpdateChat()
     {
-        // Ã¤ÆÃÃ¢¿¡ ¾Æ¹«°Íµµ ÀÔ·Â ¾ÈÇÒ ½Ã Á¾·á
+        // ì±„íŒ…ì°½ì— ì•„ë¬´ê²ƒë„ ì…ë ¥ ì•ˆí•  ì‹œ ì¢…ë£Œ
         if (inputField.text.Equals(""))
         {
             return;
         }
         nickname = PhotonNetwork.LocalPlayer.NickName;
 
-        // ´Ğ³×ÀÓ : ´ëÈ­³»¿ë
+        // ë‹‰ë„¤ì„ : ëŒ€í™”ë‚´ìš©
         string msg = $"{nickname} : {inputField.text}";
-        Debug.Log(msg + " ÀÔ·Â ¸Ş¼¼Áö~~~");
-        // Ã¤ÆÃ RPC È£Ãâ
+        Debug.Log(msg + " ì…ë ¥ ë©”ì„¸ì§€~~~");
+        // ì±„íŒ… RPC í˜¸ì¶œ
         pv.RPC("RPC_Chat", RpcTarget.All, msg);
-        // Ã¤ÆÃ ÀÔ·ÂÃ¢ ³»¿ë ÃÊ±âÈ­
+        // ì±„íŒ… ì…ë ¥ì°½ ë‚´ìš© ì´ˆê¸°í™”
         inputField.text = "";
     }
 
     void AddChatMessage(string message)
     {
-        Debug.Log("Ã¤ÆÃ¾ÖµåÃª¸Ş¼¼Áö");
+        Debug.Log("ì±„íŒ…ì• ë“œì±—ë©”ì„¸ì§€");
         ScrollRect scrollRect = scrollView.GetComponent<ScrollRect>();
 
-        // Ã¤ÆÃ ³»¿ë Ãâ·ÂÀ» À§ÇØ TEXT UI »ı¼º
+        // ì±„íŒ… ë‚´ìš© ì¶œë ¥ì„ ìœ„í•´ TEXT UI ìƒì„±
         if (scrollRect.verticalNormalizedPosition < 0.1)
         {
             GameObject clone = Instantiate(textChatPrefab, parentContent);
@@ -68,37 +68,41 @@ public class ChatManager : MonoBehaviourPun
         }
 
 
-        // Ã¤ÆÃ ÀÔ·ÂÃ¢¿¡ ÀÖ´Â ³»¿ë Ã¤ÆÃÃ¢¿¡ Ãâ·Â
+        // ì±„íŒ… ì…ë ¥ì°½ì— ìˆëŠ” ë‚´ìš© ì±„íŒ…ì°½ì— ì¶œë ¥
     }
 
     public void KeyDownEnter()
     {
-        // Ã¤ÆÃÃ¢ ºñÈ°¼ºÈ­ ½Ã
+        // ì±„íŒ…ì°½ ë¹„í™œì„±í™” ì‹œ
         if (Input.GetKeyDown(KeyCode.Return) && !chatInput.activeSelf)
         {
-            // Ã¤ÆÃ ÀÔ·Â Ã¢ ÃÊ±âÈ­
+            // ì±„íŒ… ì…ë ¥ ì°½ ì´ˆê¸°í™”
             inputField.text = "";
-            // ºÎ¸ğ ¿ÀºêÁ§Æ® È°¼ºÈ­
+            // ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ í™œì„±í™”
             chatInput.SetActive(true);
-            // Ã¤ÆÃ ÀÔ·ÂÃ¢¿¡ Ä¿¼­ È°¼ºÈ­
+            // ì±„íŒ… ì…ë ¥ì°½ì— ì»¤ì„œ í™œì„±í™”
             inputField.ActivateInputField();
+            playerMove2D.isChatting = true;
         }
-        else if (Input.GetKeyDown(KeyCode.Return) && chatInput.activeSelf) // Ã¤ÆÃ ºÎ¸ğ ¿ÀºêÁ§Æ® È°¼ºÈ­ ÈÄ ¿£ÅÍ ½Ã 
+        else if (Input.GetKeyDown(KeyCode.Return) && chatInput.activeSelf) // ì±„íŒ… ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ í™œì„±í™” í›„ ì—”í„° ì‹œ 
         {
-            // ºÎ¸ğ ¿ÀºêÁ§Æ® ºñÈ°¼ºÈ­
+            // ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ ë¹„í™œì„±í™”
             chatInput.SetActive(false);
+            playerMove2D.isChatting = false;
+
         }
-        else if (!inputField.isFocused) // Ã¤ÆÃÃ¢¿¡¼­ Ä¿¼­°¡ ¿Å°ÜÁú ½Ã ex È­¸é Å¬¸¯
+        else if (!inputField.isFocused) // ì±„íŒ…ì°½ì—ì„œ ì»¤ì„œê°€ ì˜®ê²¨ì§ˆ ì‹œ ex í™”ë©´ í´ë¦­
         {
-            // ºÎ¸ğ ¿ÀºêÁ§Æ® ºñÈ°¼ºÈ­
+            // ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ ë¹„í™œì„±í™”
             chatInput.SetActive(false);
+            playerMove2D.isChatting = false;
         }
     }
 
     [PunRPC]
     void RPC_Chat(string message)
     {
-        Debug.Log("RPC¸Ş¼¼Áö");
+        Debug.Log("RPCë©”ì„¸ì§€");
         AddChatMessage(message);
     }
 }
