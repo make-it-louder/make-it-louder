@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 6790348110103339285}
   - component: {fileID: 1381308600893996490}
   - component: {fileID: 2176427626526154623}
-  - component: {fileID: 1510577624937541200}
-  - component: {fileID: 6613129603910960651}
-  m_Layer: 6
+  - component: {fileID: 7746199521973584534}
+  - component: {fileID: 7297539334312250207}
+  m_Layer: 0
   m_Name: blockRender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -366,7 +366,7 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 2019040004130616651}
---- !u!114 &1510577624937541200
+--- !u!114 &7746199521973584534
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -385,11 +385,11 @@ MonoBehaviour:
   OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 6613129603910960651}
+  - {fileID: 7297539334312250207}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &6613129603910960651
+--- !u!114 &7297539334312250207
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -415,9 +415,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1096603123395663586}
   - component: {fileID: 9067942411016554284}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: soundBlockLong
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
