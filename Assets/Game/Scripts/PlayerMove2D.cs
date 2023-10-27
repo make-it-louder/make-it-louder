@@ -93,16 +93,16 @@ public class PlayerMove2D : MonoBehaviourPun
         {
             inputV = Input.GetAxis("Jump");
             inputH = Input.GetAxis("Horizontal");
+            // �÷��� Ÿ�� ����
+            playTime += Time.deltaTime;
+            UpdatePlayTimeUI();
+
+            // Skybox Material ����
+            ChangeSkyboxMaterial();
+
+            // �ε巯�� Skybox ��ȯ
+            SmoothSkyboxTransition();
         }
-        // �÷��� Ÿ�� ����
-        playTime += Time.deltaTime;
-        UpdatePlayTimeUI();
-
-        // Skybox Material ����
-        ChangeSkyboxMaterial();
-
-        // �ε巯�� Skybox ��ȯ
-        SmoothSkyboxTransition();
     }
     // ����Ƚ�� ī��Ʈ
     void UpdateJumpCountUI()
@@ -113,7 +113,7 @@ public class PlayerMove2D : MonoBehaviourPun
         }
         else
         {
-            Debug.Log("cannot find jumpCountText");
+            Debug.Log("Cannot find jumpCountText");
         }
     }
     // �÷���Ÿ�� ��ȭ
@@ -127,7 +127,7 @@ public class PlayerMove2D : MonoBehaviourPun
         }
         else
         {
-            Debug.Log("cannot find playTimeText");
+            Debug.Log("Cannot find jumpCountText");
         }
     }
 
