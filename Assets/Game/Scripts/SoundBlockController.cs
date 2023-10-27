@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class soundBlockController : MonoBehaviourPun
+public class SoundBlockController : MonoBehaviourPun
 {
     [SerializeField]
     SoundEventManager soundManager;
