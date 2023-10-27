@@ -9,11 +9,14 @@ public class GameManager : MonoBehaviour
     public TMP_InputField passwordInputField;*/
     public GameObject loginForm;
     public GameObject signupForm;
+    public GameObject KeyInfo;
+    private bool isTrue;
     // Start is called before the first frame update
     void Start()
     {
         loginForm.SetActive(true);
         signupForm.SetActive(false);
+        isTrue = false;
 
     }
 
@@ -22,7 +25,7 @@ public class GameManager : MonoBehaviour
     {
         
     }
-    //È¸¿ø°¡ÀÔÆûÀ¸·Î º¯°æ
+    //íšŒì›ê°€ì…í¼ìœ¼ë¡œ ë³€ê²½
     public void GoToSignup()
     {
         signupForm.SetActive(true);
@@ -33,10 +36,21 @@ public class GameManager : MonoBehaviour
         signupForm.SetActive(false);
         loginForm.SetActive(true);
     }
-
-    //·Î±×ÀÎ
-    public void Login()
+    public void OnOffKeyInfo()
     {
-        FindObjectOfType<FadeManager>().ChangeScene("Lobby");
+        if (isTrue)
+        {
+            Debug.Log("ì—´ë ¤");
+            KeyInfo.SetActive(false);
+            isTrue = false;
+        }
+        else
+        {
+            Debug.Log("ë‹«í˜€");
+            KeyInfo.SetActive(true);
+            isTrue = true;
+        }
+
     }
+    //ë¡œê·¸ì¸
 }

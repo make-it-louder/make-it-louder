@@ -20,4 +20,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameUI/Scenes/Lobby.unity
     guid: 4ee1f4ea92a7dae439f9bbc55aaf725b
+  - enabled: 1
+    path: Assets/Game/Scenes/MakeItLoudertest.unity
+    guid: 4e7a3d6aa8be501449ed5fa16c99eaee
+  - enabled: 1
+    path: Assets/GameUI/Scenes/LobbyTest.unity
+    guid: 3b49a2922ab9a1c42a792a4f8fda7c99
+  - enabled: 1
+    path: Assets/Game/Scenes/MakeItLoudertest.unity
+    guid: 4e7a3d6aa8be501449ed5fa16c99eaee
   m_configObjects: {}
