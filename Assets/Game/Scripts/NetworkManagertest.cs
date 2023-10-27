@@ -73,6 +73,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         GameObject spawnedPlayer = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(Random.Range(-5f, 5f), 1, Random.Range(-5f, 5f)), Quaternion.identity);
         GridCamera2D camera = GameObject.Find("Main Camera").GetComponent<GridCamera2D>();
         camera.follows = spawnedPlayer;
+        GameObject.Find("Chat").GetComponent<ChatManager>().player = spawnedPlayer.GetComponent<PlayerMove2D>();
         spawnedPlayer.GetComponentInChildren<TMP_Text>().text = PhotonNetwork.LocalPlayer.NickName;
         SoundEventManager soundEventManager = GameObject.Find("SoundEventManager").GetComponent<SoundEventManager>();
         soundEventManager.AddPublisher(spawnedPlayer.GetComponentInChildren<INormalizedSoundInput>());
