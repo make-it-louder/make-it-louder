@@ -12,6 +12,8 @@ public class ChatManager : MonoBehaviourPun
     public PhotonView pv;
     public GameObject chatInput;
     public GameObject scrollView;
+    public GameObject scrollBarVertical;
+    public GameObject Handle;
     public PlayerMove2D playerMove2D { get; set; }
     private void Update()
     {
@@ -83,12 +85,14 @@ public class ChatManager : MonoBehaviourPun
             // 채팅 입력창에 커서 활성화
             inputField.ActivateInputField();
             playerMove2D.isChatting = true;
+            ActiveChat();
         }
         else if (Input.GetKeyDown(KeyCode.Return) && chatInput.activeSelf) // 채팅 부모 오브젝트 활성화 후 엔터 시 
         {
             // 부모 오브젝트 비활성화
             chatInput.SetActive(false);
             playerMove2D.isChatting = false;
+            UnActiveChat();
 
         }
         else if (!inputField.isFocused) // 채팅창에서 커서가 옮겨질 시 ex 화면 클릭
@@ -96,6 +100,7 @@ public class ChatManager : MonoBehaviourPun
             // 부모 오브젝트 비활성화
             chatInput.SetActive(false);
             playerMove2D.isChatting = false;
+            UnActiveChat();
         }
     }
 
@@ -104,5 +109,34 @@ public class ChatManager : MonoBehaviourPun
     {
         Debug.Log("RPC메세지");
         AddChatMessage(message);
+    }
+
+    public void ActiveChat()
+    {
+        Image parentImage = GetComponentInParent<Image>();
+        if (parentImage != null)
+        {
+            parentImage.enabled = true;
+        }
+        else
+        {
+            Debug.LogWarning("No Image component found on parent object.");
+        }
+        scrollBarVertical.GetComponent<Image>().enabled = true;
+        Handle.GetComponent<Image>().enabled = true;
+    }
+    public void UnActiveChat()
+    {
+        Image parentImage = GetComponentInParent<Image>();
+        if (parentImage != null)
+        {
+            parentImage.enabled = false;
+        }
+        else
+        {
+            Debug.LogWarning("No Image component found on parent object.");
+        }
+        scrollBarVertical.GetComponent<Image>().enabled = false;
+        Handle.GetComponent<Image>().enabled = false;
     }
 }
