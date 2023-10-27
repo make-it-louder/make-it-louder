@@ -111,10 +111,6 @@ public class PlayerMove2D : MonoBehaviourPun
         {
             jumpCountText.text = "JumpCount: " + jumpCount;
         }
-        else
-        {
-            Debug.Log("cannot find jumpCountText");
-        }
     }
     // �÷���Ÿ�� ��ȭ
     void UpdatePlayTimeUI()
@@ -124,10 +120,6 @@ public class PlayerMove2D : MonoBehaviourPun
         if (playTimeText != null)
         {
             playTimeText.text = $"PlayTime: {minutes:00}:{seconds:00}";
-        }
-        else
-        {
-            Debug.Log("cannot find playTimeText");
         }
     }
 
