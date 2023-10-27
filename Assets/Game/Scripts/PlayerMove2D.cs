@@ -26,6 +26,7 @@ public class PlayerMove2D : MonoBehaviourPun
     public TMP_Text playTimeText;  // �÷��� Ÿ���� ǥ���ϴ� UI
 
     public bool IgnoreInput { get; set; }
+    public bool isChatting { get; set; }
 
     void Start()
     {
@@ -55,12 +56,12 @@ public class PlayerMove2D : MonoBehaviourPun
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (inputH != 0 && !IgnoreInput)
+        if (inputH != 0 && !IgnoreInput && !isChatting)
         {
             rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
-        if (inputV > 0 && isGrounded() && !IgnoreInput)
+        if (inputV > 0 && isGrounded() && !IgnoreInput && !isChatting)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
         }
@@ -79,7 +80,7 @@ public class PlayerMove2D : MonoBehaviourPun
         animator.SetBool("isGrounded", isGrounded());
 
         // ���� UI ������Ʈ
-        if (inputV > 0 && isGrounded() && !IgnoreInput)
+        if (inputV > 0 && isGrounded() && !IgnoreInput && !isChatting)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
             jumpCount++;           // ������ ������ ī��Ʈ ����
@@ -89,7 +90,7 @@ public class PlayerMove2D : MonoBehaviourPun
     }
     void Update()
     {
-        if (photonView.IsMine && !IgnoreInput)
+        if (photonView.IsMine && !IgnoreInput && !isChatting)
         {
             inputV = Input.GetAxis("Jump");
             inputH = Input.GetAxis("Horizontal");

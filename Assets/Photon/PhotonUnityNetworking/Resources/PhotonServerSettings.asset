@@ -41,6 +41,7 @@ MonoBehaviour:
   - HeresWhy
   - ReceiveMessageRPC
   - RPC_Chat
+  - RPC_SetNickname
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

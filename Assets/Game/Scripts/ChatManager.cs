@@ -12,7 +12,7 @@ public class ChatManager : MonoBehaviourPun
     public PhotonView pv;
     public GameObject chatInput;
     public GameObject scrollView;
-    public PlayerMove2D player { get; set; }
+    public PlayerMove2D playerMove2D { get; set; }
     private void Update()
     {
         KeyDownEnter();
@@ -82,20 +82,20 @@ public class ChatManager : MonoBehaviourPun
             chatInput.SetActive(true);
             // 채팅 입력창에 커서 활성화
             inputField.ActivateInputField();
-            player.IgnoreInput = true;
+            playerMove2D.isChatting = true;
         }
         else if (Input.GetKeyDown(KeyCode.Return) && chatInput.activeSelf) // 채팅 부모 오브젝트 활성화 후 엔터 시 
         {
             // 부모 오브젝트 비활성화
             chatInput.SetActive(false);
-            player.IgnoreInput = false;
+            playerMove2D.isChatting = false;
 
         }
         else if (!inputField.isFocused) // 채팅창에서 커서가 옮겨질 시 ex 화면 클릭
         {
             // 부모 오브젝트 비활성화
             chatInput.SetActive(false);
-            player.IgnoreInput = false;
+            playerMove2D.isChatting = false;
         }
     }
 
