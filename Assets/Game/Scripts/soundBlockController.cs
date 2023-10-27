@@ -36,7 +36,16 @@ public class soundBlockController : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if (disableInputTime > 0.0f)
+        if (PhotonNetwork.IsMasterClient && !photonView.IsMine)
+        {
+            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+            Debug.Log("TransferOwnership");
+        }
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+            if (disableInputTime > 0.0f)
         {
             disableInputTime -= Time.deltaTime;
         }
