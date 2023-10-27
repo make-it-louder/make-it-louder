@@ -15936,6 +15936,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9211182872176381057, guid: 167be1a9a48e8df42ae0e4dfad85346c, type: 3}
+      propertyPath: maxDB
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9211182872176381057, guid: 167be1a9a48e8df42ae0e4dfad85346c, type: 3}
       propertyPath: soundEventManager
       value: 
       objectReference: {fileID: 481474897}
