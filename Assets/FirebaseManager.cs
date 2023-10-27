@@ -166,7 +166,7 @@ public class FirebaseManager : MonoBehaviour
             flag = true;
         });
         if (flag) {
-            SceneManager.LoadScene("Lobby");
+            SceneManager.LoadScene("Lobby2");
 
         } else
         {
