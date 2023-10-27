@@ -93,6 +93,8 @@ public class ChatManager : MonoBehaviourPun
             chatInput.SetActive(false);
             playerMove2D.isChatting = false;
             UnActiveChat();
+            ScrollRect scrollRect = scrollView.GetComponent<ScrollRect>();
+            scrollRect.verticalNormalizedPosition = 0;
 
         }
         else if (!inputField.isFocused) // 채팅창에서 커서가 옮겨질 시 ex 화면 클릭
@@ -101,6 +103,8 @@ public class ChatManager : MonoBehaviourPun
             chatInput.SetActive(false);
             playerMove2D.isChatting = false;
             UnActiveChat();
+            ScrollRect scrollRect = scrollView.GetComponent<ScrollRect>();
+            scrollRect.verticalNormalizedPosition = 0;
         }
     }
 
