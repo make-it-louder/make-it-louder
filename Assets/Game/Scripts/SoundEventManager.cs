@@ -10,7 +10,7 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
 {
     [Tooltip("Ignore voice beyond maxDistance")]
     public float maxDistance;
-    
+
     public List<INormalizedSoundInput> soundInputs;
     public List<GameObject> soundInputsDebug;
 
@@ -94,7 +94,7 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
 
     public void SyncRemovePublisher(int viewID)
     {
-        INormalizedSoundInput other = PhotonView.Find(viewID).gameObject.GetComponentInChildren<INormalizedSoundInput>();
+        INormalizedSoundInput other = PhotonView.Find(viewID)?.gameObject?.GetComponentInChildren<INormalizedSoundInput>();
         if (soundInputs.Contains(other))
         {
             lock (soundInputs)
@@ -133,21 +133,31 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
             return 0f;
         }
         float DB = 0.0f;
+        List<int> toDeleteIdx = new List<int>();
         lock (soundInputs)
         {
-            foreach (INormalizedSoundInput soundInput in soundInputs)
+            for (int i = 0;i < soundInputs.Count;i++)
             {
-                if (soundInput == null || soundInput.gameObject == null)
+                INormalizedSoundInput soundInput = soundInputs[i];
+                try
                 {
-                    RemovePublisher(soundInput);
+                    float distance = Vector2.Distance(soundInput.gameObject.transform.position, other.transform.position);
+                    if (distance < maxDistance)
+                    {
+                        float localDBEffect = soundInput.normalizedDB / (distance * distance);
+                        DB += localDBEffect;
+                    }
+                }
+                catch (MissingReferenceException)
+                {
+                    toDeleteIdx.Add(i);
                     continue;
                 }
-                float distance = Vector2.Distance(soundInput.gameObject.transform.position, other.transform.position);
-                if (distance < maxDistance)
-                {
-                    float localDBEffect = soundInput.normalizedDB / (distance * distance);
-                    DB += localDBEffect;
-                }
+            }
+            for (int i = toDeleteIdx.Count - 1; i >= 0; i--)
+            {
+                soundInputs.RemoveAt(toDeleteIdx[i]);
+                soundInputsDebug.RemoveAt(toDeleteIdx[i]);
             }
         }
         DB = Mathf.Clamp(DB, 0.0f, 1.0f);

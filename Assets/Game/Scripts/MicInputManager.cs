@@ -122,5 +122,11 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
         Pitch = pitchN * (sampleRate / 2) / sampleCount; // convert index to pitchuency
         DB = dbValue;
     }
-    
+    void OnDestroy()
+    {
+        if (soundEventManager != null)
+        {
+            soundEventManager.RemovePublisher(this);
+        }
+    }
 }
