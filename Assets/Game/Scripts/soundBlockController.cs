@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class soundBlockController : MonoBehaviour
+public class soundBlockController : MonoBehaviourPun
 {
     [SerializeField]
     SoundEventManager soundManager;
     SoundSubscriber input;
-
     Rigidbody2D rb;
 
     private float maxY;
@@ -24,9 +24,6 @@ public class soundBlockController : MonoBehaviour
 
     public float maxUpTime = 3.0f;
     public float disavleInputPeriod = 2.0f;
-
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +36,16 @@ public class soundBlockController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (disableInputTime > 0.0f)
+        if (PhotonNetwork.IsMasterClient && !photonView.IsMine)
+        {
+            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+            Debug.Log("TransferOwnership");
+        }
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+            if (disableInputTime > 0.0f)
         {
             disableInputTime -= Time.deltaTime;
         }
@@ -65,7 +71,15 @@ public class soundBlockController : MonoBehaviour
 
     void FixedUpdate()
     {
-        moveUp();
+        if (PhotonNetwork.IsMasterClient && !photonView.IsMine)
+        {
+            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+            Debug.Log("TransferOwnership");
+        }
+        if (photonView.IsMine)
+        {
+            moveUp();
+        }
     }
 
     void moveUp()

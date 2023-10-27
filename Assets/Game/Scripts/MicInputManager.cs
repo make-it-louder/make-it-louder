@@ -48,13 +48,12 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
             db = value;
         }
     }
-    [SerializeField]
     private float db;
     
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        if (!PhotonNetwork.IsConnected)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.OfflineMode)
         {
             if (Microphone.devices.Length == 0)
             {
@@ -74,7 +73,6 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
         DB = 0;
         if (soundEventManager != null)
         {
-            Debug.Log($"soundEventManager.AddPublisher({this})");
             soundEventManager.AddPublisher(this);
         }
     }
@@ -123,5 +121,12 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
 
         Pitch = pitchN * (sampleRate / 2) / sampleCount; // convert index to pitchuency
         DB = dbValue;
+    }
+    void OnDestroy()
+    {
+        if (soundEventManager != null)
+        {
+            soundEventManager.RemovePublisher(this);
+        }
     }
 }

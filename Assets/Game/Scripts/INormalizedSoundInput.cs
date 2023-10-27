@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public interface INormalizedSoundInput
@@ -8,7 +6,7 @@ public interface INormalizedSoundInput
     {
         get;
     }
-    Transform transform
+    GameObject gameObject
     {
         get;
     }
