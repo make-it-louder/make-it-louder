@@ -8,6 +8,7 @@ using Firebase;
 using Firebase.Database;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Com.MyCompany.MyGame;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class FirebaseManager : MonoBehaviour
     public TMP_Text popupContent;
 
     public GameObject loadingSpinner;
+    Launcher launcher = new Launcher(); // Launcher 클래스를 사용
 
     public static FirebaseManager Instance
     {
@@ -165,8 +167,10 @@ public class FirebaseManager : MonoBehaviour
             Debug.LogError("successfully signed in");
             flag = true;
         });
-        if (flag) {
-            SceneManager.LoadScene("Lobby2");
+        if (flag) 
+        {
+            SceneManager.LoadScene("LobbyTest");
+            launcher.Connect();
 
         } else
         {

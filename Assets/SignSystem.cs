@@ -8,7 +8,6 @@ public class SignSystem : MonoBehaviour
     public TMP_InputField email;
     public TMP_InputField username;
     public TMP_InputField password;
-
     // Start is called before the first frame update
     void Start()
     {

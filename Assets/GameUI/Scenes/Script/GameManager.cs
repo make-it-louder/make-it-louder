@@ -9,11 +9,14 @@ public class GameManager : MonoBehaviour
     public TMP_InputField passwordInputField;*/
     public GameObject loginForm;
     public GameObject signupForm;
+    public GameObject KeyInfo;
+    private bool isTrue;
     // Start is called before the first frame update
     void Start()
     {
         loginForm.SetActive(true);
         signupForm.SetActive(false);
+        isTrue = false;
 
     }
 
@@ -33,6 +36,21 @@ public class GameManager : MonoBehaviour
         signupForm.SetActive(false);
         loginForm.SetActive(true);
     }
+    public void OnOffKeyInfo()
+    {
+        if (isTrue)
+        {
+            Debug.Log("열려");
+            KeyInfo.SetActive(false);
+            isTrue = false;
+        }
+        else
+        {
+            Debug.Log("닫혀");
+            KeyInfo.SetActive(true);
+            isTrue = true;
+        }
 
+    }
     //로그인
 }
