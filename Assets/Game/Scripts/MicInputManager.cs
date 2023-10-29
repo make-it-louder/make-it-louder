@@ -9,7 +9,6 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
 
     public float minDB = -15.0f;
     public float maxDB = 5.0f;
-    public SoundEventManager soundEventManager;
     private AudioSource audioSource;
     private float[] samples;
     private float[] spectrum;
@@ -48,7 +47,26 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
             db = value;
         }
     }
+
     private float db;
+    [SerializeField]
+    private SoundEventManager soundEventManager;
+    public SoundEventManager SoundEventManager
+    {
+        get
+        {
+            return soundEventManager;
+        }
+        set
+        {
+            if (soundEventManager != null)
+            {
+                soundEventManager.RemovePublisher(this);
+            }
+            soundEventManager = value;
+            soundEventManager.AddPublisher(this);
+        }
+    }
     
     void Start()
     {
@@ -66,15 +84,15 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
             while (!(Microphone.GetPosition(null) > 0)) { } // Wait until the recording has started
             audioSource.Play(); // Play the audio source
         }
+        if (soundEventManager != null)
+        {
+            soundEventManager.AddPublisher(this);
+        }
         samples = new float[sampleCount];
         spectrum = new float[sampleCount];
 
         Pitch = 0;
         DB = 0;
-        if (soundEventManager != null)
-        {
-            soundEventManager.AddPublisher(this);
-        }
     }
 
     void Update()

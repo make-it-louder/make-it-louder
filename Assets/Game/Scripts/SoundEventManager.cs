@@ -6,7 +6,7 @@ using Photon.Realtime;
 using ExitGames.Client.Photon;
 using System.Linq;
 
-public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
+public class SoundEventManager : MonoBehaviourPun
 {
     [Tooltip("Ignore voice beyond maxDistance")]
     public float maxDistance;
@@ -19,113 +19,52 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
         soundInputs = new List<INormalizedSoundInput>();
         soundInputsDebug = new List<GameObject>();
     }
-
-    private void OnEnable()
+    [PunRPC]
+    void PhotonAddPublisher(int viewID)
     {
-        PhotonNetwork.AddCallbackTarget(this);
-    }
-
-    private void OnDisable()
-    {
-        PhotonNetwork.RemoveCallbackTarget(this);
-    }
-
-    public void OnEvent(EventData photonEvent)
-    {
-        if (photonEvent.Code == (byte)PunEventCode.Code.ModifySoundEvent)
+        INormalizedSoundInput input = PhotonView.Find(viewID).GetComponentInChildren<INormalizedSoundInput>();
+        if (input == null)
         {
-            object[] data = (object[])photonEvent.CustomData;
-            var dto = new PunEventCode.ModifySoundEventDTO(data);
-            Debug.Log($"Event Received: {photonEvent}");
-            Debug.Log($"OnEvent Received: dto={dto}");
-            switch (dto.code)
-            {
-                case PunEventCode.ModifySoundEventDTO.Code.add:
-                    SyncAddPublisher(dto.viewID);
-                    break;
-                case PunEventCode.ModifySoundEventDTO.Code.remove:
-                    SyncRemovePublisher(dto.viewID);
-                    break;
-                case PunEventCode.ModifySoundEventDTO.Code.addAndGet:
-                    SyncAddPublisher(dto.viewID);
-                    if (PhotonNetwork.IsMasterClient)
-                    {
-                        byte code = (byte)PunEventCode.Code.GetSoundEventResponse;
-                        var Serializable = new PunEventCode.GetSoundEventResponseDTO(soundInputs);
-                        PunEventSender.Send(code, Serializable, new int[] { photonEvent.Sender }, SendOptions.SendReliable);
-                    }
-                    break;
-            }
+            Debug.LogError($"Cannot find publisher with viewID={viewID}");
+            return;
         }
-        if (photonEvent.Code == (byte)PunEventCode.Code.GetSoundEventResponse)
-        {
-            var dto = new PunEventCode.GetSoundEventResponseDTO((object[])photonEvent.CustomData);
-            Debug.Log($"Event Received: {photonEvent}");
-            Debug.Log($"OnEvent Received: dto={dto}");
-            List<int> viewIDs = dto.list;
-            SyncSetPublisher(viewIDs.ToArray());
-        }
+        soundInputs.Add(input);
+        soundInputsDebug.Add(input.gameObject);
     }
-
-    public void SyncAddPublisher(int viewID)
+    [PunRPC]
+    void PhotonRemovePublisher(int viewID)
     {
-        INormalizedSoundInput other = PhotonView.Find(viewID).gameObject.GetComponentInChildren<INormalizedSoundInput>();
-        if (!soundInputs.Contains(other))
+        INormalizedSoundInput input = PhotonView.Find(viewID).GetComponentInChildren<INormalizedSoundInput>();
+        if (input == null)
         {
-            lock (soundInputs)
-            {
-                soundInputs.Add(other);
-            }
+            Debug.LogError($"Cannot find publisher with viewID={viewID}");
+            return;
         }
-        soundInputsDebug.Add(other.gameObject);
+        soundInputs.Remove(input);
+        soundInputsDebug.Remove(input.gameObject);
     }
-    public void SyncSetPublisher(int[] viewIDs)
-    {
-        lock (soundInputs)
-        {
-            soundInputs = new List<INormalizedSoundInput>();
-            soundInputsDebug = new List<GameObject>();
-            foreach (var viewID in viewIDs)
-            {
-                SyncAddPublisher(viewID);
-            }
-        }
-    }
-
-    public void SyncRemovePublisher(int viewID)
-    {
-        INormalizedSoundInput other = PhotonView.Find(viewID)?.gameObject?.GetComponentInChildren<INormalizedSoundInput>();
-        if (soundInputs.Contains(other))
-        {
-            lock (soundInputs)
-            {
-                soundInputs.Remove(other);
-            }
-        }
-        soundInputsDebug.Remove(other.gameObject);
-    }
-    
-
     public void AddPublisher(INormalizedSoundInput other)
     {
-        int viewID = other.gameObject.transform.parent.GetComponent<PhotonView>().ViewID;
-        var dto = new PunEventCode.ModifySoundEventDTO(PunEventCode.ModifySoundEventDTO.Code.add, viewID);
-        PunEventSender.SendToAll((byte)PunEventCode.Code.ModifySoundEvent, dto);
+        int? ViewID = other.gameObject?.GetComponent<PhotonView>()?.ViewID;
+        if (ViewID == null)
+        {
+            Debug.LogError($"AddPublisher: the publisher you want to add has no ViewID in the GameObject(object={other}, gameObject={other.gameObject}");
+            return;
+        }
+        photonView.RPC("PhotonAddPublisher", RpcTarget.AllBuffered, ViewID.Value);
     }
 
     public void RemovePublisher(INormalizedSoundInput other)
     {
-        int viewID = other.gameObject.transform.parent.GetComponent<PhotonView>().ViewID;
-        var dto = new PunEventCode.ModifySoundEventDTO(PunEventCode.ModifySoundEventDTO.Code.remove, viewID);
-        PunEventSender.SendToAll((byte)PunEventCode.Code.ModifySoundEvent, dto);
+        int? ViewID = other.gameObject?.GetComponent<PhotonView>()?.ViewID;
+        if (ViewID == null)
+        {
+            Debug.LogError("RemovePublisher: the publisher you want to add has no ViewID in the GameObject");
+            return;
+        }
+        photonView.RPC("PhotonRemovePublisher", RpcTarget.AllBuffered, ViewID.Value);
     }
 
-    public void AddAndSyncPublisher(INormalizedSoundInput other)
-    {
-        int viewID = other.gameObject.transform.parent.GetComponent<PhotonView>().ViewID;
-        var dto = new PunEventCode.ModifySoundEventDTO(PunEventCode.ModifySoundEventDTO.Code.addAndGet, viewID);
-        PunEventSender.SendToOthers((byte)PunEventCode.Code.ModifySoundEvent, dto);
-    }
     public float GetLocalDBAt(GameObject other)
     {
         if (other == null)
@@ -133,7 +72,6 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
             return 0f;
         }
         float DB = 0.0f;
-        List<int> toDeleteIdx = new List<int>();
         lock (soundInputs)
         {
             for (int i = 0;i < soundInputs.Count;i++)
@@ -150,14 +88,8 @@ public class SoundEventManager : MonoBehaviourPun, IOnEventCallback
                 }
                 catch (MissingReferenceException)
                 {
-                    toDeleteIdx.Add(i);
                     continue;
                 }
-            }
-            for (int i = toDeleteIdx.Count - 1; i >= 0; i--)
-            {
-                soundInputs.RemoveAt(toDeleteIdx[i]);
-                soundInputsDebug.RemoveAt(toDeleteIdx[i]);
             }
         }
         DB = Mathf.Clamp(DB, 0.0f, 1.0f);
@@ -189,4 +121,5 @@ public class SoundSubscriber : INormalizedSoundInput
             return manager.GetLocalDBAt(gameObject);
         }
     }
+
 }
