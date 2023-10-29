@@ -416,7 +416,7 @@ GameObject:
   - component: {fileID: 1096603123395663586}
   - component: {fileID: 9067942411016554284}
   m_Layer: 0
-  m_Name: soundBlockLong
+  m_Name: SoundBlockLong
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
