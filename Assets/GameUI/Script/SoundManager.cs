@@ -35,6 +35,10 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private MixerGroupSettings other;
 
+    [Header("SynchronizedVoiceSettings")]
+    [SerializeField]
+    private SoundEventManager soundEventManager;
+
     [Header("MicSelector")]
     public TMP_Dropdown micSelector;
     private string selectedMicName;
@@ -131,6 +135,7 @@ public class SoundManager : MonoBehaviour
         mic.textArea.text = intValue.ToString();
 
         volume.audioMixerGroup.audioMixer.SetFloat("MyMicVolume", calcLogDB(volume.slider.minValue));
+        
     }
     public void ChangeOtherMicVolume(float value)
     {

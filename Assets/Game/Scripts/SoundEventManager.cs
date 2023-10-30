@@ -11,10 +11,15 @@ public class SoundEventManager : MonoBehaviourPun
     [Tooltip("Ignore voice beyond maxDistance")]
     public float maxDistance;
 
-    public Dictionary<int, INormalizedSoundInput> soundInputs;
+    private Dictionary<int, INormalizedSoundInput> soundInputs;
+    private Dictionary<int, AudioSource> soundSources;
+    private Dictionary<int, float> micVoiceInputSettings;
+    private INormalizedSoundInput mine;
     void Awake()
     {
         soundInputs = new Dictionary<int, INormalizedSoundInput>();
+        soundSources = new Dictionary<int, AudioSource>();
+        micVoiceInputSettings = new Dictionary<int, float>();
     }
     [PunRPC]
     void PhotonAddPublisher(int viewID)
@@ -23,13 +28,21 @@ public class SoundEventManager : MonoBehaviourPun
         {
             return;
         }
-        INormalizedSoundInput input = PhotonView.Find(viewID).GetComponentInChildren<INormalizedSoundInput>();
+        PhotonView pv = PhotonView.Find(viewID);
+        INormalizedSoundInput input = pv.GetComponentInChildren<INormalizedSoundInput>();
         if (input == null)
         {
             Debug.LogError($"Cannot find publisher with viewID={viewID}");
             return;
         }
+        AudioSource audioSource = pv.GetComponentInChildren<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError($"Cannot find AudioSource with viewID={viewID}");
+            return;
+        }
         soundInputs.Add(viewID, input);
+        soundSources.Add(viewID, audioSource);
     }
     [PunRPC]
     void PhotonRemovePublisher(int viewID)
@@ -39,6 +52,16 @@ public class SoundEventManager : MonoBehaviourPun
             return;
         }
         soundInputs.Remove(viewID);
+        soundSources.Remove(viewID);
+    }
+
+    [PunRPC]
+    void PhotonSetMicVolume(int viewID, float volume)
+    {
+        micVoiceInputSettings[viewID] = volume;
+        if(soundSources.ContainsKey(viewID)){
+            soundSources[viewID].volume = volume;
+        }
     }
     public void AddPublisher(INormalizedSoundInput other)
     {
@@ -49,6 +72,7 @@ public class SoundEventManager : MonoBehaviourPun
             return;
         }
         photonView.RPC("PhotonAddPublisher", RpcTarget.AllBuffered, ViewID.Value);
+        mine = other;
     }
 
     public void RemovePublisher(INormalizedSoundInput other)
@@ -60,6 +84,17 @@ public class SoundEventManager : MonoBehaviourPun
             return;
         }
         photonView.RPC("PhotonRemovePublisher", RpcTarget.AllBuffered, ViewID.Value);
+    }
+
+    public void SetMicVolume(float newVolume)
+    {
+        int? ViewID = mine.gameObject?.GetComponent<PhotonView>()?.ViewID;
+        if (ViewID == null)
+        {
+            Debug.LogError("RemovePublisher: the publisher you want to add has no ViewID in the GameObject");
+            return;
+        }
+        photonView.RPC("PhotonSetMicVolume", RpcTarget.AllBuffered, ViewID.Value, newVolume);
     }
 
     public float GetLocalDBAt(GameObject other)

@@ -426,6 +426,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 468396578}
     - target: {fileID: 4717914730158048531, guid: a119a5c2e1b8d964995bd56fc3e151d2, type: 3}
+      propertyPath: soundEventManager
+      value: 
+      objectReference: {fileID: 481474897}
+    - target: {fileID: 4717914730158048531, guid: a119a5c2e1b8d964995bd56fc3e151d2, type: 3}
       propertyPath: otherMicVolumeText
       value: 
       objectReference: {fileID: 1991149845}
