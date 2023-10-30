@@ -27,6 +27,8 @@ public class PlayerMove2D : MonoBehaviourPun
     public bool IgnoreInput { get; set; }
     public bool isChatting { get; set; }
 
+    public AudioSource jumpSound; // 점프 효과음을 위한 AudioSource
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -35,6 +37,8 @@ public class PlayerMove2D : MonoBehaviourPun
         //rb.centerOfMass = rb.centerOfMass - new Vector2(0, 0.15f);
 
         segmentLength = (maxY - minY) / 4f; // Skybox ���ϴ� ���� ����
+
+        jumpSound = GetComponent<AudioSource>(); // 점프사운드 정의
     }
     private float playTime = 0f; // �÷��� Ÿ��
 
@@ -83,6 +87,7 @@ public class PlayerMove2D : MonoBehaviourPun
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
             jumpCount++;           // ������ ������ ī��Ʈ ����
             UpdateJumpCountUI();   // UI ������Ʈ
+            jumpSound.Play();  // 점프 효과음 재생
         }
 
     }
