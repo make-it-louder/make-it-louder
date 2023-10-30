@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,8 +10,7 @@ public class PlayerMove2D : MonoBehaviourPun
     // Start is called before the first frame update
     Rigidbody2D rb;
     new BoxCollider2D collider;
-    new SpriteRenderer renderer;
-    Animator animator;
+    new PlayerRenderManager renderer;
 
     public MicInputManager micInput;
 
@@ -32,8 +31,7 @@ public class PlayerMove2D : MonoBehaviourPun
     {
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<BoxCollider2D>();
-        renderer = transform.Find("Renderer").GetComponent<SpriteRenderer>();
-        animator = transform.Find("Renderer").GetComponent<Animator>();
+        renderer = transform.Find("Renderer").GetComponent<PlayerRenderManager>();
         //rb.centerOfMass = rb.centerOfMass - new Vector2(0, 0.15f);
 
         segmentLength = (maxY - minY) / 4f; // Skybox ���ϴ� ���� ����
@@ -71,13 +69,13 @@ public class PlayerMove2D : MonoBehaviourPun
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -3.5f));
         }
 
-        if ((rb.velocity.x < -0.003f) != renderer.flipX)
+        if ((rb.velocity.x < -0.003f || rb.velocity.x > 0.003f) && renderer.ViewDirection != (rb.velocity.x > 0.0f))
         {
-            renderer.flipX = rb.velocity.x < 0;
+            renderer.FlipDirection();
         }
-        animator.SetFloat("hVelocity", Mathf.Abs(rb.velocity.x));
-        animator.SetFloat("vVelocity", rb.velocity.y);
-        animator.SetBool("isGrounded", isGrounded());
+        renderer.SetAnimatorFloat("hVelocity", Mathf.Abs(rb.velocity.x));
+        renderer.SetAnimatorFloat("vVelocity", rb.velocity.y);
+        renderer.SetAnimatorBool("isGrounded", isGrounded());
 
         // ���� UI ������Ʈ
         if (inputV > 0 && isGrounded() && !IgnoreInput && !isChatting)
