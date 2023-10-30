@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     {
         
     }
-    //È¸¿ø°¡ÀÔÆûÀ¸·Î º¯°æ
+    //íšŒì›ê°€ì…í¼ìœ¼ë¡œ ë³€ê²½
     public void GoToSignup()
     {
         signupForm.SetActive(true);
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         loginForm.SetActive(true);
     }
 
-    //·Î±×ÀÎ
+    //ë¡œê·¸ì¸
     public void Login()
     {
         FindObjectOfType<FadeManager>().ChangeScene("Lobby");

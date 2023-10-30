@@ -8,12 +8,12 @@ using Firebase;
 using Firebase.Database;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Newtonsoft.Json;
 
 public class FirebaseManager : MonoBehaviour
 {
     // firebase
     private static FirebaseManager instance = null;
-
     private Firebase.DependencyStatus dependencyStatus;
     private FirebaseAuth auth;
     private FirebaseUser user;
@@ -27,29 +27,9 @@ public class FirebaseManager : MonoBehaviour
     public TMP_Text popupContent;
 
     // write, update, or delete data at a reference
-    private User userdata;
+    // private User userdata;
 
     public GameObject loadingSpinner;
-
-    public class User
-    {
-        public string username;
-        public string avatar;
-        public List<string> avatars;
-        public List<string> achievements;
-
-        public User()
-        {
-        }
-
-        public User(string username, string avatar, List<string> avatars, List<string> achievements)
-        {
-            this.username = username;
-            this.avatar = avatar;
-            this.avatars = avatars;
-            this.achievements = achievements;
-        }
-    }
 
     public static FirebaseManager Instance
     {
@@ -94,7 +74,7 @@ public class FirebaseManager : MonoBehaviour
             dependencyStatus = task.Result;
             if (dependencyStatus == Firebase.DependencyStatus.Available)
             {
-                Debug.LogError("All firebase dependencies have been resolved.: " + dependencyStatus);
+                Debug.LogError("All firebase dependencies have been resolved: " + dependencyStatus);
             }
             else
             {
@@ -124,6 +104,7 @@ public class FirebaseManager : MonoBehaviour
         if (auth.CurrentUser != user)
         {
             bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null && auth.CurrentUser.IsValid();
+
             if (!signedIn && user != null)
             {
                 Debug.Log("Signed out");
@@ -135,6 +116,47 @@ public class FirebaseManager : MonoBehaviour
             {
                 Debug.Log("Signed in");
             }
+        }
+    }
+
+    //
+    public class User
+    {
+        public string username;
+        public string avatar;
+        public List<string> avatars;
+        public List<string> achievements;
+
+        public User()
+        {
+        }
+
+        public User(string username, string avatar, List<string> avatars, List<string> achievements)
+        {
+            this.username = username;
+            this.avatar = avatar;
+            this.avatars = avatars;
+            this.achievements = achievements;
+        }
+    }
+
+    //
+    [Serializable]
+    public class Record
+    {
+        public int playtime;
+        public int count_jump;
+        public int count_fall;
+
+        public Record()
+        {
+        }
+
+        public Record(int playtime, int count_jump, int count_fall)
+        {
+            this.playtime = playtime;
+            this.count_jump = count_jump;
+            this.count_fall = count_fall;
         }
     }
 
@@ -157,7 +179,10 @@ public class FirebaseManager : MonoBehaviour
             Debug.LogError("successfully signed up");
             
             WriteNewUser(result.User.UserId, username);
-            Debug.LogError("successfully writed up");
+            Debug.LogError("user has been successfully writed");
+
+            WriteNewRecord(result.User.UserId);
+            Debug.LogError("record has been successfully writed");
 
             flag = true;
         });
@@ -172,11 +197,11 @@ public class FirebaseManager : MonoBehaviour
             popupTitle.text = "실패";
             popupContent.text = "입력한 정보를 확인해주세요!";
             popupWinodow.SetActive(true);
-
         }
 
         loadingSpinner.SetActive(false);
     }
+
 
     public async void SignIn(string email, string password)
     {
@@ -195,10 +220,13 @@ public class FirebaseManager : MonoBehaviour
             Debug.LogError("successfully signed in");
             flag = true;
         });
-        if (flag) {
+
+        if (flag)
+        {
             SceneManager.LoadScene("Lobby");
 
-        } else
+        }
+        else
         {
             popupTitle.text = "실패";
             popupContent.text = "ID/PW를 확인해주세요!";
@@ -217,14 +245,28 @@ public class FirebaseManager : MonoBehaviour
     private void WriteNewUser(string userId, string username)
     {
         string defaultAvatar = "avatar1";
-        List<string> defaultAvatars = new List<string>() { "avatar1"};
-        List<string> defaultAchievements = new List<string>() { "achievement1"};
+        List<string> defaultAvatars = new List<string>() { "avatar1" };
+        List<string> defaultAchievements = new List<string>() { "achievement1" };
 
         User user = new User(username, defaultAvatar, defaultAvatars, defaultAchievements);
         string json = JsonUtility.ToJson(user);
 
         databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(json);
     }
+
+    private void WriteNewRecord(string userId)
+    {
+        Dictionary<string, Record> records = new Dictionary<string, Record>
+        {
+            { "map1", new Record(0, 0, 0) },
+            { "map2", new Record(0, 0, 0) },
+            { "map3", new Record(0, 0, 0) }
+        };
+
+        string json = JsonConvert.SerializeObject(records, Formatting.Indented);
+        databaseReference.Child("records").Child(userId).SetRawJsonValueAsync(json);
+    }
+
     public void ClosePopup()
     {
         popupWinodow.SetActive(false);
