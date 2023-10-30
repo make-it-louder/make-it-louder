@@ -1,4 +1,4 @@
-using Photon.Pun;
+﻿using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using TMPro;
@@ -28,7 +28,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
-        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 6 }, null); // ������ �濡 ����
+        PhotonNetwork.JoinOrCreateRoom("Roomrr", new RoomOptions { MaxPlayers = 6 }, null); // ������ �濡 ����
     }
 
     public override void OnJoinedRoom()
@@ -52,7 +52,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         // ���� ���� �ε�� ���
         if (scene.buildIndex == 3)
         {
-            StartCoroutine(OnScene1Loaded());
+            StartCoroutine(OnScene3Loaded());
         }
     }
 
@@ -61,25 +61,26 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         // ���� ������Ʈ�� �ı��� �� �̺�Ʈ���� �޼��带 ����
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-    IEnumerator waitForLevelLoad()
-    {
-        if (PhotonNetwork.LevelLoadingProgress < 1)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-    }
-    IEnumerator OnScene1Loaded() {
+    IEnumerator OnScene3Loaded() {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
         GameObject spawnedPlayer = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(Random.Range(-5f, 5f), 1, Random.Range(-5f, 5f)), Quaternion.identity);
         GridCamera2D camera = GameObject.Find("Main Camera").GetComponent<GridCamera2D>();
         camera.follows = spawnedPlayer;
-
+        spawnedPlayer.GetComponent<PlayerNickname>().SetNickname(PhotonNetwork.LocalPlayer.NickName);
         SoundEventManager soundEventManager = GameObject.Find("SoundEventManager").GetComponent<SoundEventManager>();
-        soundEventManager.AddPublisher(spawnedPlayer.GetComponentInChildren<INormalizedSoundInput>());
-
+        if (PhotonNetwork.IsMasterClient)
+        {
+            soundEventManager.AddPublisher(spawnedPlayer.GetComponentInChildren<INormalizedSoundInput>());
+        }
+        else
+        {
+            soundEventManager.AddAndSyncPublisher(spawnedPlayer.GetComponentInChildren<INormalizedSoundInput>());
+        }
         PlayerMove2D playerMoveBehavior = spawnedPlayer.GetComponent<PlayerMove2D>();
         TMP_Text jumpCountText = GameObject.Find("JumpCount").GetComponent<TMP_Text>();
         TMP_Text playTimeText = GameObject.Find("PlayTime").GetComponent<TMP_Text>();
+        PlayerMove2D playerMove2D = spawnedPlayer.GetComponent<PlayerMove2D>();
+        GameObject.Find("ChatManager").GetComponent<ChatManager>().playerMove2D = playerMove2D;
 
         playerMoveBehavior.jumpCountText = jumpCountText;
         playerMoveBehavior.playTimeText = playTimeText;

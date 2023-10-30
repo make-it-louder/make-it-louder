@@ -9,11 +9,13 @@ using Firebase.Database;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Newtonsoft.Json;
+using Com.MyCompany.MyGame;
 
 public class FirebaseManager : MonoBehaviour
 {
     // firebase
     private static FirebaseManager instance = null;
+
     private Firebase.DependencyStatus dependencyStatus;
     private FirebaseAuth auth;
     private FirebaseUser user;
@@ -30,6 +32,7 @@ public class FirebaseManager : MonoBehaviour
     // private User userdata;
 
     public GameObject loadingSpinner;
+    Launcher launcher = new Launcher(); // Launcher 클래스를 사용
 
     public static FirebaseManager Instance
     {
@@ -104,7 +107,6 @@ public class FirebaseManager : MonoBehaviour
         if (auth.CurrentUser != user)
         {
             bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null && auth.CurrentUser.IsValid();
-
             if (!signedIn && user != null)
             {
                 Debug.Log("Signed out");
@@ -202,7 +204,6 @@ public class FirebaseManager : MonoBehaviour
         loadingSpinner.SetActive(false);
     }
 
-
     public async void SignIn(string email, string password)
     {
         bool flag = false;
@@ -220,13 +221,12 @@ public class FirebaseManager : MonoBehaviour
             Debug.LogError("successfully signed in");
             flag = true;
         });
-
-        if (flag)
+        if (flag) 
         {
-            SceneManager.LoadScene("Lobby");
+            SceneManager.LoadScene("LobbyTest");
+            launcher.Connect();
 
-        }
-        else
+        } else
         {
             popupTitle.text = "실패";
             popupContent.text = "ID/PW를 확인해주세요!";
@@ -245,8 +245,8 @@ public class FirebaseManager : MonoBehaviour
     private void WriteNewUser(string userId, string username)
     {
         string defaultAvatar = "avatar1";
-        List<string> defaultAvatars = new List<string>() { "avatar1" };
-        List<string> defaultAchievements = new List<string>() { "achievement1" };
+        List<string> defaultAvatars = new List<string>() { "avatar1"};
+        List<string> defaultAchievements = new List<string>() { "achievement1"};
 
         User user = new User(username, defaultAvatar, defaultAvatars, defaultAchievements);
         string json = JsonUtility.ToJson(user);
@@ -266,7 +266,6 @@ public class FirebaseManager : MonoBehaviour
         string json = JsonConvert.SerializeObject(records, Formatting.Indented);
         databaseReference.Child("records").Child(userId).SetRawJsonValueAsync(json);
     }
-
     public void ClosePopup()
     {
         popupWinodow.SetActive(false);

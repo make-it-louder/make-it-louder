@@ -10,8 +10,7 @@ public class PlayerMove2D : MonoBehaviourPun
     // Start is called before the first frame update
     Rigidbody2D rb;
     new BoxCollider2D collider;
-    new SpriteRenderer renderer;
-    Animator animator;
+    new PlayerRenderManager renderer;
 
     public MicInputManager micInput;
 
@@ -26,16 +25,20 @@ public class PlayerMove2D : MonoBehaviourPun
     public TMP_Text playTimeText;  // �÷��� Ÿ���� ǥ���ϴ� UI
 
     public bool IgnoreInput { get; set; }
+    public bool isChatting { get; set; }
+
+    public AudioSource jumpSound; // 점프 효과음을 위한 AudioSource
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<BoxCollider2D>();
-        renderer = transform.Find("Renderer").GetComponent<SpriteRenderer>();
-        animator = transform.Find("Renderer").GetComponent<Animator>();
+        renderer = transform.Find("Renderer").GetComponent<PlayerRenderManager>();
         //rb.centerOfMass = rb.centerOfMass - new Vector2(0, 0.15f);
 
         segmentLength = (maxY - minY) / 4f; // Skybox ���ϴ� ���� ����
+
+        jumpSound = GetComponent<AudioSource>(); // 점프사운드 정의
     }
     private float playTime = 0f; // �÷��� Ÿ��
 
@@ -55,12 +58,12 @@ public class PlayerMove2D : MonoBehaviourPun
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (inputH != 0 && !IgnoreInput)
+        if (inputH != 0 && !IgnoreInput && !isChatting)
         {
             rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
-        if (inputV > 0 && isGrounded() && !IgnoreInput)
+        if (inputV > 0 && isGrounded() && !IgnoreInput && !isChatting)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
         }
@@ -70,39 +73,40 @@ public class PlayerMove2D : MonoBehaviourPun
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -3.5f));
         }
 
-        if ((rb.velocity.x < -0.003f) != renderer.flipX)
+        if ((rb.velocity.x < -0.003f || rb.velocity.x > 0.003f) && renderer.ViewDirection != (rb.velocity.x > 0.0f))
         {
-            renderer.flipX = rb.velocity.x < 0;
+            renderer.FlipDirection();
         }
-        animator.SetFloat("hVelocity", Mathf.Abs(rb.velocity.x));
-        animator.SetFloat("vVelocity", rb.velocity.y);
-        animator.SetBool("isGrounded", isGrounded());
+        renderer.SetAnimatorFloat("hVelocity", Mathf.Abs(rb.velocity.x));
+        renderer.SetAnimatorFloat("vVelocity", rb.velocity.y);
+        renderer.SetAnimatorBool("isGrounded", isGrounded());
 
         // ���� UI ������Ʈ
-        if (inputV > 0 && isGrounded() && !IgnoreInput)
+        if (inputV > 0 && isGrounded() && !IgnoreInput && !isChatting)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
             jumpCount++;           // ������ ������ ī��Ʈ ����
             UpdateJumpCountUI();   // UI ������Ʈ
+            jumpSound.Play();  // 점프 효과음 재생
         }
 
     }
     void Update()
     {
-        if (photonView.IsMine && !IgnoreInput)
+        if (photonView.IsMine && !IgnoreInput && !isChatting)
         {
             inputV = Input.GetAxis("Jump");
             inputH = Input.GetAxis("Horizontal");
+            // �÷��� Ÿ�� ����
+            playTime += Time.deltaTime;
+            UpdatePlayTimeUI();
+
+            // Skybox Material ����
+            ChangeSkyboxMaterial();
+
+            // �ε巯�� Skybox ��ȯ
+            SmoothSkyboxTransition();
         }
-        // �÷��� Ÿ�� ����
-        playTime += Time.deltaTime;
-        UpdatePlayTimeUI();
-
-        // Skybox Material ����
-        ChangeSkyboxMaterial();
-
-        // �ε巯�� Skybox ��ȯ
-        SmoothSkyboxTransition();
     }
     // ����Ƚ�� ī��Ʈ
     void UpdateJumpCountUI()
@@ -113,7 +117,7 @@ public class PlayerMove2D : MonoBehaviourPun
         }
         else
         {
-            Debug.Log("cannot find jumpCountText");
+            Debug.Log("Cannot find jumpCountText");
         }
     }
     // �÷���Ÿ�� ��ȭ
@@ -127,7 +131,7 @@ public class PlayerMove2D : MonoBehaviourPun
         }
         else
         {
-            Debug.Log("cannot find playTimeText");
+            Debug.Log("Cannot find jumpCountText");
         }
     }
 
