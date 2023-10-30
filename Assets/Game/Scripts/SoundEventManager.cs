@@ -11,37 +11,35 @@ public class SoundEventManager : MonoBehaviourPun
     [Tooltip("Ignore voice beyond maxDistance")]
     public float maxDistance;
 
-    public List<INormalizedSoundInput> soundInputs;
-    public List<GameObject> soundInputsDebug;
+    public Dictionary<int, INormalizedSoundInput> soundInputs;
 
     void Awake()
     {
-        soundInputs = new List<INormalizedSoundInput>();
-        soundInputsDebug = new List<GameObject>();
+        soundInputs = new Dictionary<int, INormalizedSoundInput>();
     }
     [PunRPC]
     void PhotonAddPublisher(int viewID)
     {
+        if (soundInputs.ContainsKey(viewID))
+        {
+            return;
+        }
         INormalizedSoundInput input = PhotonView.Find(viewID).GetComponentInChildren<INormalizedSoundInput>();
         if (input == null)
         {
             Debug.LogError($"Cannot find publisher with viewID={viewID}");
             return;
         }
-        soundInputs.Add(input);
-        soundInputsDebug.Add(input.gameObject);
+        soundInputs.Add(viewID, input);
     }
     [PunRPC]
     void PhotonRemovePublisher(int viewID)
     {
-        INormalizedSoundInput input = PhotonView.Find(viewID).GetComponentInChildren<INormalizedSoundInput>();
-        if (input == null)
+        if (!soundInputs.ContainsKey(viewID))
         {
-            Debug.LogError($"Cannot find publisher with viewID={viewID}");
             return;
         }
-        soundInputs.Remove(input);
-        soundInputsDebug.Remove(input.gameObject);
+        soundInputs.Remove(viewID);
     }
     public void AddPublisher(INormalizedSoundInput other)
     {

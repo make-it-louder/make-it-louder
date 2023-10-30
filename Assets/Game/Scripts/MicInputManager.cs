@@ -59,6 +59,10 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
         }
         set
         {
+            if (soundEventManager == value)
+            {
+                return;
+            }
             if (soundEventManager != null)
             {
                 soundEventManager.RemovePublisher(this);
