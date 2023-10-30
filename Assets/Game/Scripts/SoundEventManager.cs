@@ -12,7 +12,6 @@ public class SoundEventManager : MonoBehaviourPun
     public float maxDistance;
 
     public Dictionary<int, INormalizedSoundInput> soundInputs;
-
     void Awake()
     {
         soundInputs = new Dictionary<int, INormalizedSoundInput>();

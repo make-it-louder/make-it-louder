@@ -13,6 +13,8 @@ public class GridCamera2D : MonoBehaviour
     [SerializeField]
     [Range(1, 10)]
     private float transitionSpeed;
+    [SerializeField]
+    private bool instantTransition;    
     void Start()
     {
         if (follows == null)
@@ -45,6 +47,13 @@ public class GridCamera2D : MonoBehaviour
         }
         Vector2Int targetGridIdx = Pos2GridIdx(follows.transform.position);
         Vector3 targetPos = GridIdx2Pos(targetGridIdx);
-        transform.position = Vector3.Lerp(transform.position, targetPos, transitionSpeed * Time.deltaTime);
+        if (instantTransition)
+        {
+            transform.position = targetPos;
+        }
+        else
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPos, transitionSpeed * Time.deltaTime);
+        }
     }
 }

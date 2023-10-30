@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -71,6 +72,13 @@ public class NicknameManager : MonoBehaviourPunCallbacks
 
         SoundEventManager soundEventManager = GameObject.Find("SoundEventManager").GetComponent<SoundEventManager>();
         spawnedPlayer.GetComponentInChildren<MicInputManager>().SoundEventManager = soundEventManager;
+        AudioMixer audioMixer = Resources.Load<AudioMixer>("Audio/AudioMixer");
+        AudioMixerGroup[] groups = audioMixer.FindMatchingGroups("MyVoice");
+        if (groups.Length >= 2)
+        {
+            Debug.LogError("AudioMixergroup MyVoice is ambiguous");
+        }
+        spawnedPlayer.GetComponentInChildren<AudioSource>().outputAudioMixerGroup = groups[0];
         PlayerMove2D playerMoveBehavior = spawnedPlayer.GetComponent<PlayerMove2D>();
 
         TMP_Text jumpCountText = GameObject.Find("JumpCount").GetComponent<TMP_Text>();
