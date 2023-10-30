@@ -7,16 +7,18 @@ public class GridCamera2D : MonoBehaviour
     [SerializeField]
     public GameObject follows;
     [SerializeField]
+    private BoxCollider2D currentBounds;  // Current bounds
+    [SerializeField]
     private float depth = -10;
     [SerializeField]
     [Range(1, 10)]
     private float transitionSpeed;
     [SerializeField]
     [Range(0, 1)]
-    private float horizontalThreshold = 0.33f;  // Set a threshold for horizontal distance
+    private float horizontalThreshold = 0.33f;
     [SerializeField]
     [Range(0, 1)]
-    private float verticalThreshold = 0.33f;  // Set a threshold for vertical distance
+    private float verticalThreshold = 0.33f;
 
     void Start()
     {
@@ -25,10 +27,13 @@ public class GridCamera2D : MonoBehaviour
             Debug.Log("follows not given on the inspector");
         }
     }
+    public void UpdateCurrentBounds(BoxCollider2D newBounds)
+    {
+        currentBounds = newBounds;
+    }
 
     bool IsWithinCenterRegion(Vector3 position)
     {
-        // Adjusting the size of the center region based on horizontal and vertical thresholds
         float horizontalLimit = Camera.main.orthographicSize * Camera.main.aspect * horizontalThreshold;
         float verticalLimit = Camera.main.orthographicSize * verticalThreshold;
 
@@ -42,30 +47,48 @@ public class GridCamera2D : MonoBehaviour
         return viewportPosition.y < 0 || viewportPosition.y > 1;
     }
 
+    Vector3 GetClampedPosition(Vector3 targetPosition)
+    {
+        float cameraHeight = 2f * Camera.main.orthographicSize;
+        float cameraWidth = cameraHeight * Camera.main.aspect;
+
+        float minX = currentBounds.bounds.min.x + cameraWidth / 2;
+        float maxX = currentBounds.bounds.max.x - cameraWidth / 2;
+        float minY = currentBounds.bounds.min.y + cameraHeight / 2;
+        float maxY = currentBounds.bounds.max.y - cameraHeight / 2;
+
+        float clampedX = Mathf.Clamp(targetPosition.x, minX, maxX);
+        float clampedY = Mathf.Clamp(targetPosition.y, minY, maxY);
+
+        return new Vector3(clampedX, clampedY, targetPosition.z);
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (follows == null)
+        if (follows == null || currentBounds == null)
         {
             return;
         }
 
         if (IsWithinCenterRegion(follows.transform.position))
         {
-            return;  // Do not move the camera if player is within the center region
-        }
-
-        if (IsOutsideViewport(follows.transform.position))
-        {
-            Vector3 targetPos = transform.position;  // Get the current camera position
-            targetPos.y = follows.transform.position.y + Camera.main.orthographicSize;  // Adjust only the Y position so the character is at the bottom of the screen
-            targetPos.z = depth;  // Set the target z-coordinate to the desired depth
-            transform.position = targetPos;  // Move the camera immediately to the target position
             return;
         }
 
         Vector3 targetPosition = follows.transform.position;
         targetPosition.z = depth;
-        transform.position = Vector3.Lerp(transform.position, targetPosition, transitionSpeed * Time.deltaTime);
+
+        if (IsOutsideViewport(follows.transform.position))
+        {
+            Vector3 targetPos = transform.position;
+            targetPos.y = follows.transform.position.y + Camera.main.orthographicSize;
+            targetPos.z = depth;
+            transform.position = GetClampedPosition(targetPos);
+            return;
+        }
+
+        targetPosition = Vector3.Lerp(transform.position, targetPosition, transitionSpeed * Time.deltaTime);
+        transform.position = GetClampedPosition(targetPosition);
     }
 }
