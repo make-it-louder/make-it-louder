@@ -2503,7 +2503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetY: 0
   caps: {fileID: 297056402}
-  capsule: {fileID: 297056401}
+  capsule: {fileID: 0}
 --- !u!1 &1377088644
 GameObject:
   m_ObjectHideFlags: 0
