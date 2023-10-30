@@ -72,13 +72,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
 
         SoundEventManager soundEventManager = GameObject.Find("SoundEventManager").GetComponent<SoundEventManager>();
         spawnedPlayer.GetComponentInChildren<MicInputManager>().SoundEventManager = soundEventManager;
-        AudioMixer audioMixer = Resources.Load<AudioMixer>("Audio/AudioMixer");
-        AudioMixerGroup[] groups = audioMixer.FindMatchingGroups("MyVoice");
-        if (groups.Length >= 2)
-        {
-            Debug.LogError("AudioMixergroup MyVoice is ambiguous");
-        }
-        spawnedPlayer.GetComponentInChildren<AudioSource>().outputAudioMixerGroup = groups[0];
+
         PlayerMove2D playerMoveBehavior = spawnedPlayer.GetComponent<PlayerMove2D>();
 
         TMP_Text jumpCountText = GameObject.Find("JumpCount").GetComponent<TMP_Text>();
@@ -89,6 +83,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
 
         playerMoveBehavior.jumpCountText = jumpCountText;
         playerMoveBehavior.playTimeText = playTimeText;
-        yield break;
+
+       yield break;
     }
 }
