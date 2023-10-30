@@ -72,7 +72,7 @@ public class SoundEventManager : MonoBehaviourPun
         float DB = 0.0f;
         lock (soundInputs)
         {
-            for (int i = 0;i < soundInputs.Count;i++)
+            foreach (int i in soundInputs.Keys)
             {
                 INormalizedSoundInput soundInput = soundInputs[i];
                 try
