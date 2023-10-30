@@ -13,7 +13,6 @@ public class PlayerMove2D : MonoBehaviourPun
     new PlayerRenderManager renderer;
 
     public MicInputManager micInput;
-    private Animator animator; // 캐릭터의 Animator 컴포넌트
     private bool isHappy = false; // "Happy" 상태를 추적하는 변수
     public float speed;
     public float jumpPower;
@@ -40,8 +39,6 @@ public class PlayerMove2D : MonoBehaviourPun
         segmentLength = (maxY - minY) / 4f; // Skybox ���ϴ� ���� ����
 
         jumpSound = GetComponent<AudioSource>(); // 점프사운드 정의
-
-        animator = GetComponentInChildren<Animator>(); // 캐릭터의 Animator 컴포넌트 가져오기
     }
     private float playTime = 0f; // �÷��� Ÿ��
 
@@ -113,7 +110,7 @@ public class PlayerMove2D : MonoBehaviourPun
             if (Input.GetKeyDown(KeyCode.H))
             {
                 isHappy = !isHappy; // isHappy 상태 토글
-                animator.SetBool("isHappy", isHappy);
+                renderer.SetAnimatorBool("isHappy", isHappy);
             }
         }
     }
