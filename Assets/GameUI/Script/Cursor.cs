@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,5 +42,10 @@ public class Cursor : MonoBehaviour
     void MoveCursorToButton(int index)
     {
         cursorImage.anchoredPosition = new Vector2(cursorImage.anchoredPosition.x, buttons[index].GetComponent<RectTransform>().anchoredPosition.y);
+    }
+
+    internal static void SetCursor(Texture2D texture, Vector2 hotspot, CursorMode cursorMode)
+    {
+        throw new NotImplementedException();
     }
 }
