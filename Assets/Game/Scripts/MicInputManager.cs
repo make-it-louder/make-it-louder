@@ -138,7 +138,7 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
 
         float rmsValue = Mathf.Sqrt(sum / sampleCount); // rms = square root of average
         float dbValue = 10 * Mathf.Log10(rmsValue / refValue) - 10 * Mathf.Log10(audioSource.volume); // calculate dB
-        if (dbValue < -80) dbValue = -80; // clamp it to -160dB min
+        if (dbValue < -80) dbValue = -80; // clamp it to -80dB min
         /*
          * The code below had been commented out becasue the game doesn't use it.
          * To get a pitch value, please uncomment it.

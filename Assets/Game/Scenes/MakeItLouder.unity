@@ -1765,7 +1765,7 @@ MonoBehaviour:
   follows: {fileID: 2047122121}
   currentBounds: {fileID: 0}
   depth: -10
-  transitionSpeed: 10
+  transitionSpeed: 1
   instantTransition: 1
   horizontalThreshold: 0.33
   verticalThreshold: 0.33
@@ -6538,6 +6538,14 @@ PrefabInstance:
     - target: {fileID: 1745615570694673603, guid: 167be1a9a48e8df42ae0e4dfad85346c, type: 3}
       propertyPath: sceneViewId
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3043243702323948047, guid: 167be1a9a48e8df42ae0e4dfad85346c, type: 3}
+      propertyPath: characterPrefabName
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3043243702323948047, guid: 167be1a9a48e8df42ae0e4dfad85346c, type: 3}
+      propertyPath: characterFacePrefabName
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5120038271507591434, guid: 167be1a9a48e8df42ae0e4dfad85346c, type: 3}
       propertyPath: m_Name
