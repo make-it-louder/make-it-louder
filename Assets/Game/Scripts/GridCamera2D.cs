@@ -11,7 +11,7 @@ public class GridCamera2D : MonoBehaviour
     [SerializeField]
     private float depth = -10;
     [SerializeField]
-    [Range(1, 10)]
+    [Range(0.1f, 10)]
     private float transitionSpeed;
     [SerializeField]
     private bool instantTransition;    
@@ -41,6 +41,18 @@ public class GridCamera2D : MonoBehaviour
         return Mathf.Abs(position.x - transform.position.x) < horizontalLimit &&
                Mathf.Abs(position.y - transform.position.y) < verticalLimit;
     }
+    bool IsWithinCenterRegionH(Vector3 position)
+    {
+        float horizontalLimit = Camera.main.orthographicSize * Camera.main.aspect * horizontalThreshold;
+
+        return Mathf.Abs(position.x - transform.position.x) < horizontalLimit;
+    }
+    bool IsWithinCenterRegionV(Vector3 position)
+    {
+        float verticalLimit = Camera.main.orthographicSize * verticalThreshold;
+
+        return Mathf.Abs(position.y - transform.position.y) < verticalLimit;
+    }
 
     bool IsOutsideViewport(Vector3 position)
     {
@@ -65,17 +77,13 @@ public class GridCamera2D : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (follows == null || currentBounds == null)
         {
             return;
         }
 
-        if (IsWithinCenterRegion(follows.transform.position))
-        {
-            return;
-        }
 
         Vector3 targetPosition = follows.transform.position;
         targetPosition.z = depth;
@@ -88,8 +96,21 @@ public class GridCamera2D : MonoBehaviour
             transform.position = GetClampedPosition(targetPos);
             return;
         }
+        Vector3 newPosition;
+        Vector3 tmpPosition;
+        newPosition = Vector3.Lerp(transform.position, targetPosition, transitionSpeed * Time.deltaTime);
+        tmpPosition = targetPosition;
+        targetPosition = transform.position;
 
-        targetPosition = Vector3.Lerp(transform.position, targetPosition, transitionSpeed * Time.deltaTime);
+        if (!IsWithinCenterRegionV(tmpPosition))
+        {
+            targetPosition.y = newPosition.y;
+        }
+        if (!IsWithinCenterRegionH(tmpPosition))
+        {
+            targetPosition.x = newPosition.x;
+        }
+
         transform.position = GetClampedPosition(targetPosition);
     }
 }
