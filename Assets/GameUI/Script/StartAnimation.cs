@@ -1,49 +1,17 @@
 using UnityEngine;
-using UnityEngine.UI;
 
-public class BirdFlyAnimation : MonoBehaviour
+public class FollowObject : MonoBehaviour
 {
-    public Button loginButton;
-    public Transform targetPosition; // 오른쪽 대각선으로 이동할 위치
-    public Transform cameraPosition; // 카메라의 위치 (새가 도달할 위치)
-    public float speed = 1.0f;
+    public Transform targetObject; // 따라갈 타겟 오브젝트
+    public float positionLerpSpeed = 0.1f; // 위치를 따라가는 속도 (0에서 1 사이의 값)
+    public float rotationLerpSpeed = 0.1f; // 회전을 따라가는 속도 (0에서 1 사이의 값)
 
-    private bool startAnimation = false;
-    private bool moveToCamera = false;
-
-    private void Start()
+    void Update()
     {
-        loginButton.onClick.AddListener(StartFlyAnimation);
-    }
+        // 위치를 따라갑니다.
+        transform.position = Vector3.Lerp(transform.position, targetObject.position, positionLerpSpeed);
 
-    public void StartFlyAnimation()
-    {
-        startAnimation = true;
-    }
-
-    private void Update()
-    {
-        if (startAnimation)
-        {
-            if (!moveToCamera)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition.position, speed * Time.deltaTime);
-
-                if (Vector3.Distance(transform.position, targetPosition.position) < 0.1f)
-                {
-                    moveToCamera = true;
-                }
-            }
-            else
-            {
-                transform.position = Vector3.MoveTowards(transform.position, cameraPosition.position, speed * Time.deltaTime);
-                transform.localScale += new Vector3(0.1f, 0.1f, 0.1f); // 새의 크기를 점점 늘립니다.
-
-                if (Vector3.Distance(transform.position, cameraPosition.position) < 0.1f)
-                {
-                    startAnimation = false; // 애니메이션 종료
-                }
-            }
-        }
+        // 회전을 따라갑니다.
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetObject.rotation, rotationLerpSpeed);
     }
 }
