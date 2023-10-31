@@ -45,7 +45,7 @@ public class SoundBlockController : MonoBehaviourPun
         {
             return;
         }
-            if (disableInputTime > 0.0f)
+        if (disableInputTime > 0.0f)
         {
             disableInputTime -= Time.deltaTime;
         }
@@ -76,10 +76,11 @@ public class SoundBlockController : MonoBehaviourPun
             photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             Debug.Log("TransferOwnership");
         }
-        if (photonView.IsMine)
+        if (!photonView.IsMine)
         {
-            moveUp();
+            return;
         }
+        moveUp();
     }
 
     void moveUp()

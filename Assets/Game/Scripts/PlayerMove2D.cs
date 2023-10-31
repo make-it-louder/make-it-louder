@@ -86,7 +86,10 @@ public class PlayerMove2D : MonoBehaviourPun
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
             jumpCount++;           // ������ ������ ī��Ʈ ����
-            UpdateJumpCountUI();   // UI ������Ʈ
+            if (photonView.IsMine)
+            {
+                UpdateJumpCountUI();   // UI ������Ʈ
+            }
             jumpSound.Play();  // 점프 효과음 재생
         }
 

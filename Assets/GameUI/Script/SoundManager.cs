@@ -46,15 +46,25 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         var defaultVolume = PlayerPrefs.GetFloat("Volume", 0.5f);
-        volume.slider.value = defaultVolume;
+        if (volume.slider != null)
+        {
+            volume.slider.value = defaultVolume;
+        }
         volume.textArea.text = Mathf.RoundToInt(defaultVolume * 100).ToString();
 
         var defaultMicVolume = PlayerPrefs.GetFloat("MicVolume", 0.8f);
-        mic.slider.value = defaultMicVolume;
+        if (mic.slider != null)
+        {
+            mic.slider.value = defaultMicVolume;
+        }
         mic.textArea.text = Mathf.RoundToInt(defaultMicVolume * 100).ToString();
+        soundEventManager.SetMicVolume(defaultMicVolume);
 
         var defaultOtherMicVolume = PlayerPrefs.GetFloat("OtherMicVolume", 1.0f);
-        other.slider.value = defaultOtherMicVolume;
+        if (other.slider != null)
+        {
+            other.slider.value = defaultOtherMicVolume;
+        }
         other.textArea.text = Mathf.RoundToInt(defaultOtherMicVolume * 100).ToString();
 
         InitializeMicSelector();
@@ -135,7 +145,7 @@ public class SoundManager : MonoBehaviour
         mic.textArea.text = intValue.ToString();
 
         volume.audioMixerGroup.audioMixer.SetFloat("MyMicVolume", calcLogDB(volume.slider.minValue));
-        
+        soundEventManager.SetMicVolume(value);
     }
     public void ChangeOtherMicVolume(float value)
     {

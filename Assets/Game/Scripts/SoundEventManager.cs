@@ -88,7 +88,11 @@ public class SoundEventManager : MonoBehaviourPun
 
     public void SetMicVolume(float newVolume)
     {
-        int? ViewID = mine.gameObject?.GetComponent<PhotonView>()?.ViewID;
+        if (mine == null)
+        {
+            return;
+        }
+        int? ViewID = mine?.gameObject?.GetComponent<PhotonView>()?.ViewID;
         if (ViewID == null)
         {
             Debug.LogError("RemovePublisher: the publisher you want to add has no ViewID in the GameObject");
