@@ -134,7 +134,7 @@ public class SoundManager : MonoBehaviour
         int intValue = Mathf.RoundToInt(value * 100);
         volume.textArea.text = intValue.ToString();
 
-        volume.audioMixerGroup.audioMixer.SetFloat("MasterVolume", calcLogDB(value));
+        volume.audioMixerGroup.audioMixer.SetFloat("BGFXVolume", calcLogDB(value));
     }
 
     public void ChangeMicVolume(float value)
