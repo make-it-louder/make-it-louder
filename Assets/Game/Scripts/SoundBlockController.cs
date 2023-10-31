@@ -10,6 +10,8 @@ public class SoundBlockController : MonoBehaviourPun
     SoundSubscriber input;
     Rigidbody2D rb;
 
+    private float minX;
+    private float maxX;
     private float maxY;
     private float minY;
     private float curY;
@@ -90,19 +92,24 @@ public class SoundBlockController : MonoBehaviourPun
 
     void moveUp()
     {
+
+
         float xMove = 0f;
 
         if (directionLeft == true)
         {
-            xMove = -0.1f;   
+            xMove = -0.1f;
         }
-        else if (directionRight == true) {
+        else if (directionRight == true)
+        {
             xMove = 0.1f;
         }
 
         if (isMovingUp)
         {
             curY = transform.position.y;
+
+
             Vector2 newPosition = rb.position + new Vector2(xMove, 0.1f);
             if (newPosition.y > maxY)
             {
