@@ -4218,12 +4218,28 @@ PrefabInstance:
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2073235624223043151, guid: 1442a83c0da81474899293e9b6a8e3cc, type: 3}
+      propertyPath: maxXRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2073235624223043151, guid: 1442a83c0da81474899293e9b6a8e3cc, type: 3}
+      propertyPath: maxYRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2073235624223043151, guid: 1442a83c0da81474899293e9b6a8e3cc, type: 3}
       propertyPath: soundManager
       value: 
       objectReference: {fileID: 481474897}
+    - target: {fileID: 2073235624223043151, guid: 1442a83c0da81474899293e9b6a8e3cc, type: 3}
+      propertyPath: directionLeft
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4863746617265846288, guid: 1442a83c0da81474899293e9b6a8e3cc, type: 3}
       propertyPath: sceneViewId
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6232381294967216416, guid: 1442a83c0da81474899293e9b6a8e3cc, type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6331051750144600871, guid: 1442a83c0da81474899293e9b6a8e3cc, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.size
@@ -5496,7 +5512,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 1656880986309314260, guid: 1442a83c0da81474899293e9b6a8e3cc, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 6471054491776478079, guid: 1442a83c0da81474899293e9b6a8e3cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2131335344}
     m_AddedComponents: []
@@ -23893,6 +23909,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1656880986309314260, guid: 1442a83c0da81474899293e9b6a8e3cc, type: 3}
   m_PrefabInstance: {fileID: 1437284798}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1496871630 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6471054491776478079, guid: 1442a83c0da81474899293e9b6a8e3cc, type: 3}
+  m_PrefabInstance: {fileID: 953258747}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1672729491
 GameObject:
   m_ObjectHideFlags: 0
@@ -25062,12 +25083,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2131335343}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 953258748}
+  m_Father: {fileID: 1496871630}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &2131335345
 TilemapRenderer:

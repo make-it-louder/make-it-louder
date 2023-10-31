@@ -335,7 +335,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundManager: {fileID: 0}
+  maxXRange: 0
+  maxYRange: 3
   dropPower: 0.1
+  directionLeft: 0
+  directionRight: 0
   maxUpTime: 3
   disavleInputPeriod: 2
 --- !u!50 &1381308600893996490

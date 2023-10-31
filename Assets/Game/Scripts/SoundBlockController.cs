@@ -10,11 +10,13 @@ public class SoundBlockController : MonoBehaviourPun
     SoundSubscriber input;
     Rigidbody2D rb;
 
-    private float minX;
-    private float maxX;
+    public float maxXRange;
+    public float maxYRange;
+
+    private float initX;
+    private float limitX;
     private float maxY;
     private float minY;
-    private float curY;
 
     public float dropPower = 0.1f;
 
@@ -36,8 +38,10 @@ public class SoundBlockController : MonoBehaviourPun
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        maxY = transform.position.y + 3;
+        maxY = transform.position.y + maxYRange;
         minY = transform.position.y;
+        limitX = transform.position.x + maxXRange;
+        initX = transform.position.x;
         input = soundManager.Subscribe(this.gameObject);
     }
 
@@ -98,22 +102,28 @@ public class SoundBlockController : MonoBehaviourPun
 
         if (directionLeft == true)
         {
-            xMove = -0.1f;
+            xMove = -0.2f;
         }
         else if (directionRight == true)
         {
-            xMove = 0.1f;
+            xMove = 0.2f;
         }
 
         if (isMovingUp)
         {
-            curY = transform.position.y;
-
 
             Vector2 newPosition = rb.position + new Vector2(xMove, 0.1f);
             if (newPosition.y > maxY)
             {
                 newPosition.y = maxY;
+            }
+            if (newPosition.x > limitX && limitX > initX)
+            {
+                newPosition.x = limitX;
+            }
+            else if (newPosition.x < limitX && limitX < initX)
+            {
+                newPosition.x = limitX;
             }
             rb.MovePosition(newPosition);
 
@@ -124,6 +134,12 @@ public class SoundBlockController : MonoBehaviourPun
             if (newPosition.y < minY)
             {
                 newPosition.y = minY;
+            }
+            if (newPosition.x < initX && limitX > initX)
+            {
+                newPosition.x = initX;
+            } else if (newPosition.x > initX && limitX < initX)  {
+                newPosition.x = initX;
             }
             rb.MovePosition(newPosition);
         }
