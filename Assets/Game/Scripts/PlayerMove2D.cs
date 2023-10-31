@@ -31,7 +31,7 @@ public class PlayerMove2D : MonoBehaviourPun
 
     public AudioSource jumpSound; // 점프 효과음을 위한 AudioSource
 
-    private float emotionDuration = 5f; // 감정 상태가 지속되는 시간
+    private float emotionDuration = 3f; // 감정 상태가 지속되는 시간
 
     void Start()
     {
@@ -118,10 +118,10 @@ public class PlayerMove2D : MonoBehaviourPun
 
                 if (isHappy)
                 {
-/*                    isDamage = false;
+                    isDamage = false;
                     renderer.SetAnimatorBool("isDamage", isDamage);
                     isHello = false;
-                    renderer.SetAnimatorBool("isHello", isHello);*/
+                    renderer.SetAnimatorBool("isHello", isHello);
 
                     StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
                     StartCoroutine(ResetEmotionAfterDelay("isHappy"));
@@ -135,10 +135,10 @@ public class PlayerMove2D : MonoBehaviourPun
 
                 if (isDamage)
                 {
-/*                    isHappy = false;
+                    isHappy = false;
                     renderer.SetAnimatorBool("isHappy", isHappy);
                     isHello = false;
-                    renderer.SetAnimatorBool("isHello", isHello);*/
+                    renderer.SetAnimatorBool("isHello", isHello);
 
                     StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
                     StartCoroutine(ResetEmotionAfterDelay("isDamage"));
@@ -152,10 +152,10 @@ public class PlayerMove2D : MonoBehaviourPun
 
                 if (isHello)
                 {
-/*                    isHappy = false;
+                    isHappy = false;
                     renderer.SetAnimatorBool("isHappy", isHappy);
                     isDamage = false;
-                    renderer.SetAnimatorBool("isDamage", isDamage);*/
+                    renderer.SetAnimatorBool("isDamage", isDamage);
 
                     StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
                     StartCoroutine(ResetEmotionAfterDelay("isHello"));
