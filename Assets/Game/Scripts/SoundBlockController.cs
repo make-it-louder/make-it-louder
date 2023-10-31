@@ -103,11 +103,11 @@ public class SoundBlockController : MonoBehaviourPun
 
         if (directionLeft == true)
         {
-            xMove = -0.2f;
+            xMove = -0.1f;
         }
         else if (directionRight == true)
         {
-            xMove = 0.2f;
+            xMove = 0.1f;
         }
 
         if (isMovingUp)
@@ -136,10 +136,10 @@ public class SoundBlockController : MonoBehaviourPun
             {
                 newPosition.y = minY;
             }
-            if (newPosition.x < initX && limitX > initX)
+            if (newPosition.x < initX && limitX < initX)
             {
                 newPosition.x = initX;
-            } else if (newPosition.x > initX && limitX < initX)  {
+            } else if (newPosition.x > initX && limitX > initX)  {
                 newPosition.x = initX;
             }
             rb.MovePosition(newPosition);
