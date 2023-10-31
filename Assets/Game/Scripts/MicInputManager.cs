@@ -4,6 +4,8 @@ using System.Drawing;
 using TMPro;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.Audio;
+
 public class MicInputManager : MonoBehaviour, INormalizedSoundInput
 {
 
@@ -71,7 +73,7 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
             soundEventManager.AddPublisher(this);
         }
     }
-    
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -92,6 +94,25 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
         {
             soundEventManager.AddPublisher(this);
         }
+        if (GetComponent<PhotonView>().IsMine)
+        {
+            AudioMixer mixer = Resources.Load<AudioMixer>("Audio/AudioMixer");
+            if (mixer == null)
+            {
+                Debug.LogError("Cannot find Mixer at Resources/Auudio/AudioMixer");
+            }
+            AudioMixerGroup[] group = mixer.FindMatchingGroups("MyVoice");
+            if (group.Length == 0)
+            {
+                Debug.LogError("Cannot find AudioMixerGroup MyVoice");
+            }
+            if (group.Length >= 2)
+            {
+                Debug.LogError("AudioMixerGroup MyVoice is ambiguous!");
+            }
+            audioSource.outputAudioMixerGroup = group[0];
+        }
+
         samples = new float[sampleCount];
         spectrum = new float[sampleCount];
 
