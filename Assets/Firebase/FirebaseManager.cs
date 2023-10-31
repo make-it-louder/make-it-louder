@@ -8,18 +8,21 @@ using Firebase;
 using Firebase.Database;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Newtonsoft.Json;
+using Firebase.Extensions;
 
 public class FirebaseManager : MonoBehaviour
 {
-    // firebase
+    // singleton
     private static FirebaseManager instance = null;
 
+    // firebase
     private Firebase.DependencyStatus dependencyStatus;
     private FirebaseAuth auth;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
 
-    // unity
+    // interface
     public GameObject signupForm;
     public GameObject loginForm;
     public GameObject popupWinodow;
@@ -27,29 +30,9 @@ public class FirebaseManager : MonoBehaviour
     public TMP_Text popupContent;
 
     // write, update, or delete data at a reference
-    private User userdata;
+    // private User userdata;
 
     public GameObject loadingSpinner;
-
-    public class User
-    {
-        public string username;
-        public string avatar;
-        public List<string> avatars;
-        public List<string> achievements;
-
-        public User()
-        {
-        }
-
-        public User(string username, string avatar, List<string> avatars, List<string> achievements)
-        {
-            this.username = username;
-            this.avatar = avatar;
-            this.avatars = avatars;
-            this.achievements = achievements;
-        }
-    }
 
     public static FirebaseManager Instance
     {
@@ -94,7 +77,7 @@ public class FirebaseManager : MonoBehaviour
             dependencyStatus = task.Result;
             if (dependencyStatus == Firebase.DependencyStatus.Available)
             {
-                Debug.LogError("All firebase dependencies have been resolved.: " + dependencyStatus);
+                Debug.LogError("All firebase dependencies have been resolved: " + dependencyStatus);
             }
             else
             {
@@ -107,6 +90,7 @@ public class FirebaseManager : MonoBehaviour
     {
         // returns the firebaseAuth
         auth = FirebaseAuth.DefaultInstance;
+
         if (auth.CurrentUser != null)
         {
             SignOut();
@@ -124,6 +108,7 @@ public class FirebaseManager : MonoBehaviour
         if (auth.CurrentUser != user)
         {
             bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null && auth.CurrentUser.IsValid();
+
             if (!signedIn && user != null)
             {
                 Debug.Log("Signed out");
@@ -138,69 +123,118 @@ public class FirebaseManager : MonoBehaviour
         }
     }
 
+    //
+    public class Profile
+    {
+        public string username;
+        public string avatar;
+        public List<string> avatars;
+        public List<string> achievements;
+
+        public Profile()
+        {
+        }
+
+        public Profile(string username, string avatar, List<string> avatars, List<string> achievements)
+        {
+            this.username = username;
+            this.avatar = avatar;
+            this.avatars = avatars;
+            this.achievements = achievements;
+        }
+    }
+
+    //
+    public class Record
+    {
+        public int playtime;
+        public int count_jump;
+        public int count_fall;
+
+        public Record()
+        {
+        }
+
+        public Record(int playtime, int count_jump, int count_fall)
+        {
+            this.playtime = playtime;
+            this.count_jump = count_jump;
+            this.count_fall = count_fall;
+        }
+    }
+
     // sign up new users
     public async void SignUp(string email, string username, string password)
     {
-        bool flag = false;
-
         loadingSpinner.SetActive(true);
-        
-        await auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
-        {
-            if (task.IsCanceled || task.IsFaulted)
-            {
-                Debug.LogError("failed to sign up");
-                return;
-            }
 
+        var task = auth.CreateUserWithEmailAndPasswordAsync(email, password);
+        await task;
+
+        if (task.IsCompleted)
+        {
             Firebase.Auth.AuthResult result = task.Result;
             Debug.LogError("successfully signed up");
-            
-            WriteNewUser(result.User.UserId, username);
-            Debug.LogError("successfully writed up");
 
-            flag = true;
-        });
+            WriteUser(result.User.UserId, username);
+            Debug.LogError("user has been writed");
 
-        if (flag)
-        {
+            WriteRecord(result.User.UserId);
+            Debug.LogError("record has been writed");
+
             loginForm.SetActive(true);
             signupForm.SetActive(false);
         }
         else
         {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("failed to sign up due to a faulted state");
+            }
+            else if (task.IsCanceled)
+            {
+                Debug.LogError("failed to sign up due to a canceled state");
+            }
+
             popupTitle.text = "실패";
             popupContent.text = "입력한 정보를 확인해주세요!";
             popupWinodow.SetActive(true);
-
         }
 
         loadingSpinner.SetActive(false);
     }
 
+    //
     public async void SignIn(string email, string password)
     {
-        bool flag = false;
         loadingSpinner.SetActive(true);
-        await auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+
+        var task = auth.SignInWithEmailAndPasswordAsync(email, password);
+        await task;
+
+        if (task.IsCompleted)
         {
-            if (task.IsCanceled || task.IsFaulted)
+            Debug.LogError("successfully signed in");
+
+            Profile infos = await GetProfile(user.UserId);
+            RecordManager.Instance.GetProfile(infos);
+
+            Dictionary<string, Record> records = await GetRecords(user.UserId);
+            RecordManager.Instance.GetRecords(records);
+
+            SceneManager.LoadScene("LobbyTest");
+        }
+        else
+        {
+            if (task.IsFaulted)
             {
-                Debug.LogError("failed to sign in");
-                return;
+                Debug.LogError("failed to sign in due to a faulted state");
+            }
+            else if (task.IsCanceled)
+            {
+                Debug.LogError("failed to sign in due to a canceled state");
             }
 
-            AuthResult result = task.Result;
-            FirebaseUser newUser = result.User;
-            Debug.LogError("successfully signed in");
-            flag = true;
-        });
-        if (flag) 
-        {
-            SceneManager.LoadScene("LobbyTest");
-
-        } else
-        {
             popupTitle.text = "실패";
             popupContent.text = "ID/PW를 확인해주세요!";
             popupWinodow.SetActive(true);
@@ -215,17 +249,101 @@ public class FirebaseManager : MonoBehaviour
         SceneManager.LoadScene("Login");
     }
 
-    private void WriteNewUser(string userId, string username)
+    private void WriteUser(string userId, string username)
     {
         string defaultAvatar = "avatar1";
         List<string> defaultAvatars = new List<string>() { "avatar1"};
         List<string> defaultAchievements = new List<string>() { "achievement1"};
 
-        User user = new User(username, defaultAvatar, defaultAvatars, defaultAchievements);
+        Profile user = new Profile(username, defaultAvatar, defaultAvatars, defaultAchievements);
         string json = JsonUtility.ToJson(user);
 
         databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(json);
     }
+
+    private void WriteRecord(string userId)
+    {
+        Dictionary<string, Record> records = new Dictionary<string, Record>
+        {
+            { "map1", new Record(0, 0, 0) },
+            { "map2", new Record(0, 0, 0) },
+            { "map3", new Record(0, 0, 0) }
+        };
+
+        string json = JsonConvert.SerializeObject(records, Formatting.Indented);
+        databaseReference.Child("records").Child(userId).SetRawJsonValueAsync(json);
+    }
+
+    public async Task<Profile> GetProfile(string userId)
+    {
+        var task = databaseReference.Child("users").Child(userId).GetValueAsync();
+        await task;
+
+        if (task.IsCompleted)
+        {
+            DataSnapshot snapshot = task.Result;
+
+            if (snapshot.Exists)
+            {
+                string json = snapshot.GetRawJsonValue();
+                Profile user = JsonConvert.DeserializeObject<Profile>(json);
+                return user;
+            }
+            else
+            {
+                Debug.LogError("The user data does not exist");
+                return null;
+            }
+        }
+        else
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Failed to retrieve user data from the database due to a faulted state");
+            }
+            else if (task.IsCanceled)
+            {
+                Debug.LogError("Failed to retrieve user data from the database due to a canceled state");
+            }
+            return null;
+        }
+    }
+
+    public async Task<Dictionary<string, Record>> GetRecords(string userId)
+    {
+        var task = databaseReference.Child("records").Child(userId).GetValueAsync();
+        await task;
+
+        if (task.IsCompleted)
+        {
+            DataSnapshot snapshot = task.Result;
+
+            if (snapshot.Exists)
+            {
+                string json = snapshot.GetRawJsonValue();
+                Dictionary<string, Record> records = JsonConvert.DeserializeObject<Dictionary<string, Record>>(json);
+                return records;
+            }
+            else
+            {
+                Debug.LogError("The record data does not exist");
+                return null;
+            }
+        }
+        else
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("failed to retrieve from the database due to a faulted state");
+            }
+            else if (task.IsCanceled)
+            {
+                Debug.LogError("failed to retrieve from the database due to a canceled state");
+            }
+            return null;
+        }
+    }
+
     public void ClosePopup()
     {
         popupWinodow.SetActive(false);

@@ -1,8 +1,9 @@
-﻿using Photon.Pun;
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -64,26 +65,25 @@ public class NicknameManager : MonoBehaviourPunCallbacks
     IEnumerator OnScene3Loaded() {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
         GameObject spawnedPlayer = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(Random.Range(-5f, 5f), 1, Random.Range(-5f, 5f)), Quaternion.identity);
+
         GridCamera2D camera = GameObject.Find("Main Camera").GetComponent<GridCamera2D>();
         camera.follows = spawnedPlayer;
         spawnedPlayer.GetComponent<PlayerNickname>().SetNickname(PhotonNetwork.LocalPlayer.NickName);
+
         SoundEventManager soundEventManager = GameObject.Find("SoundEventManager").GetComponent<SoundEventManager>();
-        if (PhotonNetwork.IsMasterClient)
-        {
-            soundEventManager.AddPublisher(spawnedPlayer.GetComponentInChildren<INormalizedSoundInput>());
-        }
-        else
-        {
-            soundEventManager.AddAndSyncPublisher(spawnedPlayer.GetComponentInChildren<INormalizedSoundInput>());
-        }
+        spawnedPlayer.GetComponentInChildren<MicInputManager>().SoundEventManager = soundEventManager;
+
         PlayerMove2D playerMoveBehavior = spawnedPlayer.GetComponent<PlayerMove2D>();
+
         TMP_Text jumpCountText = GameObject.Find("JumpCount").GetComponent<TMP_Text>();
         TMP_Text playTimeText = GameObject.Find("PlayTime").GetComponent<TMP_Text>();
         PlayerMove2D playerMove2D = spawnedPlayer.GetComponent<PlayerMove2D>();
+
         GameObject.Find("ChatManager").GetComponent<ChatManager>().playerMove2D = playerMove2D;
 
         playerMoveBehavior.jumpCountText = jumpCountText;
         playerMoveBehavior.playTimeText = playTimeText;
-        yield break;
+
+       yield break;
     }
 }

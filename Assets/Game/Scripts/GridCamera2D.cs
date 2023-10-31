@@ -7,12 +7,20 @@ public class GridCamera2D : MonoBehaviour
     [SerializeField]
     public GameObject follows;
     [SerializeField]
-    private Vector2 gridScale;
+    private BoxCollider2D currentBounds;  // Current bounds
     [SerializeField]
     private float depth = -10;
     [SerializeField]
-    [Range(1, 10)]
+    [Range(0.1f, 10)]
     private float transitionSpeed;
+    [SerializeField]
+    private bool instantTransition;    
+    [SerializeField]
+    [Range(0, 1)]
+    private float horizontalThreshold = 0.33f;
+    [SerializeField]
+    [Range(0, 1)]
+    private float verticalThreshold = 0.33f;
     void Start()
     {
         if (follows == null)
@@ -20,31 +28,89 @@ public class GridCamera2D : MonoBehaviour
             Debug.Log("follows not given on the inspector");
         }
     }
+    public void UpdateCurrentBounds(BoxCollider2D newBounds)
+    {
+        currentBounds = newBounds;
+    }
 
-    Vector3 GridIdx2Pos(Vector2Int gridIdx)
+    bool IsWithinCenterRegion(Vector3 position)
     {
-        Vector3 result;
-        result.y = gridIdx.y * gridScale.y;
-        result.x = gridIdx.x * gridScale.x;
-        result.z = depth;
-        return result;
+        float horizontalLimit = Camera.main.orthographicSize * Camera.main.aspect * horizontalThreshold;
+        float verticalLimit = Camera.main.orthographicSize * verticalThreshold;
+
+        return Mathf.Abs(position.x - transform.position.x) < horizontalLimit &&
+               Mathf.Abs(position.y - transform.position.y) < verticalLimit;
     }
-    Vector2Int Pos2GridIdx(Vector3 pos)
+    bool IsWithinCenterRegionH(Vector3 position)
     {
-        Vector2Int gridIdx = new Vector2Int();
-        gridIdx.x = (int)Mathf.Round(pos.x / gridScale.x);
-        gridIdx.y = (int)Mathf.Round(pos.y / gridScale.y);
-        return gridIdx;
+        float horizontalLimit = Camera.main.orthographicSize * Camera.main.aspect * horizontalThreshold;
+
+        return Mathf.Abs(position.x - transform.position.x) < horizontalLimit;
     }
+    bool IsWithinCenterRegionV(Vector3 position)
+    {
+        float verticalLimit = Camera.main.orthographicSize * verticalThreshold;
+
+        return Mathf.Abs(position.y - transform.position.y) < verticalLimit;
+    }
+
+    bool IsOutsideViewport(Vector3 position)
+    {
+        Vector3 viewportPosition = Camera.main.WorldToViewportPoint(position);
+        return viewportPosition.y < 0 || viewportPosition.y > 1;
+    }
+
+    Vector3 GetClampedPosition(Vector3 targetPosition)
+    {
+        float cameraHeight = 2f * Camera.main.orthographicSize;
+        float cameraWidth = cameraHeight * Camera.main.aspect;
+
+        float minX = currentBounds.bounds.min.x + cameraWidth / 2;
+        float maxX = currentBounds.bounds.max.x - cameraWidth / 2;
+        float minY = currentBounds.bounds.min.y + cameraHeight / 2;
+        float maxY = currentBounds.bounds.max.y - cameraHeight / 2;
+
+        float clampedX = Mathf.Clamp(targetPosition.x, minX, maxX);
+        float clampedY = Mathf.Clamp(targetPosition.y, minY, maxY);
+
+        return new Vector3(clampedX, clampedY, targetPosition.z);
+    }
+
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (follows == null)
+        if (follows == null || currentBounds == null)
         {
             return;
         }
-        Vector2Int targetGridIdx = Pos2GridIdx(follows.transform.position);
-        Vector3 targetPos = GridIdx2Pos(targetGridIdx);
-        transform.position = Vector3.Lerp(transform.position, targetPos, transitionSpeed * Time.deltaTime);
+
+
+        Vector3 targetPosition = follows.transform.position;
+        targetPosition.z = depth;
+
+        if (IsOutsideViewport(follows.transform.position))
+        {
+            Vector3 targetPos = transform.position;
+            targetPos.y = follows.transform.position.y + Camera.main.orthographicSize;
+            targetPos.z = depth;
+            transform.position = GetClampedPosition(targetPos);
+            return;
+        }
+        Vector3 newPosition;
+        Vector3 tmpPosition;
+        newPosition = Vector3.Lerp(transform.position, targetPosition, transitionSpeed * Time.deltaTime);
+        tmpPosition = targetPosition;
+        targetPosition = transform.position;
+
+        if (!IsWithinCenterRegionV(tmpPosition))
+        {
+            targetPosition.y = newPosition.y;
+        }
+        if (!IsWithinCenterRegionH(tmpPosition))
+        {
+            targetPosition.x = newPosition.x;
+        }
+
+        transform.position = GetClampedPosition(targetPosition);
     }
 }
