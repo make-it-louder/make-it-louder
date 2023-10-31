@@ -686,6 +686,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   createName: {fileID: 1120861013}
   room: {fileID: 8812923249179215621, guid: f4a4e26b4871d224d99a93699627206f, type: 3}
+  content: {fileID: 317978576}
 --- !u!1 &1053582414
 GameObject:
   m_ObjectHideFlags: 0
