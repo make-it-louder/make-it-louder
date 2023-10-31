@@ -307,6 +307,7 @@ MonoBehaviour:
   jumpCountText: {fileID: 0}
   jumpCount: 0
   playTimeText: {fileID: 0}
+  jumpSound: {fileID: 0}
   SkyboxMaterials:
   - {fileID: 2100000, guid: 2441c79940171dc43b33badf9fe97828, type: 2}
   - {fileID: 2100000, guid: 135a7036ca1a07b4e9e162d80e6b6e77, type: 2}
