@@ -4020,7 +4020,7 @@ MonoBehaviour:
   follows: {fileID: 2047122121}
   currentBounds: {fileID: 0}
   depth: -10
-  transitionSpeed: 10
+  transitionSpeed: 1.2
   horizontalThreshold: 0.33
   verticalThreshold: 0.33
 --- !u!4 &702436302 stripped
