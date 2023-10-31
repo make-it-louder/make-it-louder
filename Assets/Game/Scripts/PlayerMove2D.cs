@@ -14,6 +14,8 @@ public class PlayerMove2D : MonoBehaviourPun
 
     public MicInputManager micInput;
     private bool isHappy = false; // "Happy" 상태를 추적하는 변수
+    private bool isDamage = false; // "Damage" 상태를 감정 표현으로 사용
+    private bool isHello = false; // "Hello" 상태를 감정 표현으로 사용
     public float speed;
     public float jumpPower;
     float inputV;
@@ -28,6 +30,8 @@ public class PlayerMove2D : MonoBehaviourPun
     public bool isChatting { get; set; }
 
     public AudioSource jumpSound; // 점프 효과음을 위한 AudioSource
+
+    private float emotionDuration = 5f; // 감정 상태가 지속되는 시간
 
     void Start()
     {
@@ -107,13 +111,72 @@ public class PlayerMove2D : MonoBehaviourPun
             // �ε巯�� Skybox ��ȯ
             SmoothSkyboxTransition();
 
-            if (Input.GetKeyDown(KeyCode.H))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                isHappy = !isHappy; // isHappy 상태 토글
+                isHappy = !isHappy;
                 renderer.SetAnimatorBool("isHappy", isHappy);
+
+                if (isHappy)
+                {
+/*                    isDamage = false;
+                    renderer.SetAnimatorBool("isDamage", isDamage);
+                    isHello = false;
+                    renderer.SetAnimatorBool("isHello", isHello);*/
+
+                    StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
+                    StartCoroutine(ResetEmotionAfterDelay("isHappy"));
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                isDamage = !isDamage;
+                renderer.SetAnimatorBool("isDamage", isDamage);
+
+                if (isDamage)
+                {
+/*                    isHappy = false;
+                    renderer.SetAnimatorBool("isHappy", isHappy);
+                    isHello = false;
+                    renderer.SetAnimatorBool("isHello", isHello);*/
+
+                    StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
+                    StartCoroutine(ResetEmotionAfterDelay("isDamage"));
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                isHello = !isHello;
+                renderer.SetAnimatorBool("isHello", isHello);
+
+                if (isHello)
+                {
+/*                    isHappy = false;
+                    renderer.SetAnimatorBool("isHappy", isHappy);
+                    isDamage = false;
+                    renderer.SetAnimatorBool("isDamage", isDamage);*/
+
+                    StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
+                    StartCoroutine(ResetEmotionAfterDelay("isHello"));
+                }
+            }
+
+            // 방향키 또는 점프키를 눌렀을 때 isHappy를 false로 설정
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Space))
+            {
+                isHappy = false;
+                renderer.SetAnimatorBool("isHappy", isHappy);
+
+                isDamage = false;
+                renderer.SetAnimatorBool("isDamage", isDamage);
+
+                isHello = false;
+                renderer.SetAnimatorBool("isHello", isHello);
             }
         }
     }
+
     // ����Ƚ�� ī��Ʈ
     void UpdateJumpCountUI()
     {
@@ -194,5 +257,26 @@ public class PlayerMove2D : MonoBehaviourPun
         Debug.DrawLine(feetLeft, feetRight, Color.red);
 
         return (Physics2D.OverlapPoint(feetLeft,1<<LayerMask.NameToLayer("Ground")) != null) || (Physics2D.OverlapPoint(feetRight,1<<LayerMask.NameToLayer("Ground")) != null || (Physics2D.OverlapPoint(feetRight, 1 << LayerMask.NameToLayer("Player"))) || (Physics2D.OverlapPoint(feetLeft, 1 << LayerMask.NameToLayer("Player"))));
+    }
+
+    IEnumerator ResetEmotionAfterDelay(string emotion)
+    {
+        yield return new WaitForSeconds(emotionDuration);
+
+        switch (emotion)
+        {
+            case "isHappy":
+                isHappy = false;
+                renderer.SetAnimatorBool("isHappy", isHappy);
+                break;
+            case "isDamage":
+                isDamage = false;
+                renderer.SetAnimatorBool("isDamage", isDamage);
+                break;
+            case "isHello":
+                isHello = false;
+                renderer.SetAnimatorBool("isHello", isHello);
+                break;
+        }
     }
 }
