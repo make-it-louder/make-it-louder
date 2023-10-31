@@ -296,7 +296,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundManager: {fileID: 0}
+  maxXRange: 0
+  maxYRange: 3
   dropPower: 1
+  directionLeft: 0
+  directionRight: 0
   maxUpTime: 3
   disavleInputPeriod: 2
 --- !u!50 &6232381294967216416
@@ -401,7 +405,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 1
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 8105128667179309341}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
