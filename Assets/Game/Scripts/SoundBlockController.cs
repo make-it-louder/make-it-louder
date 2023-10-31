@@ -16,6 +16,10 @@ public class SoundBlockController : MonoBehaviourPun
 
     public float dropPower = 0.1f;
 
+
+    public bool directionLeft = false;
+    public bool directionRight = false;
+
     // limit operating time of soundBlock
     private bool isMovingUp = false;
 
@@ -24,6 +28,8 @@ public class SoundBlockController : MonoBehaviourPun
 
     public float maxUpTime = 3.0f;
     public float disavleInputPeriod = 2.0f;
+
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -84,11 +90,20 @@ public class SoundBlockController : MonoBehaviourPun
 
     void moveUp()
     {
+        float xMove = 0f;
+
+        if (directionLeft == true)
+        {
+            xMove = -0.1f;   
+        }
+        else if (directionRight == true) {
+            xMove = 0.1f;
+        }
 
         if (isMovingUp)
         {
             curY = transform.position.y;
-            Vector2 newPosition = rb.position + new Vector2(0, 0.1f);
+            Vector2 newPosition = rb.position + new Vector2(xMove, 0.1f);
             if (newPosition.y > maxY)
             {
                 newPosition.y = maxY;
@@ -98,7 +113,7 @@ public class SoundBlockController : MonoBehaviourPun
         }
         else
         {
-            Vector2 newPosition = rb.position + new Vector2(0, -dropPower);
+            Vector2 newPosition = rb.position + new Vector2(-xMove, -dropPower);
             if (newPosition.y < minY)
             {
                 newPosition.y = minY;
