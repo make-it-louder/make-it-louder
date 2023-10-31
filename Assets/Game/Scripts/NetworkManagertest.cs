@@ -20,12 +20,16 @@ public class NicknameManager : MonoBehaviourPunCallbacks
     {
         if (!string.IsNullOrEmpty(nicknameInputField.text))
         {
-            PhotonNetwork.NickName = nicknameInputField.text;
-            PhotonNetwork.AutomaticallySyncScene = true;
-            PhotonNetwork.ConnectUsingSettings();
+            Connect(nicknameInputField.text);
         }
     }
 
+    public void Connect(string nickname)
+    {
+        PhotonNetwork.NickName = nickname;
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.ConnectUsingSettings();
+    }
     public override void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
