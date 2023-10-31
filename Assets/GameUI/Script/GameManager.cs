@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
         loginForm.SetActive(true);
         signupForm.SetActive(false);
         isTrue = false;
-
     }
 
     // Update is called once per frame
