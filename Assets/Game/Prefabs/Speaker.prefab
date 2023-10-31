@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3534335490612460921}
   - component: {fileID: 7150515981095887882}
   - component: {fileID: 5260374707513639883}
+  - component: {fileID: 2795427606097190161}
   m_Layer: 0
   m_Name: Speaker
   m_TagString: Untagged
@@ -43,7 +44,7 @@ AudioSource:
   m_GameObject: {fileID: 6592985560190667947}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3482960038557135826, guid: b565cf93f4cb53c4595e6e2627dcd819, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -160,3 +161,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c54f2b9aa30493745b01f05ec7de1ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minDB: -15
+  maxDB: 5
+  soundEventManager: {fileID: 0}
+--- !u!114 &2795427606097190161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6592985560190667947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 1
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

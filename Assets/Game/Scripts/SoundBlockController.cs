@@ -88,10 +88,11 @@ public class SoundBlockController : MonoBehaviourPun
             photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             Debug.Log("TransferOwnership");
         }
-        if (photonView.IsMine)
+        if (!photonView.IsMine)
         {
-            moveUp();
+            return;
         }
+        moveUp();
     }
 
     void moveUp()
