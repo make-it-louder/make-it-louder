@@ -1,20 +1,24 @@
-using Photon.Pun;
+﻿using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class NicknameManager : MonoBehaviourPunCallbacks
+public class NetworkManager : MonoBehaviourPunCallbacks
 {
     public TMP_InputField nicknameInputField;
     public GameObject playerPrefab;
+
+    public List<RoomInfo> myList { get; set; }
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
+        myList = new List<RoomInfo>();
     }
     public void OnConnectButtonClicked()
     {
@@ -22,6 +26,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         {
             Connect(nicknameInputField.text);
         }
+        SceneManager.LoadScene(2);
     }
 
     public void Connect(string nickname)
@@ -30,10 +35,21 @@ public class NicknameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
     }
+
     public override void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
-        PhotonNetwork.JoinOrCreateRoom("Roomrr", new RoomOptions { MaxPlayers = 6 }, null); // ������ �濡 ����
+        PhotonNetwork.JoinLobby();
+        //PhotonNetwork.JoinOrCreateRoom("Roomrr", new RoomOptions { MaxPlayers = 6 }, null);
+    }
+
+    public void JoinRoom(string roomName)
+    {
+        PhotonNetwork.JoinRoom(roomName, null);
+    }
+    public void CreateRoom(string roomName)
+    {
+        PhotonNetwork.CreateRoom(roomName,new RoomOptions { MaxPlayers = 6 }, null);
     }
 
     public override void OnJoinedRoom()
@@ -49,6 +65,23 @@ public class NicknameManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Failed to join a random room. Creating a new room...");
         PhotonNetwork.CreateRoom(null);
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        int roomCount = roomList.Count;
+        for (int i = 0; i < roomCount; i++)
+        {
+            if (!roomList[i].RemovedFromList)
+            {
+                if (!myList.Contains(roomList[i])) myList.Add(roomList[i]);
+                else myList[myList.IndexOf(roomList[i])] = roomList[i];
+            }
+            else if (myList.IndexOf(roomList[i]) != -1) myList.RemoveAt(myList.IndexOf(roomList[i]));
+        }
+
+        RoomManager roomManager = GameObject.Find("RoomManager").GetComponent<RoomManager>();
+        if (roomManager != null) roomManager.UpdateRoomList();
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
