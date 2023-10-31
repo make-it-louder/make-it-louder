@@ -16,6 +16,7 @@ public class PlayerMove2D : MonoBehaviourPun
     private bool isHappy = false; // "Happy" 상태를 추적하는 변수
     private bool isDamage = false; // "Damage" 상태를 감정 표현으로 사용
     private bool isHello = false; // "Hello" 상태를 감정 표현으로 사용
+
     public float speed;
     public float jumpPower;
     float inputV;
@@ -90,7 +91,10 @@ public class PlayerMove2D : MonoBehaviourPun
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
             jumpCount++;           // ������ ������ ī��Ʈ ����
-            UpdateJumpCountUI();   // UI ������Ʈ
+            if (photonView.IsMine)
+            {
+                UpdateJumpCountUI();   // UI ������Ʈ
+            }
             jumpSound.Play();  // 점프 효과음 재생
         }
 
@@ -176,7 +180,6 @@ public class PlayerMove2D : MonoBehaviourPun
             }
         }
     }
-
     // ����Ƚ�� ī��Ʈ
     void UpdateJumpCountUI()
     {

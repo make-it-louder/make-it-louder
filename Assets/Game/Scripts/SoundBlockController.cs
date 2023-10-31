@@ -28,8 +28,6 @@ public class SoundBlockController : MonoBehaviourPun
 
     public float maxUpTime = 3.0f;
     public float disavleInputPeriod = 2.0f;
-
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -51,7 +49,7 @@ public class SoundBlockController : MonoBehaviourPun
         {
             return;
         }
-            if (disableInputTime > 0.0f)
+        if (disableInputTime > 0.0f)
         {
             disableInputTime -= Time.deltaTime;
         }
@@ -82,10 +80,11 @@ public class SoundBlockController : MonoBehaviourPun
             photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             Debug.Log("TransferOwnership");
         }
-        if (photonView.IsMine)
+        if (!photonView.IsMine)
         {
-            moveUp();
+            return;
         }
+        moveUp();
     }
 
     void moveUp()

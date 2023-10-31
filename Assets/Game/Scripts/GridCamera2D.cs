@@ -14,12 +14,13 @@ public class GridCamera2D : MonoBehaviour
     [Range(0.1f, 10)]
     private float transitionSpeed;
     [SerializeField]
+    private bool instantTransition;    
+    [SerializeField]
     [Range(0, 1)]
     private float horizontalThreshold = 0.33f;
     [SerializeField]
     [Range(0, 1)]
     private float verticalThreshold = 0.33f;
-
     void Start()
     {
         if (follows == null)
