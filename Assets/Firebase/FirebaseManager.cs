@@ -234,7 +234,10 @@ public class FirebaseManager : MonoBehaviour
             {
                 Debug.LogError("failed to sign in due to a canceled state");
             }
-
+            else
+            {
+                Debug.Log("hi");
+            }
             popupTitle.text = "실패";
             popupContent.text = "ID/PW를 확인해주세요!";
             popupWinodow.SetActive(true);
@@ -322,6 +325,7 @@ public class FirebaseManager : MonoBehaviour
             {
                 string json = snapshot.GetRawJsonValue();
                 Dictionary<string, Record> records = JsonConvert.DeserializeObject<Dictionary<string, Record>>(json);
+                Debug.Log(records["map1"].count_jump);
                 return records;
             }
             else
