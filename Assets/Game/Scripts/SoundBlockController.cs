@@ -101,17 +101,18 @@ public class SoundBlockController : MonoBehaviourPun
 
         float xMove = 0f;
 
-        if (directionLeft == true)
-        {
-            xMove = -0.1f;
-        }
-        else if (directionRight == true)
-        {
-            xMove = 0.1f;
-        }
+
 
         if (isMovingUp)
         {
+            if (directionLeft == true)
+            {
+                xMove = -0.1f;
+            }
+            else if (directionRight == true)
+            {
+                xMove = 0.1f;
+            }
 
             Vector2 newPosition = rb.position + new Vector2(xMove, 0.1f);
             if (newPosition.y > maxY)
@@ -131,6 +132,15 @@ public class SoundBlockController : MonoBehaviourPun
         }
         else
         {
+            if (directionLeft == true)
+            {
+                xMove = -0.1f;
+            }
+            else if (directionRight == true)
+            {
+                xMove = 0.1f;
+            }
+
             Vector2 newPosition = rb.position + new Vector2(-xMove, -dropPower);
             if (newPosition.y < minY)
             {
