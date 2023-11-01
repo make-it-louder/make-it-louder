@@ -5668,7 +5668,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toEnable:
   - {fileID: 1843040572}
-  - {fileID: 0}
   - {fileID: 983349979}
   - {fileID: 2047122121}
 --- !u!4 &1672729493
