@@ -111,6 +111,7 @@ public class SoundManager : MonoBehaviour
 
     public void OnMicSelectorValueChanged(int micIndex)
     {
+        Debug.Log("마이크바뀜");
         selectedMicName = micSelector.options[micIndex].text;
         // 여기에서 선택한 마이크 이름을 저장
         PlayerPrefs.SetString("SelectedMic", selectedMicName);
