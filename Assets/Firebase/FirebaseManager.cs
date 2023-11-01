@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 using Firebase;
 using Firebase.Database;
 using UnityEngine.SceneManagement;
-using TMPro;
 using Newtonsoft.Json;
-using Firebase.Extensions;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -23,15 +21,6 @@ public class FirebaseManager : MonoBehaviour
     private DatabaseReference databaseReference;
 
     // interface
-    public GameObject signupForm;
-    public GameObject loginForm;
-    public GameObject popupWinodow;
-    public TMP_Text popupTitle;
-    public TMP_Text popupContent;
-
-    // write, update, or delete data at a reference
-    // private User userdata;
-
     public GameObject loadingSpinner;
 
     public static FirebaseManager Instance
@@ -164,91 +153,69 @@ public class FirebaseManager : MonoBehaviour
     }
 
     // sign up new users
-    public async void SignUp(string email, string username, string password)
+    public async void SignUp(string email, string password, string username, Action<bool> callback)
     {
+        bool flag = false;
+
         loadingSpinner.SetActive(true);
 
-        var task = auth.CreateUserWithEmailAndPasswordAsync(email, password);
-        await task;
-
-        if (task.IsCompleted)
+        try
         {
-            Firebase.Auth.AuthResult result = task.Result;
+            Firebase.Auth.AuthResult result = await auth.CreateUserWithEmailAndPasswordAsync(email, password);
             Debug.LogError("successfully signed up");
 
             WriteUser(result.User.UserId, username);
-            Debug.LogError("user has been writed");
+            Debug.LogError("user has been successfully written");
 
             WriteRecord(result.User.UserId);
-            Debug.LogError("record has been writed");
+            Debug.LogError("record has been successfully written");
 
-            loginForm.SetActive(true);
-            signupForm.SetActive(false);
+            flag = true;
         }
-        else
+        catch (Exception e)
         {
-            if (task.IsFaulted)
-            {
-                Debug.LogError("failed to sign up due to a faulted state");
-            }
-            else if (task.IsCanceled)
-            {
-                Debug.LogError("failed to sign up due to a canceled state");
-            }
-
-            popupTitle.text = "실패";
-            popupContent.text = "입력한 정보를 확인해주세요!";
-            popupWinodow.SetActive(true);
+            Debug.LogError("failed to sign up: " + e.Message);
         }
-
-        loadingSpinner.SetActive(false);
+        finally
+        {
+            loadingSpinner.SetActive(false);
+            callback(flag);
+        }
     }
 
-    //
-    public async void SignIn(string email, string password)
+    // sign in existing users
+    public async void SignIn(string email, string password, Action<bool> callback)
     {
+        bool flag = false;
+
         loadingSpinner.SetActive(true);
 
-        var task = auth.SignInWithEmailAndPasswordAsync(email, password);
-        await task;
-
-        if (task.IsCompleted)
+        try
         {
+            Firebase.Auth.AuthResult result = await auth.SignInWithEmailAndPasswordAsync(email, password);
             Debug.LogError("successfully signed in");
 
-            Profile infos = await GetProfile(user.UserId);
-            RecordManager.Instance.GetProfile(infos);
-
-            Dictionary<string, Record> records = await GetRecords(user.UserId);
-            RecordManager.Instance.GetRecords(records);
-
-            SceneManager.LoadScene("LobbyTest");
+            flag = true;
         }
-        else
+        catch (Exception e)
         {
-            if (task.IsFaulted)
-            {
-                Debug.LogError("failed to sign in due to a faulted state");
-            }
-            else if (task.IsCanceled)
-            {
-                Debug.LogError("failed to sign in due to a canceled state");
-            }
-
-            popupTitle.text = "실패";
-            popupContent.text = "ID/PW를 확인해주세요!";
-            popupWinodow.SetActive(true);
+            Debug.LogError("failed to sign in: " + e.Message);
         }
-
-        loadingSpinner.SetActive(false);
+        finally
+        {
+            loadingSpinner.SetActive(false);
+            callback(flag);
+        }
     }
 
+    // sign out a user
     public void SignOut()
     {
         auth.SignOut();
         SceneManager.LoadScene("Login");
     }
 
+    //
     private void WriteUser(string userId, string username)
     {
         string defaultAvatar = "avatar1";
@@ -261,6 +228,7 @@ public class FirebaseManager : MonoBehaviour
         databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(json);
     }
 
+    //
     private void WriteRecord(string userId)
     {
         Dictionary<string, Record> records = new Dictionary<string, Record>
@@ -274,6 +242,7 @@ public class FirebaseManager : MonoBehaviour
         databaseReference.Child("records").Child(userId).SetRawJsonValueAsync(json);
     }
 
+    //
     public async Task<Profile> GetProfile(string userId)
     {
         var task = databaseReference.Child("users").Child(userId).GetValueAsync();
@@ -309,6 +278,7 @@ public class FirebaseManager : MonoBehaviour
         }
     }
 
+    //
     public async Task<Dictionary<string, Record>> GetRecords(string userId)
     {
         var task = databaseReference.Child("records").Child(userId).GetValueAsync();
@@ -342,10 +312,5 @@ public class FirebaseManager : MonoBehaviour
             }
             return null;
         }
-    }
-
-    public void ClosePopup()
-    {
-        popupWinodow.SetActive(false);
     }
 }
