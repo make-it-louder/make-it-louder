@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "435527414704",
-    "project_id": "c102-30105",
-    "storage_bucket": "c102-30105.appspot.com"
+    "project_number": "124227978114",
+    "project_id": "c102-480d5",
+    "storage_bucket": "c102-480d5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:435527414704:android:7f05c4ff6083584330dc75",
+        "mobilesdk_app_id": "1:124227978114:android:7b2a426d782ca41be3059b",
         "android_client_info": {
           "package_name": "com.ssafy.c102"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAiBWmAXkCIiu6tgprixlBeDR3dW1bfcEA"
+          "current_key": "AIzaSyBKoEcO249IGruYSDybKt58Sc-wDU1MrIE"
         }
       ],
       "services": {
