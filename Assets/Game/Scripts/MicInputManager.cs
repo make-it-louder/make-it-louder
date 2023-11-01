@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using TMPro;
+using System;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.Audio;
+
 public class MicInputManager : MonoBehaviour, INormalizedSoundInput
 {
 
     public float minDB = -15.0f;
     public float maxDB = 5.0f;
-    public SoundEventManager soundEventManager;
     private AudioSource audioSource;
     private float[] samples;
     private float[] spectrum;
@@ -22,7 +24,7 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
     {
         get
         {
-            return pitch;
+            throw new NotSupportedException("Pitch not supported; Please uncomment the comment in this file to use  it");
         }
         private set
         {
@@ -34,7 +36,7 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
     {
         get
         {
-            return Mathf.Clamp((db - minDB) / (maxDB - minDB), 0.0f, 1.0f);
+            return Mathf.Clamp((DB - minDB) / (maxDB - minDB), 0.0f, 1.0f);
         }
     }
     public float DB
@@ -43,13 +45,32 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
         {
             return db;
         }
-        private set
+    }
+
+    private float db;
+    [SerializeField]
+    private SoundEventManager soundEventManager;
+    public SoundEventManager SoundEventManager
+    {
+        get
         {
-            db = value;
+            return soundEventManager;
+        }
+        set
+        {
+            if (soundEventManager == value)
+            {
+                return;
+            }
+            if (soundEventManager != null)
+            {
+                soundEventManager.RemovePublisher(this);
+            }
+            soundEventManager = value;
+            soundEventManager.AddPublisher(this);
         }
     }
-    private float db;
-    
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -66,15 +87,34 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
             while (!(Microphone.GetPosition(null) > 0)) { } // Wait until the recording has started
             audioSource.Play(); // Play the audio source
         }
-        samples = new float[sampleCount];
-        spectrum = new float[sampleCount];
-
-        Pitch = 0;
-        DB = 0;
         if (soundEventManager != null)
         {
             soundEventManager.AddPublisher(this);
         }
+        if (GetComponent<PhotonView>().IsMine)
+        {
+            AudioMixer mixer = Resources.Load<AudioMixer>("Audio/AudioMixer");
+            if (mixer == null)
+            {
+                Debug.LogError("Cannot find Mixer at Resources/Auudio/AudioMixer");
+            }
+            AudioMixerGroup[] group = mixer.FindMatchingGroups("MyVoice");
+            if (group.Length == 0)
+            {
+                Debug.LogError("Cannot find AudioMixerGroup MyVoice");
+            }
+            if (group.Length >= 2)
+            {
+                Debug.LogError("AudioMixerGroup MyVoice is ambiguous!");
+            }
+            audioSource.outputAudioMixerGroup = group[0];
+        }
+
+        samples = new float[sampleCount];
+        spectrum = new float[sampleCount];
+
+        Pitch = 0;
+        db = 0;
     }
 
     void Update()
@@ -97,9 +137,13 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
         }
 
         float rmsValue = Mathf.Sqrt(sum / sampleCount); // rms = square root of average
-        float dbValue = 20 * Mathf.Log10(rmsValue / refValue); // calculate dB
-        if (dbValue < -160) dbValue = -160; // clamp it to -160dB min
-
+        float dbValue = 10 * Mathf.Log10(rmsValue / refValue) - 10 * Mathf.Log10(audioSource.volume); // calculate dB
+        if (dbValue < -80) dbValue = -80; // clamp it to -80dB min
+        /*
+         * The code below had been commented out becasue the game doesn't use it.
+         * To get a pitch value, please uncomment it.
+        */
+        /*
         audioSource.GetSpectrumData(spectrum, 0, FFTWindow.BlackmanHarris);
         float maxV = 0;
         var maxN = 0;
@@ -120,7 +164,8 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
         }
 
         Pitch = pitchN * (sampleRate / 2) / sampleCount; // convert index to pitchuency
-        DB = dbValue;
+        */
+        db = dbValue;
     }
     void OnDestroy()
     {

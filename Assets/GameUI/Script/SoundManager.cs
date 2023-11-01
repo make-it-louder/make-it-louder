@@ -3,41 +3,66 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 using static Unity.VisualScripting.Member;
 
 public class SoundManager : MonoBehaviour
 {
+    [Serializable]
+    class MixerGroupSettings
+    {
+        [SerializeField]
+        public Slider slider;
+        
+        [SerializeField]
+        public TMP_Text textArea;
+        
+        [SerializeField]
+        public AudioMixerGroup audioMixerGroup;
+    }
+    [Header("MixerGroupSettings")]
     //Slider
-    public Slider volumeSlider;
-    public Slider micSlider;
-    //Text(Number)
-    public TMP_Text volumeText;
-    public TMP_Text micVolumeText;
+    [SerializeField]
+    private MixerGroupSettings volume;
+    
+    [SerializeField]
+    private MixerGroupSettings mic;
+    
+    [SerializeField]
+    private MixerGroupSettings other;
 
-    public AudioSource[] audioSources;
+    [Header("SynchronizedVoiceSettings")]
+    [SerializeField]
+    private SoundEventManager soundEventManager;
+
+    [Header("MicSelector")]
     public TMP_Dropdown micSelector;
-
     private string selectedMicName;
-    private AudioSource micAudioSource;
     // Start is called before the first frame update
     void Start()
     {
         var defaultVolume = PlayerPrefs.GetFloat("Volume", 0.5f);
-        volumeSlider.value = defaultVolume;
-        volumeText.text = Mathf.RoundToInt(defaultVolume * 100).ToString();
+        if (volume.slider != null)
+        {
+            volume.slider.value = defaultVolume;
+        }
+        volume.textArea.text = Mathf.RoundToInt(defaultVolume * 100).ToString();
 
         var defaultMicVolume = PlayerPrefs.GetFloat("MicVolume", 0.8f);
-        micSlider.value = defaultMicVolume;
-        micVolumeText.text = Mathf.RoundToInt(defaultMicVolume * 100).ToString();
-
-        if(audioSources.Length != 0) {
-            Debug.Log("∞•∏Æ∞°æ¯¬£");
-            foreach (AudioSource source in audioSources)
-                {
-                    source.volume = defaultVolume;
-                }
+        if (mic.slider != null)
+        {
+            mic.slider.value = defaultMicVolume;
         }
+        mic.textArea.text = Mathf.RoundToInt(defaultMicVolume * 100).ToString();
+        soundEventManager.SetMicVolume(defaultMicVolume);
+
+        var defaultOtherMicVolume = PlayerPrefs.GetFloat("OtherMicVolume", 1.0f);
+        if (other.slider != null)
+        {
+            other.slider.value = defaultOtherMicVolume;
+        }
+        other.textArea.text = Mathf.RoundToInt(defaultOtherMicVolume * 100).ToString();
 
         InitializeMicSelector();
 
@@ -57,8 +82,8 @@ public class SoundManager : MonoBehaviour
         }
         micSelector.AddOptions(options);
 
-        // ¿˙¿Âµ» ∏∂¿Ã≈© º±≈√ (¿Ã¿¸ø° º±≈√«— ∏∂¿Ã≈©∏¶ ∫πø¯)
-        selectedMicName = PlayerPrefs.GetString("SelectedMic", ""); // ±‚∫ª∞™¿∫ ∫Û πÆ¿⁄ø≠
+        // Ï†ÄÏû•Îêú ÎßàÏù¥ÌÅ¨ ÏÑ†ÌÉù (Ïù¥Ï†ÑÏóê ÏÑ†ÌÉùÌïú ÎßàÏù¥ÌÅ¨Î•º Î≥µÏõê)
+        selectedMicName = PlayerPrefs.GetString("SelectedMic", ""); // Í∏∞Î≥∏Í∞íÏùÄ Îπà Î¨∏ÏûêÏó¥
 
         if (!string.IsNullOrEmpty(selectedMicName))
         {
@@ -69,67 +94,75 @@ public class SoundManager : MonoBehaviour
             }
         }
 
-        // ∏∂¿Ã≈© º±≈√ »ƒ √ ±‚»≠
+        // ÎßàÏù¥ÌÅ¨ ÏÑ†ÌÉù ÌõÑ Ï¥àÍ∏∞Ìôî
         micSelector.onValueChanged.AddListener(OnMicSelectorValueChanged);
-        int audioFrequency = 44100;
+        //int audioFrequency = 44100;
 
-        // ∏∂¿Ã≈©∏¶ Ω√¿€«œ∞Ì ¿‘∑¬¿ª ¿Áª˝
-        micAudioSource = gameObject.AddComponent<AudioSource>();
-        micAudioSource.clip = Microphone.Start(selectedMicName, true, 10, audioFrequency);
-        micAudioSource.volume = micSlider.value;
-        micAudioSource.loop = true;
-        while (Microphone.GetPosition(selectedMicName) <= 0) { }
-        micAudioSource.Play();
+        //// ÎßàÏù¥ÌÅ¨Î•º ÏãúÏûëÌïòÍ≥† ÏûÖÎ†•ÏùÑ Ïû¨ÏÉù1
+        //micAudioSource = gameObject.AddComponent<AudioSource>();
+        //micAudioSource.clip = Microphone.Start(selectedMicName, true, 10, audioFrequency);
+        //micAudioSource.volume = micSlider.value;
+        //micAudioSource.loop = true;
+        //while (Microphone.GetPosition(selectedMicName) <= 0) { }
+        //micAudioSource.Play();
     }
 
 
 
     public void OnMicSelectorValueChanged(int micIndex)
     {
+        Debug.Log("ÎßàÏù¥ÌÅ¨Î∞îÎÄú");
         selectedMicName = micSelector.options[micIndex].text;
-        // ø©±‚ø°º≠ º±≈√«— ∏∂¿Ã≈© ¿Ã∏ß¿ª ¿˙¿Â
+        // Ïó¨Í∏∞ÏóêÏÑú ÏÑ†ÌÉùÌïú ÎßàÏù¥ÌÅ¨ Ïù¥Î¶ÑÏùÑ Ï†ÄÏû•
         PlayerPrefs.SetString("SelectedMic", selectedMicName);
         PlayerPrefs.Save();
 
-        // ∏∂¿Ã≈©∏¶ Ω√¿€«œ∞Ì ¿‘∑¬¿ª ¿Áª˝
-        int audioFrequency = 44100;
-        micAudioSource.clip = Microphone.Start(selectedMicName, true, 10, audioFrequency);
-        micAudioSource.volume = micSlider.value;
-        while (Microphone.GetPosition(selectedMicName) <= 0) { }
-        micAudioSource.Play();
+        // ÎßàÏù¥ÌÅ¨Î•º ÏãúÏûëÌïòÍ≥† ÏûÖÎ†•ÏùÑ Ïû¨ÏÉù
+        //int audioFrequency = 44100;
+        //micAudioSource.clip = Microphone.Start(selectedMicName, true, 10, audioFrequency);
+        //micAudioSource.volume = micSlider.value;
+        //while (Microphone.GetPosition(selectedMicName) <= 0) { }
+        //micAudioSource.Play();
     }
 
     public void ChangeVolume(float value)
     {
         PlayerPrefs.SetFloat("Volume", value);
         PlayerPrefs.Save();
-
-        foreach (AudioSource source in audioSources)
-        {
-            source.volume = value;
-        }
-
-        // volumeText ≈ÿΩ∫∆Æ æ˜µ•¿Ã∆Æ
         int intValue = Mathf.RoundToInt(value * 100);
-        volumeText.text = intValue.ToString();
-        }
+        volume.textArea.text = intValue.ToString();
+
+        volume.audioMixerGroup.audioMixer.SetFloat("BGFXVolume", calcLogDB(value));
+    }
+
     public void ChangeMicVolume(float value)
     {
         PlayerPrefs.SetFloat("MicVolume", value);
         PlayerPrefs.Save();
-        if (micAudioSource != null)
-        {
-            micAudioSource.volume = value;
-        }
         int intValue = Mathf.RoundToInt(value * 100);
-        micVolumeText.text = intValue.ToString();
+        mic.textArea.text = intValue.ToString();
+
+        volume.audioMixerGroup.audioMixer.SetFloat("MyMicVolume", calcLogDB(volume.slider.minValue));
+        soundEventManager.SetMicVolume(value);
+    }
+    public void ChangeOtherMicVolume(float value)
+    {
+        PlayerPrefs.SetFloat("OtherMicVolume", value);
+        PlayerPrefs.Save();
+        int intValue = Mathf.RoundToInt(value * 100);
+        other.textArea.text = intValue.ToString();
+
+        volume.audioMixerGroup.audioMixer.SetFloat("OtherMicVolume", calcLogDB(value));
+    }
+
+    private float  calcLogDB(float value)
+    {
+        return Mathf.Log10(value) * 20;
     }
 
 
 
-
-
-    // ø©±‚ø° «√∑π¿ÃæÓµÈ ∫º∑˝«‘ºˆ? 
+    // Ïó¨Í∏∞Ïóê ÌîåÎ†àÏù¥Ïñ¥Îì§ Î≥ºÎ•®Ìï®Ïàò? 
 
 
 }

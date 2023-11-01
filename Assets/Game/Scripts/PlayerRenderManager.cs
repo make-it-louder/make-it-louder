@@ -13,7 +13,6 @@ public class PlayerRenderManager : MonoBehaviour
         public const int L_QUATERNION_Y = 270;
         public const int R_QUATERNION_Y = 90;
     }
-    [SerializeField]
     private bool isViewingRight;
     public bool ViewDirection
     {
@@ -28,16 +27,11 @@ public class PlayerRenderManager : MonoBehaviour
     }
     public RuntimeAnimatorController animatorController;
     private Animator animator;
-    // Start is called before the first frame update
+
     void Awake()
     {
         ViewDirection = ViewDirectionConst.LEFT;
-        animator = GetComponentInChildren<Animator>();
-        if (animator == null)
-        {
-            Debug.LogError("Animator not found");
-        }
-        animator.runtimeAnimatorController = animatorController;
+        ResetAnimator();
     }
 
     // Update is called once per frame
@@ -56,10 +50,28 @@ public class PlayerRenderManager : MonoBehaviour
     }
     public void SetAnimatorFloat(string name, float value)
     {
+        if (animator == null)
+        {
+            ResetAnimator();
+        }
         animator.SetFloat(name, value);
     }
     public void SetAnimatorBool(string name, bool value)
     {
+        if (animator == null)
+        {
+            ResetAnimator();
+        }
         animator.SetBool(name, value);
+    }
+    private void ResetAnimator()
+    {
+        animator = GetComponentInChildren<Animator>();
+        if (animator == null)
+        {
+            Debug.LogError("Cannot find animator");
+            return;
+        }
+        animator.runtimeAnimatorController = animatorController;
     }
 }
