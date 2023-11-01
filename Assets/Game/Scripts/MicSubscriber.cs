@@ -12,7 +12,7 @@ public class MicSubscriber : MonoBehaviour
 
     public Color normalColor = Color.green;
     public Color bigSoundColor = Color.red;
-    private SpriteRenderer renderer;
+    private new SpriteRenderer renderer;
 
     // Start is called before the first frame update
     void Start()
