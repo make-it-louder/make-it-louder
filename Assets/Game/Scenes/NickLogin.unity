@@ -1294,7 +1294,7 @@ MonoBehaviour:
   statsResetInterval: 1000
   speakerPrefab: {fileID: 6592985560190667947, guid: 1cc9d89684e653b45a1124240d420bdb, type: 3}
   primaryRecorder: {fileID: 8143842662421907807}
-  usePrimaryRecorder: 0
+  usePrimaryRecorder: 1
   cppCompatibilityMode: 0
   Settings:
     AppIdRealtime: 
@@ -1338,8 +1338,8 @@ MonoBehaviour:
   reliableMode: 0
   encrypt: 0
   transmitEnabled: 1
-  samplingRate: 8000
-  frameDuration: 20000
+  samplingRate: 48000
+  frameDuration: 10000
   bitrate: 6000
   sourceType: 0
   microphoneType: 0
@@ -1357,7 +1357,7 @@ MonoBehaviour:
     EnableNS: 1
   stopRecordingWhenPaused: 0
   useOnAudioFilterRead: 0
-  useMicrophoneTypeFallback: 1
+  useMicrophoneTypeFallback: 0
   recordWhenJoined: 1
 --- !u!1 &8218917194674868387
 GameObject:
@@ -1370,6 +1370,7 @@ GameObject:
   - component: {fileID: 1477678424785887636}
   - component: {fileID: 2599871301432249007}
   - component: {fileID: 8143842662421907807}
+  - component: {fileID: 8218917194674868388}
   m_Layer: 0
   m_Name: PhotonVoiceManager
   m_TagString: Untagged
@@ -1377,6 +1378,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8218917194674868388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8218917194674868387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02bb0fd29257a174b9b913ecce989f65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedMicName: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

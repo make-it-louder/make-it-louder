@@ -6,8 +6,6 @@ public class MicSubscriber : MonoBehaviour
 {
     [SerializeField]
     MicInputManager input;
-    public float minDB = -160;
-    public float maxDB = 1000;
     public float scaleFactor = 1.0f;
 
     public Color normalColor = Color.green;

@@ -74,19 +74,6 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        if (!PhotonNetwork.IsConnected || PhotonNetwork.OfflineMode)
-        {
-            if (Microphone.devices.Length == 0)
-            {
-                Debug.LogError("No microphone detected");
-                return;
-            }
-            audioSource.clip = Microphone.Start(null, true, 1, sampleRate);
-            audioSource.loop = true;
-            //audioSource.mute = true; // Prevent feedback
-            while (!(Microphone.GetPosition(null) > 0)) { } // Wait until the recording has started
-            audioSource.Play(); // Play the audio source
-        }
         if (soundEventManager != null)
         {
             soundEventManager.AddPublisher(this);
