@@ -20,9 +20,6 @@ public class SoundManager : MonoBehaviour
         
         [SerializeField]
         public AudioMixerGroup audioMixerGroup;
-
-        float minVolume = -80.0f;
-        float maxVolume = 0.0f;
     }
     [Header("MixerGroupSettings")]
     //Slider
