@@ -1,3 +1,4 @@
+using Photon.Voice.PUN;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,6 +41,9 @@ public class SoundManager : MonoBehaviour
     public TMP_Dropdown micSelector;
     private string selectedMicName;
     // Start is called before the first frame update
+
+    private MicInput micInput;
+
     void Start()
     {
         var defaultVolume = PlayerPrefs.GetFloat("Volume", 0.5f);
@@ -64,6 +68,8 @@ public class SoundManager : MonoBehaviour
         }
         other.textArea.text = Mathf.RoundToInt(defaultOtherMicVolume * 100).ToString();
 
+
+        micInput = FindObjectOfType<MicInput>();
         InitializeMicSelector();
 
     }
@@ -93,18 +99,9 @@ public class SoundManager : MonoBehaviour
                 micSelector.value = micIndex;
             }
         }
-
+        micInput.SetMicName(selectedMicName);
         // 마이크 선택 후 초기화
         micSelector.onValueChanged.AddListener(OnMicSelectorValueChanged);
-        //int audioFrequency = 44100;
-
-        //// 마이크를 시작하고 입력을 재생1
-        //micAudioSource = gameObject.AddComponent<AudioSource>();
-        //micAudioSource.clip = Microphone.Start(selectedMicName, true, 10, audioFrequency);
-        //micAudioSource.volume = micSlider.value;
-        //micAudioSource.loop = true;
-        //while (Microphone.GetPosition(selectedMicName) <= 0) { }
-        //micAudioSource.Play();
     }
 
 
@@ -117,12 +114,7 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.SetString("SelectedMic", selectedMicName);
         PlayerPrefs.Save();
 
-        // 마이크를 시작하고 입력을 재생
-        //int audioFrequency = 44100;
-        //micAudioSource.clip = Microphone.Start(selectedMicName, true, 10, audioFrequency);
-        //micAudioSource.volume = micSlider.value;
-        //while (Microphone.GetPosition(selectedMicName) <= 0) { }
-        //micAudioSource.Play();
+        micInput.SetMicName(selectedMicName);
     }
 
     public void ChangeVolume(float value)

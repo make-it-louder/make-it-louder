@@ -101,7 +101,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
     IEnumerator OnScene3Loaded() {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
-        GameObject spawnedPlayer = PhotonNetwork.Instantiate("player/"+playerPrefab.name, new Vector3(Random.Range(-5f, 5f), 1, Random.Range(-5f, 5f)), Quaternion.identity);
+        GameObject spawnedPlayer = PhotonNetwork.Instantiate(
+            "player/" + playerPrefab.name,
+            new Vector3(Random.Range(15f, 19f), -3f, 0),
+            Quaternion.identity
+        );
 
         GridCamera2D camera = GameObject.Find("Main Camera").GetComponent<GridCamera2D>();
         camera.follows = spawnedPlayer;
