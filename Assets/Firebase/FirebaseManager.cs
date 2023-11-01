@@ -88,7 +88,7 @@ public class FirebaseManager : MonoBehaviour
         AuthStateChanged(this, null);
 
         // get a databasereference
-        databaseReference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance, "https://c102-30105-default-rtdb.firebaseio.com/").RootReference;
+        databaseReference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance, "https://c102-480d5-default-rtdb.firebaseio.com/").RootReference;
     }
 
     // set an authentication state change event handler and get user data
@@ -193,7 +193,13 @@ public class FirebaseManager : MonoBehaviour
         try
         {
             Firebase.Auth.AuthResult result = await auth.SignInWithEmailAndPasswordAsync(email, password);
-            Debug.LogError("successfully signed in");
+            Debug.Log("successfully signed in");
+
+            Profile infos = await GetProfile(user.UserId);
+            RecordManager.Instance.GetProfile(infos);
+
+            Dictionary<string, Record> records = await GetRecords(user.UserId);
+            RecordManager.Instance.GetRecords(records);
 
             flag = true;
         }
