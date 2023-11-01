@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -40,19 +39,20 @@ public class RecordManager : MonoBehaviour
         FirebaseManager.Instance.InitializeFirebase();
     }
 
+    //
     public void GetProfile(FirebaseManager.Profile profile)
     {
         userProfile = profile;
     }
-
-    public void GetRecords(Dictionary<string, FirebaseManager.Record> records)
-    {
-        userRecords = records;
-    }
-
     public FirebaseManager.Profile UserProfile
     {
         get { return userProfile; }
+    }
+
+    //
+    public void GetRecords(Dictionary<string, FirebaseManager.Record> records)
+    {
+        userRecords = records;
     }
 
     public Dictionary<string, FirebaseManager.Record> UserRecords

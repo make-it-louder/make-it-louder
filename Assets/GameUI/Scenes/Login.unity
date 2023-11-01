@@ -155,6 +155,38 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1424091216319731547, guid: 5474155b19c489742879f8747c6157bc, type: 3}
+      propertyPath: buttonClose
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1424091216319731547, guid: 5474155b19c489742879f8747c6157bc, type: 3}
+      propertyPath: onConfirm.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1424091216319731547, guid: 5474155b19c489742879f8747c6157bc, type: 3}
+      propertyPath: onConfirm.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1424091216319731547, guid: 5474155b19c489742879f8747c6157bc, type: 3}
+      propertyPath: onConfirm.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1387374021}
+    - target: {fileID: 1424091216319731547, guid: 5474155b19c489742879f8747c6157bc, type: 3}
+      propertyPath: onConfirm.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1424091216319731547, guid: 5474155b19c489742879f8747c6157bc, type: 3}
+      propertyPath: onConfirm.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClosePopup
+      objectReference: {fileID: 0}
+    - target: {fileID: 1424091216319731547, guid: 5474155b19c489742879f8747c6157bc, type: 3}
+      propertyPath: onConfirm.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SignSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1424091216319731547, guid: 5474155b19c489742879f8747c6157bc, type: 3}
+      propertyPath: onConfirm.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1773126475695205067, guid: 5474155b19c489742879f8747c6157bc, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -226,7 +258,7 @@ PrefabInstance:
     - target: {fileID: 7941658182404960467, guid: 5474155b19c489742879f8747c6157bc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1377088645}
+      objectReference: {fileID: 1387374021}
     - target: {fileID: 7941658182404960467, guid: 5474155b19c489742879f8747c6157bc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -237,7 +269,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7941658182404960467, guid: 5474155b19c489742879f8747c6157bc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FirebaseManager, Assembly-CSharp
+      value: SignSystem, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7941658182404960467, guid: 5474155b19c489742879f8747c6157bc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -493,9 +525,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   email: {fileID: 1411844644}
-  username: {fileID: 1839761035}
   password: {fileID: 1497788378}
-  passwordConfirm: {fileID: 1236752315}
+  confirmpassword: {fileID: 1495500836}
+  username: {fileID: 1839761035}
+  signupForm: {fileID: 131915278}
+  loginForm: {fileID: 1387374017}
   popupWindow: {fileID: 1233511990}
   popupTitle: {fileID: 2011496762}
   popupContent: {fileID: 800285631}
@@ -2569,6 +2603,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 480639349}
   m_CullTransparentMesh: 1
+--- !u!1 &656979860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 656979862}
+  - component: {fileID: 656979861}
+  m_Layer: 0
+  m_Name: RecordManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &656979861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656979860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62f4bbd78908d2540b0c80869a921356, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &656979862
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656979860}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 160, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &689317451
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4203,17 +4281,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7233051494870565536, guid: a66b65926a9cf8b4ba68789a9011ee48, type: 3}
   m_PrefabInstance: {fileID: 1236752313}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1236752315 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5825801259477494466, guid: a66b65926a9cf8b4ba68789a9011ee48, type: 3}
-  m_PrefabInstance: {fileID: 1236752313}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1365718673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4338,11 +4405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f3a483f17ccb084c893410f2c50a85e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signupForm: {fileID: 131915278}
-  loginForm: {fileID: 1387374017}
-  popupWinodow: {fileID: 1233511990}
-  popupTitle: {fileID: 2011496762}
-  popupContent: {fileID: 800285631}
   loadingSpinner: {fileID: 2160743100115121636}
 --- !u!4 &1377088646
 Transform:
@@ -4453,9 +4515,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   email: {fileID: 935202013}
-  username: {fileID: 0}
   password: {fileID: 1476092777}
-  passwordConfirm: {fileID: 0}
+  confirmpassword: {fileID: 0}
+  username: {fileID: 0}
+  signupForm: {fileID: 131915278}
+  loginForm: {fileID: 1387374017}
   popupWindow: {fileID: 1233511990}
   popupTitle: {fileID: 2011496762}
   popupContent: {fileID: 800285631}
@@ -4491,6 +4555,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7233051494870565536, guid: a66b65926a9cf8b4ba68789a9011ee48, type: 3}
   m_PrefabInstance: {fileID: 689317451}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1495500836 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5825801259477494466, guid: a66b65926a9cf8b4ba68789a9011ee48, type: 3}
+  m_PrefabInstance: {fileID: 1236752313}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1497788377 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7233051494870565536, guid: a66b65926a9cf8b4ba68789a9011ee48, type: 3}
@@ -5748,4 +5823,5 @@ SceneRoots:
   - {fileID: 326693374}
   - {fileID: 1377088646}
   - {fileID: 1131102321}
+  - {fileID: 656979862}
   - {fileID: 1526039929}
