@@ -130,6 +130,7 @@ public class PlayerMove2D : MonoBehaviourPun
                     StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
                     StartCoroutine(ResetEmotionAfterDelay("isHappy"));
                 }
+                renderer.ViewFront = isHappy;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -147,6 +148,7 @@ public class PlayerMove2D : MonoBehaviourPun
                     StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
                     StartCoroutine(ResetEmotionAfterDelay("isDamage"));
                 }
+                renderer.ViewFront = false;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha3))
@@ -164,6 +166,7 @@ public class PlayerMove2D : MonoBehaviourPun
                     StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
                     StartCoroutine(ResetEmotionAfterDelay("isHello"));
                 }
+                renderer.ViewFront = isHello;
             }
 
             // 방향키 또는 점프키를 눌렀을 때 isHappy를 false로 설정
@@ -177,6 +180,7 @@ public class PlayerMove2D : MonoBehaviourPun
 
                 isHello = false;
                 renderer.SetAnimatorBool("isHello", isHello);
+                renderer.ViewFront = false;
             }
         }
     }
@@ -281,5 +285,6 @@ public class PlayerMove2D : MonoBehaviourPun
                 renderer.SetAnimatorBool("isHello", isHello);
                 break;
         }
+        renderer.ViewFront = false;
     }
 }
