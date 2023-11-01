@@ -195,6 +195,12 @@ public class FirebaseManager : MonoBehaviour
             Firebase.Auth.AuthResult result = await auth.SignInWithEmailAndPasswordAsync(email, password);
             Debug.Log("successfully signed in");
 
+            Profile infos = await GetProfile(user.UserId);
+            RecordManager.Instance.GetProfile(infos);
+
+            Dictionary<string, Record> records = await GetRecords(user.UserId);
+            RecordManager.Instance.GetRecords(records);
+
             flag = true;
         }
         catch (Exception e)
