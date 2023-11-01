@@ -292,6 +292,7 @@ public class FirebaseManager : MonoBehaviour
             {
                 string json = snapshot.GetRawJsonValue();
                 Dictionary<string, Record> records = JsonConvert.DeserializeObject<Dictionary<string, Record>>(json);
+                Debug.Log(records["map1"].count_jump);
                 return records;
             }
             else

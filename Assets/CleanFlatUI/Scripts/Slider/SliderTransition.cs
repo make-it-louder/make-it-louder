@@ -43,7 +43,7 @@ namespace RainbowArt.CleanFlatUI
             }
             if (hasText && (text != null))
             {
-                float useValue = (float)Math.Round((double)slider.value, 1);
+                float useValue = (float)Math.Round((double)slider.value * 100, 0);
                 text.text = useValue + "";
             }
         }
@@ -79,7 +79,7 @@ namespace RainbowArt.CleanFlatUI
         {
             if (hasText && (text != null))
             {
-                float useValue = (float)Math.Round((double)slider.value, 1);
+                float useValue = (float)Math.Round((double)slider.value * 100, 0);
                 text.text = useValue +"";
             }       
         } 

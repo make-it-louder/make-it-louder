@@ -10,9 +10,13 @@ public class SoundBlockController : MonoBehaviourPun
     SoundSubscriber input;
     Rigidbody2D rb;
 
+    public float maxXRange;
+    public float maxYRange;
+
+    private float initX;
+    private float limitX;
     private float maxY;
     private float minY;
-    private float curY;
 
     public float dropPower = 0.1f;
 
@@ -28,12 +32,16 @@ public class SoundBlockController : MonoBehaviourPun
 
     public float maxUpTime = 3.0f;
     public float disavleInputPeriod = 2.0f;
+
+    
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        maxY = transform.position.y + 3;
+        maxY = transform.position.y + maxYRange;
         minY = transform.position.y;
+        limitX = transform.position.x + maxXRange;
+        initX = transform.position.x;
         input = soundManager.Subscribe(this.gameObject);
     }
 
@@ -49,7 +57,7 @@ public class SoundBlockController : MonoBehaviourPun
         {
             return;
         }
-        if (disableInputTime > 0.0f)
+            if (disableInputTime > 0.0f)
         {
             disableInputTime -= Time.deltaTime;
         }
@@ -89,33 +97,60 @@ public class SoundBlockController : MonoBehaviourPun
 
     void moveUp()
     {
+
+
         float xMove = 0f;
 
-        if (directionLeft == true)
-        {
-            xMove = -0.1f;   
-        }
-        else if (directionRight == true) {
-            xMove = 0.1f;
-        }
+
 
         if (isMovingUp)
         {
-            curY = transform.position.y;
+            if (directionLeft == true)
+            {
+                xMove = -0.1f;
+            }
+            else if (directionRight == true)
+            {
+                xMove = 0.1f;
+            }
+
             Vector2 newPosition = rb.position + new Vector2(xMove, 0.1f);
             if (newPosition.y > maxY)
             {
                 newPosition.y = maxY;
+            }
+            if (newPosition.x > limitX && limitX > initX)
+            {
+                newPosition.x = limitX;
+            }
+            else if (newPosition.x < limitX && limitX < initX)
+            {
+                newPosition.x = limitX;
             }
             rb.MovePosition(newPosition);
 
         }
         else
         {
+            if (directionLeft == true)
+            {
+                xMove = -0.1f;
+            }
+            else if (directionRight == true)
+            {
+                xMove = 0.1f;
+            }
+
             Vector2 newPosition = rb.position + new Vector2(-xMove, -dropPower);
             if (newPosition.y < minY)
             {
                 newPosition.y = minY;
+            }
+            if (newPosition.x < initX && limitX < initX)
+            {
+                newPosition.x = initX;
+            } else if (newPosition.x > initX && limitX > initX)  {
+                newPosition.x = initX;
             }
             rb.MovePosition(newPosition);
         }
