@@ -5,7 +5,6 @@ using System.IO;
 
 public class ForceExitTest : MonoBehaviour
 {
-    public GameObject gameObject;
     // Start is called before the first frame update
     void Start()
     {

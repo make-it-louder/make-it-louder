@@ -7,29 +7,20 @@ using System.Threading.Tasks;
 using Firebase;
 using Firebase.Database;
 using UnityEngine.SceneManagement;
-using TMPro;
 using Newtonsoft.Json;
 
 public class FirebaseManager : MonoBehaviour
 {
-    // firebase
+    // singleton
     private static FirebaseManager instance = null;
 
+    // firebase
     private Firebase.DependencyStatus dependencyStatus;
     private FirebaseAuth auth;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
 
-    // unity
-    public GameObject signupForm;
-    public GameObject loginForm;
-    public GameObject popupWinodow;
-    public TMP_Text popupTitle;
-    public TMP_Text popupContent;
-
-    // write, update, or delete data at a reference
-    // private User userdata;
-
+    // interface
     public GameObject loadingSpinner;
 
     public static FirebaseManager Instance
@@ -88,6 +79,7 @@ public class FirebaseManager : MonoBehaviour
     {
         // returns the firebaseAuth
         auth = FirebaseAuth.DefaultInstance;
+
         if (auth.CurrentUser != null)
         {
             SignOut();
@@ -96,7 +88,7 @@ public class FirebaseManager : MonoBehaviour
         AuthStateChanged(this, null);
 
         // get a databasereference
-        databaseReference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance, "https://c102-480d5-default-rtdb.firebaseio.com/").RootReference;
+        databaseReference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance, "https://c102-30105-default-rtdb.firebaseio.com/").RootReference;
     }
 
     // set an authentication state change event handler and get user data
@@ -105,6 +97,7 @@ public class FirebaseManager : MonoBehaviour
         if (auth.CurrentUser != user)
         {
             bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null && auth.CurrentUser.IsValid();
+
             if (!signedIn && user != null)
             {
                 Debug.Log("Signed out");
@@ -120,18 +113,18 @@ public class FirebaseManager : MonoBehaviour
     }
 
     //
-    public class User
+    public class Profile
     {
         public string username;
         public string avatar;
         public List<string> avatars;
         public List<string> achievements;
 
-        public User()
+        public Profile()
         {
         }
 
-        public User(string username, string avatar, List<string> avatars, List<string> achievements)
+        public Profile(string username, string avatar, List<string> avatars, List<string> achievements)
         {
             this.username = username;
             this.avatar = avatar;
@@ -141,7 +134,6 @@ public class FirebaseManager : MonoBehaviour
     }
 
     //
-    [Serializable]
     public class Record
     {
         public int playtime;
@@ -161,97 +153,83 @@ public class FirebaseManager : MonoBehaviour
     }
 
     // sign up new users
-    public async void SignUp(string email, string username, string password)
+    public async void SignUp(string email, string password, string username, Action<bool> callback)
     {
         bool flag = false;
 
         loadingSpinner.SetActive(true);
-        
-        await auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
-        {
-            if (task.IsCanceled || task.IsFaulted)
-            {
-                Debug.LogError("failed to sign up");
-                return;
-            }
 
-            Firebase.Auth.AuthResult result = task.Result;
+        try
+        {
+            Firebase.Auth.AuthResult result = await auth.CreateUserWithEmailAndPasswordAsync(email, password);
             Debug.LogError("successfully signed up");
-            
-            WriteNewUser(result.User.UserId, username);
-            Debug.LogError("user has been successfully writed");
 
-            WriteNewRecord(result.User.UserId);
-            Debug.LogError("record has been successfully writed");
+            WriteUser(result.User.UserId, username);
+            Debug.LogError("user has been successfully written");
+
+            WriteRecord(result.User.UserId);
+            Debug.LogError("record has been successfully written");
 
             flag = true;
-        });
-
-        if (flag)
-        {
-            loginForm.SetActive(true);
-            signupForm.SetActive(false);
         }
-        else
+        catch (Exception e)
         {
-            popupTitle.text = "실패";
-            popupContent.text = "입력한 정보를 확인해주세요!";
-            popupWinodow.SetActive(true);
+            Debug.LogError("failed to sign up: " + e.Message);
         }
-
-        loadingSpinner.SetActive(false);
+        finally
+        {
+            loadingSpinner.SetActive(false);
+            callback(flag);
+        }
     }
 
-    public async void SignIn(string email, string password)
+    // sign in existing users
+    public async void SignIn(string email, string password, Action<bool> callback)
     {
         bool flag = false;
+
         loadingSpinner.SetActive(true);
-        await auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
-        {
-            if (task.IsCanceled || task.IsFaulted)
-            {
-                Debug.LogError("failed to sign in");
-                return;
-            }
 
-            AuthResult result = task.Result;
-            FirebaseUser newUser = result.User;
+        try
+        {
+            Firebase.Auth.AuthResult result = await auth.SignInWithEmailAndPasswordAsync(email, password);
             Debug.LogError("successfully signed in");
+
             flag = true;
-        });
-        if (flag) 
-        {
-            SceneManager.LoadScene("LobbyTest");
-
-        } else
-        {
-            popupTitle.text = "실패";
-            popupContent.text = "ID/PW를 확인해주세요!";
-            popupWinodow.SetActive(true);
         }
-
-        loadingSpinner.SetActive(false);
+        catch (Exception e)
+        {
+            Debug.LogError("failed to sign in: " + e.Message);
+        }
+        finally
+        {
+            loadingSpinner.SetActive(false);
+            callback(flag);
+        }
     }
 
+    // sign out a user
     public void SignOut()
     {
         auth.SignOut();
         SceneManager.LoadScene("Login");
     }
 
-    private void WriteNewUser(string userId, string username)
+    //
+    private void WriteUser(string userId, string username)
     {
         string defaultAvatar = "avatar1";
         List<string> defaultAvatars = new List<string>() { "avatar1"};
         List<string> defaultAchievements = new List<string>() { "achievement1"};
 
-        User user = new User(username, defaultAvatar, defaultAvatars, defaultAchievements);
+        Profile user = new Profile(username, defaultAvatar, defaultAvatars, defaultAchievements);
         string json = JsonUtility.ToJson(user);
 
         databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(json);
     }
 
-    private void WriteNewRecord(string userId)
+    //
+    private void WriteRecord(string userId)
     {
         Dictionary<string, Record> records = new Dictionary<string, Record>
         {
@@ -263,8 +241,77 @@ public class FirebaseManager : MonoBehaviour
         string json = JsonConvert.SerializeObject(records, Formatting.Indented);
         databaseReference.Child("records").Child(userId).SetRawJsonValueAsync(json);
     }
-    public void ClosePopup()
+
+    //
+    public async Task<Profile> GetProfile(string userId)
     {
-        popupWinodow.SetActive(false);
+        var task = databaseReference.Child("users").Child(userId).GetValueAsync();
+        await task;
+
+        if (task.IsCompleted)
+        {
+            DataSnapshot snapshot = task.Result;
+
+            if (snapshot.Exists)
+            {
+                string json = snapshot.GetRawJsonValue();
+                Profile user = JsonConvert.DeserializeObject<Profile>(json);
+                return user;
+            }
+            else
+            {
+                Debug.LogError("The user data does not exist");
+                return null;
+            }
+        }
+        else
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Failed to retrieve user data from the database due to a faulted state");
+            }
+            else if (task.IsCanceled)
+            {
+                Debug.LogError("Failed to retrieve user data from the database due to a canceled state");
+            }
+            return null;
+        }
+    }
+
+    //
+    public async Task<Dictionary<string, Record>> GetRecords(string userId)
+    {
+        var task = databaseReference.Child("records").Child(userId).GetValueAsync();
+        await task;
+
+        if (task.IsCompleted)
+        {
+            DataSnapshot snapshot = task.Result;
+
+            if (snapshot.Exists)
+            {
+                string json = snapshot.GetRawJsonValue();
+                Dictionary<string, Record> records = JsonConvert.DeserializeObject<Dictionary<string, Record>>(json);
+                Debug.Log(records["map1"].count_jump);
+                return records;
+            }
+            else
+            {
+                Debug.LogError("The record data does not exist");
+                return null;
+            }
+        }
+        else
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("failed to retrieve from the database due to a faulted state");
+            }
+            else if (task.IsCanceled)
+            {
+                Debug.LogError("failed to retrieve from the database due to a canceled state");
+            }
+            return null;
+        }
     }
 }

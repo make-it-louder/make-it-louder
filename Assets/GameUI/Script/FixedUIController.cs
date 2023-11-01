@@ -5,14 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class FixedUIController : MonoBehaviour
 {
-    public GameObject settingsForm; // Panel GameObject¸¦ ÂüÁ¶ÇÒ º¯¼ö
-    public GameObject settingsDetail;
+    public GameObject settingsForm; // Panel GameObjectë¥¼ ì°¸ì¡°í•  ë³€ìˆ˜
     public GameObject audioSettingsForm;
     public GameObject displaySettingsForm;
     private static FixedUIController instance = null;
     public TMP_Text title;
 
-    //ÆË¾÷
+    //íŒì—…
     public GameObject exitPopup;
 
     public GameObject quitPopup;
@@ -42,30 +41,27 @@ public class FixedUIController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("ÀÏ´Üµé¾î¿È");
+            Debug.Log("ì¼ë‹¨ë“¤ì–´ì˜´");
             if (settingsForm == null)
             {
-                Debug.Log("¼¼ÆÃÃ¢¼¼ÆÃÁß");
+                Debug.Log("ì„¸íŒ…ì°½ì„¸íŒ…ì¤‘");
                 settingsForm = GameObject.Find("SettingsForm");
             }
 
             if (settingsForm != null && !settingsForm.activeSelf)
             {
-                Debug.Log("ÄÑ´ÂÁß");
-                audioSettingsForm.SetActive(false);
-                displaySettingsForm.SetActive(false);
-                settingsDetail.SetActive(true);
+                Debug.Log("ì¼œëŠ”ì¤‘");
                 OpenSettingsForm();
             }
             else if (settingsForm != null)
             {
-                Debug.Log("²ô´ÂÁß");
+                Debug.Log("ë„ëŠ”ì¤‘");
                 CloseSettingsForm();
             }
         }
     }
 
-    //¿­±â 
+    //ì—´ê¸° 
     void OpenSettingsForm()
     {
         if (settingsForm == null)
@@ -103,29 +99,8 @@ public class FixedUIController : MonoBehaviour
         }
     }
 
-    public void ChangeForm(GameObject formName)
-    {
-        if (formName != null)
-        {
-            Debug.Log("ÀÖ´ë");
-            settingsDetail.SetActive(false);
-            formName.SetActive(true);
-        }
-        else
-        {
-            Debug.LogError("The Form is not found.");
-        }
-    }
-
-/*    public void GoToSettingsForm()
-    {
-        settingsForm.SetActive(true);
-        settingsDetail.SetActive(false);
-        audioSettingsForm.SetActive(false);
-        displaySettingsForm.SetActive(false);
-    }*/
     
-    //ÆË¾÷¶ç¿ì±â
+    //íŒì—…ë„ìš°ê¸°
     public void openExitPopupWindow ()
     {
         exitPopup.SetActive(true);

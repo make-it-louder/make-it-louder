@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class NetworkManager : MonoBehaviourPunCallbacks
+public class NetworkManagertmp : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
     void Start()

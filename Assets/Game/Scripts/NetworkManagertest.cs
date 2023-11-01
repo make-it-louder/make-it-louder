@@ -1,35 +1,55 @@
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class NicknameManager : MonoBehaviourPunCallbacks
+public class NetworkManager : MonoBehaviourPunCallbacks
 {
     public TMP_InputField nicknameInputField;
     public GameObject playerPrefab;
+
+    public List<RoomInfo> myList { get; set; }
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
+        myList = new List<RoomInfo>();
     }
     public void OnConnectButtonClicked()
     {
         if (!string.IsNullOrEmpty(nicknameInputField.text))
         {
-            PhotonNetwork.NickName = nicknameInputField.text;
-            PhotonNetwork.AutomaticallySyncScene = true;
-            PhotonNetwork.ConnectUsingSettings();
+            Connect(nicknameInputField.text);
         }
+        SceneManager.LoadScene(2);
+    }
+
+    public void Connect(string nickname)
+    {
+        PhotonNetwork.NickName = nickname;
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
-        PhotonNetwork.JoinOrCreateRoom("Roomrr", new RoomOptions { MaxPlayers = 6 }, null); // ������ �濡 ����
+        PhotonNetwork.JoinLobby();
+        //PhotonNetwork.JoinOrCreateRoom("Roomrr", new RoomOptions { MaxPlayers = 6 }, null);
+    }
+
+    public void JoinRoom(string roomName)
+    {
+        PhotonNetwork.JoinRoom(roomName, null);
+    }
+    public void CreateRoom(string roomName)
+    {
+        PhotonNetwork.CreateRoom(roomName,new RoomOptions { MaxPlayers = 6 }, null);
     }
 
     public override void OnJoinedRoom()
@@ -45,6 +65,23 @@ public class NicknameManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Failed to join a random room. Creating a new room...");
         PhotonNetwork.CreateRoom(null);
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        int roomCount = roomList.Count;
+        for (int i = 0; i < roomCount; i++)
+        {
+            if (!roomList[i].RemovedFromList)
+            {
+                if (!myList.Contains(roomList[i])) myList.Add(roomList[i]);
+                else myList[myList.IndexOf(roomList[i])] = roomList[i];
+            }
+            else if (myList.IndexOf(roomList[i]) != -1) myList.RemoveAt(myList.IndexOf(roomList[i]));
+        }
+
+        RoomManager roomManager = GameObject.Find("RoomManager").GetComponent<RoomManager>();
+        if (roomManager != null) roomManager.UpdateRoomList();
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -64,7 +101,7 @@ public class NicknameManager : MonoBehaviourPunCallbacks
     }
     IEnumerator OnScene3Loaded() {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
-        GameObject spawnedPlayer = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(Random.Range(-5f, 5f), 1, Random.Range(-5f, 5f)), Quaternion.identity);
+        GameObject spawnedPlayer = PhotonNetwork.Instantiate("player/"+playerPrefab.name, new Vector3(Random.Range(-5f, 5f), 1, Random.Range(-5f, 5f)), Quaternion.identity);
 
         GridCamera2D camera = GameObject.Find("Main Camera").GetComponent<GridCamera2D>();
         camera.follows = spawnedPlayer;
