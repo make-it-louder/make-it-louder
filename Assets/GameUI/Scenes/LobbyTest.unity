@@ -12440,7 +12440,6 @@ GameObject:
   - component: {fileID: 1420439865}
   - component: {fileID: 1420439864}
   - component: {fileID: 1420439863}
-  - component: {fileID: 1420439862}
   - component: {fileID: 1420439861}
   - component: {fileID: 1420439860}
   - component: {fileID: 1420439859}
@@ -12490,20 +12489,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popup: {fileID: 203998270}
---- !u!114 &1420439862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1420439858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 616aa6967607e92499ac208c3e04356d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  name: {fileID: 0}
-  cnt: {fileID: 0}
 --- !u!114 &1420439863
 MonoBehaviour:
   m_ObjectHideFlags: 0
