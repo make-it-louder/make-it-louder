@@ -72,6 +72,7 @@ public class SoundManager : MonoBehaviour
         micInput = FindObjectOfType<MicInput>();
         InitializeMicSelector();
 
+        micSelector.onValueChanged.AddListener(OnMicSelectorValueChanged);
     }
 
 
@@ -89,19 +90,28 @@ public class SoundManager : MonoBehaviour
         micSelector.AddOptions(options);
 
         // 저장된 마이크 선택 (이전에 선택한 마이크를 복원)
-        selectedMicName = PlayerPrefs.GetString("SelectedMic", ""); // 기본값은 빈 문자열
-
+        selectedMicName = PlayerPrefs.GetString("SelectedMic", null);
+        if (Array.IndexOf(myMIC, selectedMicName) == -1 && myMIC.Length > 0)
+        {
+            selectedMicName = myMIC[0];
+        }
         if (!string.IsNullOrEmpty(selectedMicName))
         {
             int micIndex = Array.IndexOf(myMIC, selectedMicName);
             if (micIndex != -1)
             {
                 micSelector.value = micIndex;
+                if (micInput == null)
+                {
+                    micInput = FindObjectOfType<MicInput>();
+                    if (micInput == null)
+                    {
+                        return;
+                    }
+                }
+                micInput.SetMicName(selectedMicName);
             }
         }
-        micInput.SetMicName(selectedMicName);
-        // 마이크 선택 후 초기화
-        micSelector.onValueChanged.AddListener(OnMicSelectorValueChanged);
     }
 
 
@@ -114,6 +124,15 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.SetString("SelectedMic", selectedMicName);
         PlayerPrefs.Save();
 
+        if (micInput == null)
+        {
+            micInput = FindObjectOfType<MicInput>();
+            if (micInput == null)
+            {
+                Debug.Log("Cannot find micInput");
+                return;
+            }
+        }
         micInput.SetMicName(selectedMicName);
     }
 
@@ -124,7 +143,7 @@ public class SoundManager : MonoBehaviour
         int intValue = Mathf.RoundToInt(value * 100);
         volume.textArea.text = intValue.ToString();
 
-        volume.audioMixerGroup.audioMixer.SetFloat("BGFXVolume", calcLogDB(value));
+        volume.audioMixerGroup.audioMixer.SetFloat("BGFXVolume", calcAudioMixerVolume(value));
     }
 
     public void ChangeMicVolume(float value)
@@ -134,7 +153,7 @@ public class SoundManager : MonoBehaviour
         int intValue = Mathf.RoundToInt(value * 100);
         mic.textArea.text = intValue.ToString();
 
-        volume.audioMixerGroup.audioMixer.SetFloat("MyMicVolume", calcLogDB(volume.slider.minValue));
+        volume.audioMixerGroup.audioMixer.SetFloat("MyMicVolume", calcAudioMixerVolume(volume.slider.minValue));
         soundEventManager.SetMicVolume(value);
     }
     public void ChangeOtherMicVolume(float value)
@@ -144,17 +163,15 @@ public class SoundManager : MonoBehaviour
         int intValue = Mathf.RoundToInt(value * 100);
         other.textArea.text = intValue.ToString();
 
-        volume.audioMixerGroup.audioMixer.SetFloat("OtherMicVolume", calcLogDB(value));
+        volume.audioMixerGroup.audioMixer.SetFloat("OtherMicVolume", calcAudioMixerVolume(value));
     }
 
-    private float  calcLogDB(float value)
+    private float  calcAudioMixerVolume(float value)
     {
         return Mathf.Log10(value) * 20;
     }
-
-
-
-    // 여기에 플레이어들 볼륨함수? 
-
-
+    private void OnEnable()
+    {
+        InitializeMicSelector();
+    }
 }
