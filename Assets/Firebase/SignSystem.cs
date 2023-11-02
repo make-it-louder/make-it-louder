@@ -106,7 +106,7 @@ public class SignSystem : MonoBehaviour
     {
         if (flag)
         {
-            SceneManager.LoadScene("Lobby");
+            SceneManager.LoadScene("LobbyTest");
         }
         else
         {
