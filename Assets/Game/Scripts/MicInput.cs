@@ -8,8 +8,8 @@ public class MicInput : MonoBehaviour
     [SerializeField]
     string selectedMicName = null;
     Recorder recorder;
-    // Start is called before the first frame update
-    void Start()
+
+    void Awake()
     {
         recorder = GetComponent<Recorder>();
         SetMicName(null);

@@ -213,11 +213,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3529495337659696404, guid: 54e2893e209ad96478fcbab0e087308c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3529495337659696404, guid: 54e2893e209ad96478fcbab0e087308c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5095308306384805898, guid: 54e2893e209ad96478fcbab0e087308c, type: 3}
       propertyPath: m_Name
@@ -233,15 +233,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7439923859865470850, guid: 54e2893e209ad96478fcbab0e087308c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7439923859865470850, guid: 54e2893e209ad96478fcbab0e087308c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7439923859865470850, guid: 54e2893e209ad96478fcbab0e087308c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1314,7 +1314,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -5082,7 +5082,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1965868263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34045,6 +34045,10 @@ PrefabInstance:
     - target: {fileID: 4504866906300974493, guid: be934f64bfe049d4bb0404945375baa4, type: 3}
       propertyPath: m_Name
       value: PunVoiceClient
+      objectReference: {fileID: 0}
+    - target: {fileID: 4504866906300974493, guid: be934f64bfe049d4bb0404945375baa4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7516435031824793928, guid: be934f64bfe049d4bb0404945375baa4, type: 3}
       propertyPath: m_LocalPosition.x
