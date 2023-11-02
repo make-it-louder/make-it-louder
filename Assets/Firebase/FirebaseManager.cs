@@ -205,7 +205,7 @@ public class FirebaseManager : MonoBehaviour
             Debug.Log("successfully signed in");
 
             await RecordManager.Instance.GetUser(result.User.UserId);
-
+             
             flag = true;
         }
         catch (Exception e)
