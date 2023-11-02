@@ -33,6 +33,8 @@ public class FirebaseManager : MonoBehaviour
 
     private void Awake()
     {
+        InitializeFirebase();
+
         if (instance == null)
         {
             DontDestroyOnLoad(gameObject);
@@ -152,6 +154,12 @@ public class FirebaseManager : MonoBehaviour
         }
     }
 
+    //
+    public DatabaseReference GetDatabaseReference()
+    {
+        return databaseReference;
+    }
+
     // sign up new users
     public async void SignUp(string email, string password, string username, Action<bool> callback)
     {
@@ -246,78 +254,5 @@ public class FirebaseManager : MonoBehaviour
 
         string json = JsonConvert.SerializeObject(records, Formatting.Indented);
         databaseReference.Child("records").Child(userId).SetRawJsonValueAsync(json);
-    }
-
-    //
-    public async Task<Profile> GetProfile(string userId)
-    {
-        var task = databaseReference.Child("users").Child(userId).GetValueAsync();
-        await task;
-
-        if (task.IsCompleted)
-        {
-            DataSnapshot snapshot = task.Result;
-
-            if (snapshot.Exists)
-            {
-                string json = snapshot.GetRawJsonValue();
-                Profile user = JsonConvert.DeserializeObject<Profile>(json);
-                return user;
-            }
-            else
-            {
-                Debug.LogError("The user data does not exist");
-                return null;
-            }
-        }
-        else
-        {
-            if (task.IsFaulted)
-            {
-                Debug.LogError("Failed to retrieve user data from the database due to a faulted state");
-            }
-            else if (task.IsCanceled)
-            {
-                Debug.LogError("Failed to retrieve user data from the database due to a canceled state");
-            }
-            return null;
-        }
-    }
-
-    //
-    public async Task<Dictionary<string, Record>> GetRecords(string userId)
-    {
-        var task = databaseReference.Child("records").Child(userId).GetValueAsync();
-        await task;
-
-        if (task.IsCompleted)
-        {
-            DataSnapshot snapshot = task.Result;
-
-            if (snapshot.Exists)
-            {
-                string json = snapshot.GetRawJsonValue();
-                Dictionary<string, Record> records = JsonConvert.DeserializeObject<Dictionary<string, Record>>(json);
-                Debug.Log(records["map1"].count_jump);
-                return records;
-            }
-            else
-            {
-                Debug.LogError("The record data does not exist");
-                return null;
-            }
-        }
-        else
-        {
-            if (task.IsFaulted)
-            {
-                Debug.LogError("failed to retrieve from the database due to a faulted state");
-            }
-            else if (task.IsCanceled)
-            {
-                Debug.LogError("failed to retrieve from the database due to a canceled state");
-            }
-            return null;
-        }
     }
 }
