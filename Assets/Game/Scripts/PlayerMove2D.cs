@@ -11,6 +11,7 @@ public class PlayerMove2D : MonoBehaviourPun
     Rigidbody2D rb;
     new BoxCollider2D collider;
     new PlayerRenderManager renderer;
+    private AreaEffector2D effector;
 
     public MicInputManager micInput;
     private bool isHappy = false; // "Happy" 상태를 추적하는 변수
@@ -44,6 +45,12 @@ public class PlayerMove2D : MonoBehaviourPun
         segmentLength = (maxY - minY) / 4f; // Skybox ���ϴ� ���� ����
 
         jumpSound = GetComponent<AudioSource>(); // 점프사운드 정의
+
+        GameObject windEffector = GameObject.FindGameObjectWithTag("windEffector");
+        if(windEffector != null)
+        {
+            effector = windEffector.GetComponent<AreaEffector2D>();
+        }
     }
     private float playTime = 0f; // �÷��� Ÿ��
 
@@ -96,6 +103,17 @@ public class PlayerMove2D : MonoBehaviourPun
                 UpdateJumpCountUI();   // UI ������Ʈ
             }
             jumpSound.Play();  // 점프 효과음 재생
+        }
+
+        // AreaEffector Enable False When isGrounded() == true
+        if (effector != null && isGrounded())
+        {
+            effector.enabled = false;
+        }
+        // AreaEffector Enable True When isGrounded() == false
+        else if (effector != null && !isGrounded())
+        {
+            effector.enabled = true;
         }
 
     }
