@@ -22,7 +22,6 @@ public class SignSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FirebaseManager.Instance.InitializeFirebase();
     }
 
     //
@@ -106,7 +105,7 @@ public class SignSystem : MonoBehaviour
     {
         if (flag)
         {
-            SceneManager.LoadScene("Lobby");
+            SceneManager.LoadScene("LobbyTest");
         }
         else
         {
