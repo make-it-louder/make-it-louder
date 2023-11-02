@@ -88,7 +88,7 @@ public class FirebaseManager : MonoBehaviour
         AuthStateChanged(this, null);
 
         // get a databasereference
-        databaseReference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance, "https://c102-30105-default-rtdb.firebaseio.com/").RootReference;
+        databaseReference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance, "https://c102-52393-default-rtdb.asia-southeast1.firebasedatabase.app/").RootReference;
     }
 
     // set an authentication state change event handler and get user data
