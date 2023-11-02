@@ -160,6 +160,7 @@ public class FirebaseManager : MonoBehaviour
         return databaseReference;
     }
 
+
     // sign up new users
     public async void SignUp(string email, string password, string username, Action<bool> callback)
     {
@@ -203,12 +204,8 @@ public class FirebaseManager : MonoBehaviour
             Firebase.Auth.AuthResult result = await auth.SignInWithEmailAndPasswordAsync(email, password);
             Debug.Log("successfully signed in");
 
-            Profile infos = await GetProfile(user.UserId);
-            RecordManager.Instance.GetProfile(infos);
-
-            Dictionary<string, Record> records = await GetRecords(user.UserId);
-            RecordManager.Instance.GetRecords(records);
-
+            await RecordManager.Instance.GetUser(result.User.UserId);
+             
             flag = true;
         }
         catch (Exception e)
@@ -233,8 +230,8 @@ public class FirebaseManager : MonoBehaviour
     private void WriteUser(string userId, string username)
     {
         string defaultAvatar = "avatar1";
-        List<string> defaultAvatars = new List<string>() { "avatar1"};
-        List<string> defaultAchievements = new List<string>() { "achievement1"};
+        List<string> defaultAvatars = new List<string>() { "avatar1" };
+        List<string> defaultAchievements = new List<string>() { "achievement1" };
 
         Profile user = new Profile(username, defaultAvatar, defaultAvatars, defaultAchievements);
         string json = JsonUtility.ToJson(user);
