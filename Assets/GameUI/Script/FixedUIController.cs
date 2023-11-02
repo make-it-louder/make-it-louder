@@ -9,7 +9,6 @@ public class FixedUIController : MonoBehaviour
     public GameObject audioSettingsForm;
     public GameObject displaySettingsForm;
     private static FixedUIController instance = null;
-    public TMP_Text title;
 
     //팝업
     public GameObject exitPopup;
