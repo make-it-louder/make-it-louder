@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class MonsterMovement : MonoBehaviour
 {
-    public float minX;
-    public float maxX;
+    private float minX;
+    private float maxX;
+    public float RangeL = 2f;
+    public float RangeR = 2f;
     public float speed = 2f;
     public float minWaitTime = 1f;  // Set the minimum wait time in the inspector
     public float maxWaitTime = 3f;  // Set the maximum wait time in the inspector
@@ -16,6 +18,8 @@ public class MonsterMovement : MonoBehaviour
     void Start()
     {
         renderer = transform.Find("Renderer").GetComponent<PlayerRenderManager>();
+        minX = transform.position.x - RangeL;
+        maxX = transform.position.x + RangeR;
         ChooseRandomTarget();
     }
 
@@ -69,8 +73,8 @@ public class MonsterMovement : MonoBehaviour
     }
     void OnDrawGizmos()
     {
-        Vector3 startPos = new Vector3(minX, transform.position.y, transform.position.z);
-        Vector3 endPos = new Vector3(maxX, transform.position.y, transform.position.z);
+        Vector3 startPos = new Vector3(transform.position.x - RangeL, transform.position.y, transform.position.z);
+        Vector3 endPos = new Vector3(transform.position.x + RangeR, transform.position.y, transform.position.z);
 
         Gizmos.color = Color.red;
         Gizmos.DrawLine(startPos, endPos);

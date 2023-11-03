@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,7 +52,7 @@ public class PlayerMove2D : MonoBehaviourPun
             effector = windEffector.GetComponent<AreaEffector2D>();
         }
     }
-    private float playTime = 0f;
+    public float playTime = 0f;
 
     public Material[] SkyboxMaterials;
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
 using System;
+using System.Linq;
 
 public class RecordManager : MonoBehaviour
 {
@@ -183,6 +184,29 @@ public class RecordManager : MonoBehaviour
         else
         {
             Debug.LogError("userprofile is null");
+        }
+    }
+
+    public async Task UpdateEndGameData(string mapName, float playTime, int countJump, int countFall)
+    {
+        if (userRecords == null)
+        {
+            Debug.LogError("userRecords is null");
+            return;
+        }
+        userRecords[mapName].playtime += playTime;
+        userRecords[mapName].count_jump += countJump;
+        userRecords[mapName].count_fall += countFall;
+        string updatedRecordJsonData = JsonConvert.SerializeObject(userRecords[mapName], Formatting.Indented);
+        try
+        {
+            // 데이터베이스에 업데이트된 레코드 객체를 비동기적으로 설정합니다.
+            await databaseReference.Child("records").Child(currentId).Child(mapName).SetRawJsonValueAsync(updatedRecordJsonData);
+            Debug.Log("게임기록 업데이트 완료.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("게임기록 업데이트 실패: " + e.Message);
         }
     }
 }
