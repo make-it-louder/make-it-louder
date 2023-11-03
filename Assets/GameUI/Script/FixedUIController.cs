@@ -10,10 +10,17 @@ public class FixedUIController : MonoBehaviour
     public GameObject displaySettingsForm;
     private static FixedUIController instance = null;
 
+    // 로딩스피너
+    public GameObject loadingSpinner;
+
     //팝업
     public GameObject exitPopup;
 
     public GameObject quitPopup;
+
+    //데이타
+    public GameObject player;
+    public TMP_Text mapName;
     void Awake()
     {
         if (null == instance)
@@ -119,10 +126,17 @@ public class FixedUIController : MonoBehaviour
     {
         quitPopup.SetActive(false);
     }
-    public void LeaveThisRoom()
+    public async void LeaveThisRoom()
     {
+        PlayerMove2D playerMove2D = player.GetComponent<PlayerMove2D>();
+        float playTime = playerMove2D.playTime;
+        int countJump = playerMove2D.jumpCount;
+        int countFall = 0;
+        loadingSpinner.SetActive(true);
+        await RecordManager.Instance.UpdateEndGameData("map1", playTime, countJump, countFall);
+        // 포톤 로비연결 끊는 로직 추가해야함.
         SceneManager.LoadScene("LobbyTest");
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
     public void QuitGame ()
