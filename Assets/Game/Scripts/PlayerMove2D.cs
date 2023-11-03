@@ -73,7 +73,7 @@ public class PlayerMove2D : MonoBehaviourPun
         {
             rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x+inputH * Time.deltaTime * 100,-speed,speed), rb.velocity.y);
         }
-        else if (inputH== 0 || inputH*rb.velocity.x < 0)
+        else if ((inputH== 0 || inputH*rb.velocity.x < 0)&& !IgnoreInput && !isChatting)
         {
             rb.velocity = new Vector2(0,rb.velocity.y);
         }
