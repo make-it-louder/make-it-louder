@@ -4993,6 +4993,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5407706010744650270, guid: a9f33483a3bae0f4da6b6c9affa199d3, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2047122121}
     - target: {fileID: 5662358190339113596, guid: a9f33483a3bae0f4da6b6c9affa199d3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
