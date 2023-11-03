@@ -71,11 +71,7 @@ public class PlayerMove2D : MonoBehaviourPun
     {
         if (inputH != 0 && !IgnoreInput && !isChatting)
         {
-            rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x+inputH * Time.deltaTime * 100,-speed,speed), rb.velocity.y);
-        }
-        else if (inputH== 0 || inputH*rb.velocity.x < 0)
-        {
-            rb.velocity = new Vector2(0,rb.velocity.y);
+            rb.velocity = new Vector2(inputH * speed  , rb.velocity.y);
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
         if (inputV > 0 && isGrounded() && !IgnoreInput && !isChatting)
@@ -190,11 +186,7 @@ public class PlayerMove2D : MonoBehaviourPun
             }
 
             // 방향키 또는 점프키를 눌렀을 때 isHappy를 false로 설정
-            if (Input.GetKeyDown(KeyCode.A) ||
-                Input.GetKeyDown(KeyCode.D) ||
-                Input.GetKeyDown(KeyCode.Space) ||
-                Input.GetKeyDown(KeyCode.LeftArrow) ||
-                Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Space))
             {
                 isHappy = false;
                 renderer.SetAnimatorBool("isHappy", isHappy);
@@ -206,7 +198,6 @@ public class PlayerMove2D : MonoBehaviourPun
                 renderer.SetAnimatorBool("isHello", isHello);
                 renderer.ViewFront = false;
             }
-
         }
     }
     
