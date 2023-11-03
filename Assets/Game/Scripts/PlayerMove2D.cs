@@ -23,10 +23,10 @@ public class PlayerMove2D : MonoBehaviourPun
     float inputV;
     float inputH;
 
-    public TMP_Text jumpCountText;  // ���� Ƚ���� ǥ���� UI �ؽ�Ʈ
-    public int jumpCount = 0;  // ������ Ƚ��
+    public TMP_Text jumpCountText;  //  UI
+    public int jumpCount = 0;
 
-    public TMP_Text playTimeText;  // �÷��� Ÿ���� ǥ���ϴ� UI
+    public TMP_Text playTimeText;  // UI
 
     public bool IgnoreInput { get; set; }
     public bool isChatting { get; set; }
@@ -42,7 +42,7 @@ public class PlayerMove2D : MonoBehaviourPun
         renderer = transform.Find("Renderer").GetComponent<PlayerRenderManager>();
         //rb.centerOfMass = rb.centerOfMass - new Vector2(0, 0.15f);
 
-        segmentLength = (maxY - minY) / 4f; // Skybox ���ϴ� ���� ����
+        segmentLength = (maxY - minY) / 4f; // Skybox
 
         jumpSound = GetComponent<AudioSource>(); // 점프사운드 정의
 
@@ -52,27 +52,30 @@ public class PlayerMove2D : MonoBehaviourPun
             effector = windEffector.GetComponent<AreaEffector2D>();
         }
     }
-    private float playTime = 0f; // �÷��� Ÿ��
+    private float playTime = 0f;
 
-    // ���ȭ�� ���ø���
     public Material[] SkyboxMaterials;
 
-    // y���� �ִ�,�ּҳ��� ����
     private float minY = -5.178f;
     private float maxY = 43.000f;
     private float segmentLength;
 
-    // �ε巯�� Skybox ��ȯ�� ���� ������
+    // Skybox
     private Material currentSkyboxMaterial;
     private Material targetSkyboxMaterial;
     private float lerpValue = 0f;
     private float lerpSpeed = 0.5f;
+
     // Update is called once per frame
     void FixedUpdate()
     {
         if (inputH != 0 && !IgnoreInput && !isChatting)
         {
-            rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
+            rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x+inputH * Time.deltaTime * 100,-speed,speed), rb.velocity.y);
+        }
+        else if (inputH== 0 || inputH*rb.velocity.x < 0)
+        {
+            rb.velocity = new Vector2(0,rb.velocity.y);
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
         if (inputV > 0 && isGrounded() && !IgnoreInput && !isChatting)
@@ -93,14 +96,14 @@ public class PlayerMove2D : MonoBehaviourPun
         renderer.SetAnimatorFloat("vVelocity", rb.velocity.y);
         renderer.SetAnimatorBool("isGrounded", isGrounded());
 
-        // ���� UI ������Ʈ
+        // UI
         if (inputV > 0 && isGrounded() && !IgnoreInput && !isChatting)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
-            jumpCount++;           // ������ ������ ī��Ʈ ����
+            jumpCount++;
             if (photonView.IsMine)
             {
-                UpdateJumpCountUI();   // UI ������Ʈ
+                UpdateJumpCountUI();   // UI
             }
             jumpSound.Play();  // 점프 효과음 재생
         }
@@ -123,14 +126,13 @@ public class PlayerMove2D : MonoBehaviourPun
         {
             inputV = Input.GetAxis("Jump");
             inputH = Input.GetAxis("Horizontal");
-            // �÷��� Ÿ�� ����
+            
             playTime += Time.deltaTime;
             UpdatePlayTimeUI();
 
-            // Skybox Material ����
             ChangeSkyboxMaterial();
 
-            // �ε巯�� Skybox ��ȯ
+            // Skybox
             SmoothSkyboxTransition();
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -202,7 +204,7 @@ public class PlayerMove2D : MonoBehaviourPun
             }
         }
     }
-    // ����Ƚ�� ī��Ʈ
+    
     void UpdateJumpCountUI()
     {
         if (jumpCountText != null)
@@ -214,7 +216,7 @@ public class PlayerMove2D : MonoBehaviourPun
             Debug.Log("Cannot find jumpCountText");
         }
     }
-    // �÷���Ÿ�� ��ȭ
+    
     void UpdatePlayTimeUI()
     {
         int minutes = (int)(playTime / 60);
@@ -230,7 +232,7 @@ public class PlayerMove2D : MonoBehaviourPun
     }
 
 
-    // ���ȭ�� ��ȭ
+    
     void ChangeSkyboxMaterial()
     {
         float currentY = transform.position.y;
@@ -261,7 +263,7 @@ public class PlayerMove2D : MonoBehaviourPun
         }
     }
 
-    // �ε巯�� ���ȭ�� ��ȭ
+    
     void SmoothSkyboxTransition()
     {
         if (lerpValue < 1f && targetSkyboxMaterial != null)
