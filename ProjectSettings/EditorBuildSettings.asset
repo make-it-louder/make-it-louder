@@ -5,28 +5,28 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Game/Scenes/NickLogin.unity
     guid: 26757fd06d6cc554093982d640c2f460
-  - enabled: 0
+  - enabled: 1
     path: Assets/GameUI/Scenes/Intro.unity
     guid: f38f37cb402094d4d88689171345d4de
-  - enabled: 0
+  - enabled: 1
     path: Assets/GameUI/Scenes/Login.unity
     guid: 20bdbb0063f7b3d4eae8d8c371d785ca
-  - enabled: 0
+  - enabled: 1
     path: Assets/GameUI/Scenes/FixedUI.unity
     guid: 0dd45200ed408ad47922eeadd18e7c2a
   - enabled: 1
     path: Assets/Game/Scenes/MakeItLouder.unity
     guid: 50c60ca327ca48349ab59ce363de8f77
-  - enabled: 0
+  - enabled: 1
     path: Assets/GameUI/Scenes/Achievement.unity
     guid: 5720839d83d183e489927a4c909a69c8
-  - enabled: 0
+  - enabled: 1
     path: Assets/GameUI/Scenes/Lobby.unity
     guid: 4ee1f4ea92a7dae439f9bbc55aaf725b
-  - enabled: 0
+  - enabled: 1
     path: Assets/GameUI/Scenes/LobbyTest.unity
     guid: 3b49a2922ab9a1c42a792a4f8fda7c99
   m_configObjects: {}

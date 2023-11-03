@@ -533,6 +533,7 @@ MonoBehaviour:
   popupWindow: {fileID: 1233511990}
   popupTitle: {fileID: 2011496762}
   popupContent: {fileID: 800285631}
+  loadingSpinner: {fileID: 2160743100115121636}
 --- !u!1 &134632780 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5134143950200877369, guid: 130df6e6b97ec57408c43002885a0ef8, type: 3}
@@ -3329,22 +3330,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 325057940}
     m_Modifications:
-    - target: {fileID: 8896688043425141888, guid: c3987c7965431f34ebfabaf5dba386c4, type: 3}
-      propertyPath: m_Avatar
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8896688043425141888, guid: c3987c7965431f34ebfabaf5dba386c4, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: d78ef6c678e0133499118eb7e4f9bab3, type: 2}
-    - target: {fileID: 8896688043425141888, guid: c3987c7965431f34ebfabaf5dba386c4, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7932077902654594687, guid: cb3115a2c989e254bb2a968047e8522e, type: 3}
-      propertyPath: m_Avatar
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8626094720531913687, guid: 78504b6a2fb07c641b33ec36096fcb23, type: 3}
       propertyPath: m_Name
       value: Cute_Bird_53
@@ -3400,6 +3385,22 @@ PrefabInstance:
     - target: {fileID: 9006596578934063469, guid: 78504b6a2fb07c641b33ec36096fcb23, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -16.057
+      objectReference: {fileID: 0}
+    - target: {fileID: 7932077902654594687, guid: cb3115a2c989e254bb2a968047e8522e, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8896688043425141888, guid: c3987c7965431f34ebfabaf5dba386c4, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8896688043425141888, guid: c3987c7965431f34ebfabaf5dba386c4, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d78ef6c678e0133499118eb7e4f9bab3, type: 2}
+    - target: {fileID: 8896688043425141888, guid: c3987c7965431f34ebfabaf5dba386c4, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8896688043425141888, guid: 78504b6a2fb07c641b33ec36096fcb23, type: 3}
@@ -4405,7 +4406,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f3a483f17ccb084c893410f2c50a85e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingSpinner: {fileID: 2160743100115121636}
 --- !u!4 &1377088646
 Transform:
   m_ObjectHideFlags: 0
@@ -4523,6 +4523,7 @@ MonoBehaviour:
   popupWindow: {fileID: 1233511990}
   popupTitle: {fileID: 2011496762}
   popupContent: {fileID: 800285631}
+  loadingSpinner: {fileID: 2160743100115121636}
 --- !u!224 &1411844643 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7233051494870565536, guid: a66b65926a9cf8b4ba68789a9011ee48, type: 3}
@@ -5496,22 +5497,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 325057940}
     m_Modifications:
-    - target: {fileID: 448546094173545925, guid: 5c24be6babe027b468318a1aa2c0d863, type: 3}
-      propertyPath: m_Avatar
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 448546094173545925, guid: 5c24be6babe027b468318a1aa2c0d863, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: d78ef6c678e0133499118eb7e4f9bab3, type: 2}
-    - target: {fileID: 448546094173545925, guid: 5c24be6babe027b468318a1aa2c0d863, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7932077902654594687, guid: cb3115a2c989e254bb2a968047e8522e, type: 3}
-      propertyPath: m_Avatar
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 122502323362123920, guid: f98bb76e0546aba4981f1e44d7488af7, type: 3}
       propertyPath: m_LocalScale.x
       value: 5.7120137
@@ -5567,6 +5552,22 @@ PrefabInstance:
     - target: {fileID: 790636384667339306, guid: f98bb76e0546aba4981f1e44d7488af7, type: 3}
       propertyPath: m_Name
       value: Cute_Bird_55
+      objectReference: {fileID: 0}
+    - target: {fileID: 7932077902654594687, guid: cb3115a2c989e254bb2a968047e8522e, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 448546094173545925, guid: 5c24be6babe027b468318a1aa2c0d863, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 448546094173545925, guid: 5c24be6babe027b468318a1aa2c0d863, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d78ef6c678e0133499118eb7e4f9bab3, type: 2}
+    - target: {fileID: 448546094173545925, guid: 5c24be6babe027b468318a1aa2c0d863, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 448546094173545925, guid: f98bb76e0546aba4981f1e44d7488af7, type: 3}
