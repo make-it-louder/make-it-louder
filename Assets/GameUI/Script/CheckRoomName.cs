@@ -70,5 +70,6 @@ public class RoomCreation : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         Debug.Log("Created room");
+        PhotonNetwork.LoadLevel("MakeItLouder");
     }
 }

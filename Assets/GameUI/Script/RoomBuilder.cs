@@ -53,6 +53,7 @@ class RoomBuilder: MonoBehaviour
         }
         result.name = roomName;
         Room room = result.AddComponent<Room>();
+        room.RoomName = roomName;
         room.hashedPw = hashedPw;
         return result;
     }
