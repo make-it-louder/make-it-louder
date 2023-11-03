@@ -117,18 +117,22 @@ public class FirebaseManager : MonoBehaviour
     public class Profile
     {
         public string username;
-        public string avatar;
-        public List<string> avatars;
+        public int e_avatar;
+        public List<bool> avatars;
         public List<string> achievements;
 
         public Profile()
         {
         }
 
-        public Profile(string username, string avatar, List<string> avatars, List<string> achievements)
+        public Profile(
+            string username,
+            int e_avatar,
+            List<bool> avatars,
+            List<string> achievements)
         {
             this.username = username;
-            this.avatar = avatar;
+            this.e_avatar = e_avatar;
             this.avatars = avatars;
             this.achievements = achievements;
         }
@@ -137,7 +141,7 @@ public class FirebaseManager : MonoBehaviour
     //
     public class Record
     {
-        public int playtime;
+        public float playtime;
         public int count_jump;
         public int count_fall;
 
@@ -145,7 +149,7 @@ public class FirebaseManager : MonoBehaviour
         {
         }
 
-        public Record(int playtime, int count_jump, int count_fall)
+        public Record(float playtime, int count_jump, int count_fall)
         {
             this.playtime = playtime;
             this.count_jump = count_jump;
@@ -224,8 +228,8 @@ public class FirebaseManager : MonoBehaviour
     //
     private void WriteUser(string userId, string username)
     {
-        string defaultAvatar = "avatar1";
-        List<string> defaultAvatars = new List<string>() { "avatar1" };
+        int defaultAvatar = 0;
+        List<bool> defaultAvatars = new List<bool>() { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
         List<string> defaultAchievements = new List<string>() { "achievement1" };
 
         Profile user = new Profile(username, defaultAvatar, defaultAvatars, defaultAchievements);
@@ -239,9 +243,9 @@ public class FirebaseManager : MonoBehaviour
     {
         Dictionary<string, Record> records = new Dictionary<string, Record>
         {
-            { "map1", new Record(0, 0, 0) },
-            { "map2", new Record(0, 0, 0) },
-            { "map3", new Record(0, 0, 0) }
+            { "map1", new Record(0f, 0, 0) },
+            { "map2", new Record(0f, 0, 0) },
+            { "map3", new Record(0f, 0, 0) }
         };
 
         string json = JsonConvert.SerializeObject(records, Formatting.Indented);
