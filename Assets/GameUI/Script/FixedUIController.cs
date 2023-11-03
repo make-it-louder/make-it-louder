@@ -121,7 +121,7 @@ public class FixedUIController : MonoBehaviour
     }
     public void LeaveThisRoom()
     {
-        SceneManager.LoadScene("Lobby");
+        SceneManager.LoadScene("LobbyTest");
         Destroy(this.gameObject);
     }
 
