@@ -21,7 +21,6 @@ public class FirebaseManager : MonoBehaviour
     private DatabaseReference databaseReference;
 
     // interface
-    public GameObject loadingSpinner;
 
     public static FirebaseManager Instance
     {
@@ -166,7 +165,6 @@ public class FirebaseManager : MonoBehaviour
     {
         bool flag = false;
 
-        loadingSpinner.SetActive(true);
 
         try
         {
@@ -187,7 +185,6 @@ public class FirebaseManager : MonoBehaviour
         }
         finally
         {
-            loadingSpinner.SetActive(false);
             callback(flag);
         }
     }
@@ -197,7 +194,6 @@ public class FirebaseManager : MonoBehaviour
     {
         bool flag = false;
 
-        loadingSpinner.SetActive(true);
 
         try
         {
@@ -214,7 +210,6 @@ public class FirebaseManager : MonoBehaviour
         }
         finally
         {
-            loadingSpinner.SetActive(false);
             callback(flag);
         }
     }
