@@ -190,7 +190,11 @@ public class PlayerMove2D : MonoBehaviourPun
             }
 
             // 방향키 또는 점프키를 눌렀을 때 isHappy를 false로 설정
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.A) ||
+                Input.GetKeyDown(KeyCode.D) ||
+                Input.GetKeyDown(KeyCode.Space) ||
+                Input.GetKeyDown(KeyCode.LeftArrow) ||
+                Input.GetKeyDown(KeyCode.RightArrow))
             {
                 isHappy = false;
                 renderer.SetAnimatorBool("isHappy", isHappy);
@@ -202,6 +206,7 @@ public class PlayerMove2D : MonoBehaviourPun
                 renderer.SetAnimatorBool("isHello", isHello);
                 renderer.ViewFront = false;
             }
+
         }
     }
     
