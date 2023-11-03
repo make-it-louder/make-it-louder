@@ -21,7 +21,6 @@ public class FirebaseManager : MonoBehaviour
     private DatabaseReference databaseReference;
 
     // interface
-    public GameObject loadingSpinner;
 
     public static FirebaseManager Instance
     {
@@ -33,6 +32,8 @@ public class FirebaseManager : MonoBehaviour
 
     private void Awake()
     {
+        InitializeFirebase();
+
         if (instance == null)
         {
             DontDestroyOnLoad(gameObject);
@@ -116,18 +117,22 @@ public class FirebaseManager : MonoBehaviour
     public class Profile
     {
         public string username;
-        public string avatar;
-        public List<string> avatars;
+        public int e_avatar;
+        public List<bool> avatars;
         public List<string> achievements;
 
         public Profile()
         {
         }
 
-        public Profile(string username, string avatar, List<string> avatars, List<string> achievements)
+        public Profile(
+            string username,
+            int e_avatar,
+            List<bool> avatars,
+            List<string> achievements)
         {
             this.username = username;
-            this.avatar = avatar;
+            this.e_avatar = e_avatar;
             this.avatars = avatars;
             this.achievements = achievements;
         }
@@ -136,7 +141,7 @@ public class FirebaseManager : MonoBehaviour
     //
     public class Record
     {
-        public int playtime;
+        public float playtime;
         public int count_jump;
         public int count_fall;
 
@@ -144,7 +149,7 @@ public class FirebaseManager : MonoBehaviour
         {
         }
 
-        public Record(int playtime, int count_jump, int count_fall)
+        public Record(float playtime, int count_jump, int count_fall)
         {
             this.playtime = playtime;
             this.count_jump = count_jump;
@@ -152,12 +157,18 @@ public class FirebaseManager : MonoBehaviour
         }
     }
 
+    //
+    public DatabaseReference GetDatabaseReference()
+    {
+        return databaseReference;
+    }
+
+
     // sign up new users
     public async void SignUp(string email, string password, string username, Action<bool> callback)
     {
         bool flag = false;
 
-        loadingSpinner.SetActive(true);
 
         try
         {
@@ -178,7 +189,6 @@ public class FirebaseManager : MonoBehaviour
         }
         finally
         {
-            loadingSpinner.SetActive(false);
             callback(flag);
         }
     }
@@ -188,19 +198,14 @@ public class FirebaseManager : MonoBehaviour
     {
         bool flag = false;
 
-        loadingSpinner.SetActive(true);
 
         try
         {
             Firebase.Auth.AuthResult result = await auth.SignInWithEmailAndPasswordAsync(email, password);
             Debug.Log("successfully signed in");
 
-            Profile infos = await GetProfile(user.UserId);
-            RecordManager.Instance.GetProfile(infos);
-
-            Dictionary<string, Record> records = await GetRecords(user.UserId);
-            RecordManager.Instance.GetRecords(records);
-
+            await RecordManager.Instance.GetUser(result.User.UserId);
+             
             flag = true;
         }
         catch (Exception e)
@@ -209,7 +214,6 @@ public class FirebaseManager : MonoBehaviour
         }
         finally
         {
-            loadingSpinner.SetActive(false);
             callback(flag);
         }
     }
@@ -224,9 +228,9 @@ public class FirebaseManager : MonoBehaviour
     //
     private void WriteUser(string userId, string username)
     {
-        string defaultAvatar = "avatar1";
-        List<string> defaultAvatars = new List<string>() { "avatar1"};
-        List<string> defaultAchievements = new List<string>() { "achievement1"};
+        int defaultAvatar = 0;
+        List<bool> defaultAvatars = new List<bool>() { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
+        List<string> defaultAchievements = new List<string>() { "achievement1" };
 
         Profile user = new Profile(username, defaultAvatar, defaultAvatars, defaultAchievements);
         string json = JsonUtility.ToJson(user);
@@ -239,85 +243,12 @@ public class FirebaseManager : MonoBehaviour
     {
         Dictionary<string, Record> records = new Dictionary<string, Record>
         {
-            { "map1", new Record(0, 0, 0) },
-            { "map2", new Record(0, 0, 0) },
-            { "map3", new Record(0, 0, 0) }
+            { "map1", new Record(0f, 0, 0) },
+            { "map2", new Record(0f, 0, 0) },
+            { "map3", new Record(0f, 0, 0) }
         };
 
         string json = JsonConvert.SerializeObject(records, Formatting.Indented);
         databaseReference.Child("records").Child(userId).SetRawJsonValueAsync(json);
-    }
-
-    //
-    public async Task<Profile> GetProfile(string userId)
-    {
-        var task = databaseReference.Child("users").Child(userId).GetValueAsync();
-        await task;
-
-        if (task.IsCompleted)
-        {
-            DataSnapshot snapshot = task.Result;
-
-            if (snapshot.Exists)
-            {
-                string json = snapshot.GetRawJsonValue();
-                Profile user = JsonConvert.DeserializeObject<Profile>(json);
-                return user;
-            }
-            else
-            {
-                Debug.LogError("The user data does not exist");
-                return null;
-            }
-        }
-        else
-        {
-            if (task.IsFaulted)
-            {
-                Debug.LogError("Failed to retrieve user data from the database due to a faulted state");
-            }
-            else if (task.IsCanceled)
-            {
-                Debug.LogError("Failed to retrieve user data from the database due to a canceled state");
-            }
-            return null;
-        }
-    }
-
-    //
-    public async Task<Dictionary<string, Record>> GetRecords(string userId)
-    {
-        var task = databaseReference.Child("records").Child(userId).GetValueAsync();
-        await task;
-
-        if (task.IsCompleted)
-        {
-            DataSnapshot snapshot = task.Result;
-
-            if (snapshot.Exists)
-            {
-                string json = snapshot.GetRawJsonValue();
-                Dictionary<string, Record> records = JsonConvert.DeserializeObject<Dictionary<string, Record>>(json);
-                Debug.Log(records["map1"].count_jump);
-                return records;
-            }
-            else
-            {
-                Debug.LogError("The record data does not exist");
-                return null;
-            }
-        }
-        else
-        {
-            if (task.IsFaulted)
-            {
-                Debug.LogError("failed to retrieve from the database due to a faulted state");
-            }
-            else if (task.IsCanceled)
-            {
-                Debug.LogError("failed to retrieve from the database due to a canceled state");
-            }
-            return null;
-        }
     }
 }

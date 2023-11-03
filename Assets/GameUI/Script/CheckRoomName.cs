@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro; // TextMeshPro 네임스페이스 추가
 using UnityEngine.UI; // UI 컴포넌트를 사용하기 위해 필요
+using UltimateClean; // SceneTransition 클래스가 있는 네임스페이스
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
@@ -10,6 +11,7 @@ public class RoomCreation : MonoBehaviourPunCallbacks
     public TMP_InputField roomNameInputField; // 방 이름 TMP_InputField
     public Button confirmButton; // 확인 버튼
     public TMP_Text warningMessage; // 경고 메시지를 표시할 TMP_Text
+    public SceneTransition sceneTransition; // SceneTransition 컴포넌트
     private RoomSettings roomSettings;
     void Start()
     {
@@ -36,6 +38,8 @@ public class RoomCreation : MonoBehaviourPunCallbacks
         {
             // 경고 메시지를 숨깁니다.
             warningMessage.gameObject.SetActive(false);
+            // 씬 전환 수행
+            sceneTransition.PerformTransition();
             // 방 생성 로직 수행
             CreateRoom(roomNameInputField.text);
         }

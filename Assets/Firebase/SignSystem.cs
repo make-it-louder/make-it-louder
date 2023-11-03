@@ -19,10 +19,10 @@ public class SignSystem : MonoBehaviour
     public TMP_Text popupTitle;
     public TMP_Text popupContent;
 
+    public GameObject loadingSpinner;
     // Start is called before the first frame update
     void Start()
     {
-        FirebaseManager.Instance.InitializeFirebase();
     }
 
     //
@@ -41,6 +41,8 @@ public class SignSystem : MonoBehaviour
     //
     public void SignUp()
     {
+        loadingSpinner.SetActive(true);
+
         if (string.IsNullOrEmpty(email.text))
         {
             OpenPopup("실패", "메일주소를 입력해주세요.");
@@ -83,6 +85,8 @@ public class SignSystem : MonoBehaviour
 
     private void SignUpCallback(bool flag)
     {
+        loadingSpinner.SetActive(false);
+
         if (flag)
         {
             OpenPopup("가입 성공", "회원가입에 성공했습니다.");
@@ -99,11 +103,13 @@ public class SignSystem : MonoBehaviour
     //
     public void SignIn()
     {
+        loadingSpinner.SetActive(true);
         FirebaseManager.Instance.SignIn(email.text, password.text, SignInCallback);
     }
 
     private void SignInCallback(bool flag)
     {
+        loadingSpinner.SetActive(false);
         if (flag)
         {
             SceneManager.LoadScene("LobbyTest");

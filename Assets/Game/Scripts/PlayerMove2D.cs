@@ -52,7 +52,7 @@ public class PlayerMove2D : MonoBehaviourPun
             effector = windEffector.GetComponent<AreaEffector2D>();
         }
     }
-    private float playTime = 0f;
+    public float playTime = 0f;
 
     public Material[] SkyboxMaterials;
 
@@ -71,7 +71,7 @@ public class PlayerMove2D : MonoBehaviourPun
     {
         if (inputH != 0 && !IgnoreInput && !isChatting)
         {
-            rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
+            rb.velocity = new Vector2(inputH * speed  , rb.velocity.y);
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
         if (inputV > 0 && isGrounded() && !IgnoreInput && !isChatting)
