@@ -11,7 +11,7 @@ public class Knockback : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);  // 예를 들어, 0.5초 동안 입력을 무시합니다.
         playerMove2D.IgnoreInput = false;
-        blinkingObject.StopBlinking();
+        //blinkingObject.StopBlinking();
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -21,10 +21,10 @@ public class Knockback : MonoBehaviour
         {
             // 플레이어의 Rigidbody2D 컴포넌트를 가져옵니다.
             Rigidbody2D playerRb = collider.gameObject.GetComponent<Rigidbody2D>();
-            blinkingObject = collider.gameObject.GetComponent<BlinkingObject>();
+            //blinkingObject = collider.gameObject.GetComponent<BlinkingObject>();
             playerMove2D = collider.gameObject.GetComponent<PlayerMove2D>();
             if (playerMove2D.IgnoreInput == true) return;
-            blinkingObject.StartBlinking();
+            //blinkingObject.StartBlinking();
             playerMove2D.IgnoreInput = true;
             StartCoroutine(ResetIgnoreInput());
 
