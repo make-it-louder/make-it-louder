@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using System;
 using System.Linq;
+using static UnityEngine.Rendering.DebugUI;
 
 public class RecordManager : MonoBehaviour
 {
@@ -197,6 +198,9 @@ public class RecordManager : MonoBehaviour
             Debug.LogError("userRecords is null");
             return;
         }
+        
+        playTime = (float)Math.Round(playTime, 2);
+
         userRecords[mapName].playtime += playTime;
         userRecords[mapName].count_jump += countJump;
         userRecords[mapName].count_fall += countFall;

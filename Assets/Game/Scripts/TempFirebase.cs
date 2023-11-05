@@ -5,10 +5,7 @@ public class TempFirebase : MonoBehaviour
 {
     private void Awake()
     {
-       if (!FirebaseManager.Instance.IsLoggedIn())
-        {
-            FirebaseManager.Instance.SignIn("test@test.com", "asdfasdf", a);
-        }
+        FirebaseManager.Instance.SignIn("test@test.com", "asdfasdf", a);
     }
 
     public void a(bool flag) 
