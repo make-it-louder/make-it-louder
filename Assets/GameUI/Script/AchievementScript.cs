@@ -26,13 +26,13 @@ public class AchievementScript : MonoBehaviour
     public GameObject icon4;
 
     // Start is called before the first frame update
-    private void Start()
+    public void OnButtonClick()
     {
         GetUserData();
 
         // 사용자 이름 업데이트
         name.text = profile.username;
-
+        
         // 각 달성도에 대한 최댓값 설정
         int maxForAchieveCount = 100;
         int maxForAchieveCount2 = 1000;
