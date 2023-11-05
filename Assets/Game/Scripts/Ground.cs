@@ -30,7 +30,7 @@ public class Ground : MonoBehaviour
             }
         }
     }
-    void OnCollisionStay2D(Collision2D collision)
+/*    void OnCollisionStay2D(Collision2D collision)
     {
         // 충돌한 오브젝트가 'Ground' 레이어에 속하는지 확인합니다.
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
@@ -48,7 +48,7 @@ public class Ground : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
     void OnCollisionExit2D(Collision2D collision)
     {
