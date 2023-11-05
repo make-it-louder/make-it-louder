@@ -9,13 +9,17 @@ public class CharacterSettings : MonoBehaviour
     public GameObject characterChangeForm;
     public GameObject otherChangeForm;
 
+    FirebaseManager.Profile profile;
+
     public Button[] buttons;
-    private List<bool> myChr = new List<bool>() { true, false, false, false };
+    private List<bool> avatars;
     // Start is called before the first frame update
     void Start()
     {
         characterChangeForm.SetActive(true);
         otherChangeForm.SetActive(false);
+        profile = RecordManager.Instance.UserProfile;
+        avatars = profile.avatars;
         SearchingMyCharacter();
     }
 
@@ -43,12 +47,12 @@ public class CharacterSettings : MonoBehaviour
     }
     public void SearchingMyCharacter()
     {
-        for (int i = 0; i < myChr.Count; i++)
+        for (int i = 0; i < avatars.Count; i++)
         {
-            buttons[i].interactable = myChr[i];
+            buttons[i].interactable = avatars[i];
             Transform lockImageTransform = buttons[i].transform.Find("Lock");
             GameObject lockImage = lockImageTransform.gameObject;
-            lockImage.SetActive(!myChr[i]);
+            lockImage.SetActive(!avatars[i]);
         }
     }
 }
