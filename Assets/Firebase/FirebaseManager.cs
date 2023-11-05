@@ -41,6 +41,7 @@ public class FirebaseManager : MonoBehaviour
         }
         else
         {
+            Debug.Log("인스턴스 중복임 Destroy");
             Destroy(gameObject);
         }
     }
@@ -80,11 +81,11 @@ public class FirebaseManager : MonoBehaviour
     {
         // returns the firebaseAuth
         auth = FirebaseAuth.DefaultInstance;
-
+/*
         if (auth.CurrentUser != null)
         {
-            SignOut();
-        }
+            auth.SignOut();
+        }*/
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
 
@@ -163,7 +164,12 @@ public class FirebaseManager : MonoBehaviour
         return databaseReference;
     }
 
-
+    // isLogined?
+    public bool IsLoggedIn()
+    {
+        FirebaseAuth auth = FirebaseAuth.DefaultInstance;
+        return auth.CurrentUser != null;
+    }
     // sign up new users
     public async void SignUp(string email, string password, string username, Action<bool> callback)
     {
