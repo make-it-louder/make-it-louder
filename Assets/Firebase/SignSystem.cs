@@ -25,6 +25,25 @@ public class SignSystem : MonoBehaviour
     {
     }
 
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (email.isFocused)
+            {
+                password.ActivateInputField();
+            }
+            else if (confirmpassword != null && password.isFocused)
+            {
+                confirmpassword.ActivateInputField();
+            }
+            else if (username != null && confirmpassword.isFocused )
+            {
+                username.ActivateInputField();
+            }
+        }
+    }
     //
     private void OpenPopup(string title, string content)
     {
@@ -41,7 +60,6 @@ public class SignSystem : MonoBehaviour
     //
     public void SignUp()
     {
-        loadingSpinner.SetActive(true);
 
         if (string.IsNullOrEmpty(email.text))
         {
@@ -79,7 +97,7 @@ public class SignSystem : MonoBehaviour
             OpenPopup("실패", "유저네임을 입력해주세요.");
             return;
         }
-
+        loadingSpinner.SetActive(true);
         FirebaseManager.Instance.SignUp(email.text, password.text, username.text, SignUpCallback);
     }
 
