@@ -3194,6 +3194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popup: {fileID: 1108857307}
+  background: {fileID: 0}
 --- !u!4 &540990506
 Transform:
   m_ObjectHideFlags: 0
