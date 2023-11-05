@@ -176,12 +176,17 @@ public class FirebaseManager : MonoBehaviour
         FirebaseAuth auth = FirebaseAuth.DefaultInstance;
         return auth.CurrentUser != null;
     }
+
+    //닉네임 중복검사
+    public async Task<bool> IsUsernameTaken(string username)
+    {
+        var snapshot = await databaseReference.Child("users").OrderByChild("username").EqualTo(username).GetValueAsync();
+        return snapshot.Exists && snapshot.ChildrenCount > 0;
+    }
     // sign up new users
     public async void SignUp(string email, string password, string username, Action<bool> callback)
     {
         bool flag = false;
-
-
         try
         {
             Firebase.Auth.AuthResult result = await auth.CreateUserWithEmailAndPasswordAsync(email, password);

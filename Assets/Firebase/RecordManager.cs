@@ -193,7 +193,7 @@ public class RecordManager : MonoBehaviour
     // 게임종료시 게임기록 업데이트 함수
     public async Task UpdateEndGameData(string mapName, float playTime, int countJump, int countFall)
     {
-        if (userRecords == null)
+        if (userRecords == null || userProfile == null)
         {
             Debug.LogError("userRecords is null");
             return;
@@ -226,12 +226,51 @@ public class RecordManager : MonoBehaviour
         }
         try
         {
-            userProfile.e_avatar = avataIndex;
             await databaseReference.Child("users").Child(currentId).Child("e_avatar").SetValueAsync(avataIndex);
         }
         catch (Exception e)
         {
             Debug.LogError("캐릭터 변경 실패" + e.Message);
+        }
+    }
+
+    public async Task UpdateClearRecords (string mapName, int countClear, int countMinJump, float minClearTime)
+    {
+        if (userProfile == null || userRecords == null)
+        {
+            Debug.Log("DB접근 실패");
+            return;
+        }
+        int originalMinJump = userRecords[mapName].count_minjump;
+        float originalMinClearTime = (float)Math.Round(userRecords[mapName].min_cleartime, 2);
+        try
+        {
+            userRecords[mapName].count_clear += countClear;
+            // 초기값이 아닐시 최솟값인지 확인하고 업데이트
+            if (originalMinJump != 0 || originalMinClearTime != 0)
+            {
+                if (originalMinJump > countMinJump)
+                {
+                    originalMinJump = countMinJump;
+                }
+                else if (originalMinClearTime > minClearTime)
+                {
+                    originalMinClearTime = minClearTime;
+                }
+            }
+            // 처음 클리어시(0 일시) 항상 업데이트
+            else
+            {
+                userRecords[mapName].count_minjump = countMinJump;
+                userRecords[mapName].min_cleartime = minClearTime;
+            }
+            string updatedRecordJsonData = JsonConvert.SerializeObject(userRecords[mapName], Formatting.Indented);
+            await databaseReference.Child("records").Child(currentId).Child(mapName).SetRawJsonValueAsync(updatedRecordJsonData);
+            Debug.Log("클리어 기록 저장완료");
+        } 
+        catch (Exception e)
+        {
+            Debug.LogError("클리어 기록 저장 실패" + e.Message);
         }
     }
 }
