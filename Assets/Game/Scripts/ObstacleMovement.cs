@@ -24,6 +24,17 @@ public class ObstacleMover : MonoBehaviour
     {
         // 시간에 따라 왕복 운동을 생성
         float t = (Mathf.Sin(speed * Time.time) + 1.0f) / 2.0f;
-        transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+
+        transform.position = Vector2.Lerp(startPosition, targetPosition, t);
+
+        if (transform.position.x >= targetPosition.x-0.1f)
+        {
+            transform.localScale = new Vector2(-1, 1);
+        }
+        if (transform.position.x <= startPosition.x + 0.1f)
+        {
+            transform.localScale = new Vector2(1, 1);
+        }
+
     }
 }
