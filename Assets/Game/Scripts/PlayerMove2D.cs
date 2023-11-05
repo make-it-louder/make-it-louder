@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,7 +22,7 @@ public class PlayerMove2D : MonoBehaviourPun
     public float jumpPower;
     float inputV;
     float inputH;
-
+    public bool isGrounded { get; set; } = false;
     public TMP_Text jumpCountText;  //  UI
     public int jumpCount = 0;
 
@@ -74,12 +74,12 @@ public class PlayerMove2D : MonoBehaviourPun
             rb.velocity = new Vector2(inputH * speed  , rb.velocity.y);
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
-        if (inputV > 0 && isGrounded() && !IgnoreInput && !isChatting)
+        if (inputV > 0 && isGrounded && !IgnoreInput && !isChatting)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
         }
 
-        if (!isGrounded() && micInput.DB > 0)
+        if (!isGrounded && micInput.DB > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -3.5f));
         }
@@ -90,10 +90,10 @@ public class PlayerMove2D : MonoBehaviourPun
         }
         renderer.SetAnimatorFloat("hVelocity", Mathf.Abs(rb.velocity.x));
         renderer.SetAnimatorFloat("vVelocity", rb.velocity.y);
-        renderer.SetAnimatorBool("isGrounded", isGrounded());
+        renderer.SetAnimatorBool("isGrounded", isGrounded);
 
         // UI
-        if (inputV > 0 && isGrounded() && !IgnoreInput && !isChatting)
+        if (inputV > 0 && isGrounded && !IgnoreInput && !isChatting)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
             jumpCount++;
@@ -105,12 +105,12 @@ public class PlayerMove2D : MonoBehaviourPun
         }
 
         // AreaEffector Enable False When isGrounded() == true
-        if (effector != null && isGrounded())
+        if (effector != null && isGrounded)
         {
             effector.enabled = false;
         }
         // AreaEffector Enable True When isGrounded() == false
-        else if (effector != null && !isGrounded())
+        else if (effector != null && !isGrounded)
         {
             effector.enabled = true;
         }
@@ -272,15 +272,16 @@ public class PlayerMove2D : MonoBehaviourPun
         }
     }
 
-    bool isGrounded()
-    {
-        Vector3 feet = rb.transform.position + transform.up * transform.lossyScale.y * (collider.offset.y - collider.size.y / 2 - 0.01f) + transform.right * transform.lossyScale.x * collider.offset.x; ;
-        Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
-        Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
-        Debug.DrawLine(feetLeft, feetRight, Color.red);
+    /*    bool isGrounded()
+        {
+            Vector3 feet = rb.transform.position + transform.up * transform.lossyScale.y * (collider.offset.y - collider.size.y / 2 - 0.01f) + transform.right * transform.lossyScale.x * collider.offset.x; ;
+            Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
+            Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
+            Debug.DrawLine(feetLeft, feetRight, Color.red);
 
-        return (Physics2D.OverlapPoint(feetLeft,1<<LayerMask.NameToLayer("Ground")) != null) || (Physics2D.OverlapPoint(feetRight,1<<LayerMask.NameToLayer("Ground")) != null || (Physics2D.OverlapPoint(feetRight, 1 << LayerMask.NameToLayer("Player"))) || (Physics2D.OverlapPoint(feetLeft, 1 << LayerMask.NameToLayer("Player"))));
-    }
+            return (Physics2D.OverlapPoint(feetLeft,1<<LayerMask.NameToLayer("Ground")) != null) || (Physics2D.OverlapPoint(feetRight,1<<LayerMask.NameToLayer("Ground")) != null || (Physics2D.OverlapPoint(feetRight, 1 << LayerMask.NameToLayer("Player"))) || (Physics2D.OverlapPoint(feetLeft, 1 << LayerMask.NameToLayer("Player"))));
+        }*/
+
 
     IEnumerator ResetEmotionAfterDelay(string emotion)
     {
@@ -303,4 +304,5 @@ public class PlayerMove2D : MonoBehaviourPun
         }
         renderer.ViewFront = false;
     }
+
 }
