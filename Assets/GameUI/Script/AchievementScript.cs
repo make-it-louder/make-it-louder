@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System; // TimeSpan을 사용하기 위해 추가
 
 public class AchievementScript : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class AchievementScript : MonoBehaviour
     public TMP_Text AchieveCount2;
     public TMP_Text AchieveCount3;
     public TMP_Text AchieveCount4;
+
+    public TMP_Text playTimeText;
+
     public TMP_Text ProfileCount;
 
     // 아이콘들에 대한 참조
@@ -46,6 +50,15 @@ public class AchievementScript : MonoBehaviour
 
         // 프로필 카운트는 최댓값에 제한 없이 현재 점프 횟수를 그대로 표시
         ProfileCount.text = currentJumpCount.ToString() + "회";
+
+        // playtime을 double 형태로 가져온 후, 정수 부분만 TimeSpan으로 변환
+        double playTimeSeconds = record["map1"].playtime; // Firebase에서 가져온 시간 데이터
+        int totalPlayTime = (int)Math.Floor(playTimeSeconds); // 소수점 이하를 버림
+
+        TimeSpan time = TimeSpan.FromSeconds(totalPlayTime);
+
+        // TimeSpan에서 시, 분, 초를 가져와서 형식화합니다.
+        playTimeText.text = string.Format("{0:D2}:{1:D2}:{2:D2}", time.Hours, time.Minutes, time.Seconds);
     }
 
     private void GetUserData()
