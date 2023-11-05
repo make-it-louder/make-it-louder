@@ -41,6 +41,7 @@ public class FirebaseManager : MonoBehaviour
         }
         else
         {
+            Debug.Log("인스턴스 중복임 Destroy");
             Destroy(gameObject);
         }
     }
@@ -80,11 +81,11 @@ public class FirebaseManager : MonoBehaviour
     {
         // returns the firebaseAuth
         auth = FirebaseAuth.DefaultInstance;
-
+/*
         if (auth.CurrentUser != null)
         {
             auth.SignOut();
-        }
+        }*/
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
 
@@ -144,16 +145,22 @@ public class FirebaseManager : MonoBehaviour
         public float playtime;
         public int count_jump;
         public int count_fall;
+        public int count_clear;
+        public int count_minjump;
+        public float min_cleartime;
 
         public Record()
         {
         }
 
-        public Record(float playtime, int count_jump, int count_fall)
+        public Record(float playtime, int count_jump, int count_fall, int count_clear, int count_minjump, float min_cleartime)
         {
             this.playtime = playtime;
             this.count_jump = count_jump;
             this.count_fall = count_fall;
+            this.count_clear = count_clear;
+            this.count_minjump = count_minjump;
+            this.min_cleartime = min_cleartime;
         }
     }
 
@@ -248,9 +255,9 @@ public class FirebaseManager : MonoBehaviour
     {
         Dictionary<string, Record> records = new Dictionary<string, Record>
         {
-            { "map1", new Record(0f, 0, 0) },
-            { "map2", new Record(0f, 0, 0) },
-            { "map3", new Record(0f, 0, 0) }
+            { "map1", new Record(0f, 0, 0, 0, 0, 0f) },
+            { "map2", new Record(0f, 0, 0, 0, 0, 0f) },
+            { "map3", new Record(0f, 0, 0, 0, 0, 0f) }
         };
 
         string json = JsonConvert.SerializeObject(records, Formatting.Indented);

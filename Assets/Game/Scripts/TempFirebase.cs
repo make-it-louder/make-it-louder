@@ -5,14 +5,7 @@ public class TempFirebase : MonoBehaviour
 {
     private void Awake()
     {
-        if (!FirebaseManager.Instance.IsLoggedIn())
-        {
-            FirebaseManager.Instance.SignIn("test@test.com", "asdfasdf", a);
-        } else
-        {
-            Debug.Log("로그인한 아이디로 정상적으로 접속완료");
-            Destroy(gameObject);
-        }
+        FirebaseManager.Instance.SignIn("test@test.com", "asdfasdf", a);
     }
 
     public void a(bool flag) 
