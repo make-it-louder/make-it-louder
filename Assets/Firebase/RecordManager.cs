@@ -165,6 +165,8 @@ public class RecordManager : MonoBehaviour
         get { return userRecords; }
     }
 
+    // 사용함수
+    // 유저닉네임 업데이트 함수
     public async Task UpdateUsername(string newName)
     {
         if (userProfile != null)
@@ -187,6 +189,7 @@ public class RecordManager : MonoBehaviour
         }
     }
 
+    // 게임종료시 게임기록 업데이트 함수
     public async Task UpdateEndGameData(string mapName, float playTime, int countJump, int countFall)
     {
         if (userRecords == null)
@@ -207,6 +210,24 @@ public class RecordManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError("게임기록 업데이트 실패: " + e.Message);
+        }
+    }
+
+    // 캐릭터 변경시 e_avatar 업데이트 함수
+    public async Task UpdateEquipmentAvatar(int avataIndex)
+    {
+        if (userProfile == null)
+        {
+            return;
+        }
+        try
+        {
+            userProfile.e_avatar = avataIndex;
+            await databaseReference.Child("users").Child(currentId).Child("e_avatar").SetValueAsync(avataIndex);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("캐릭터 변경 실패" + e.Message);
         }
     }
 }
