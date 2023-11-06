@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8951559159403975376}
   - component: {fileID: 4496975596325477864}
   - component: {fileID: 4043524144375153544}
+  - component: {fileID: 404964690170024899}
   m_Layer: 0
   m_Name: Renderer
   m_TagString: Untagged
@@ -52,7 +53,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 404964690170024899}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -69,6 +71,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animatorController: {fileID: 9100000, guid: 9674ef1b75bb10646aa1e26a6c0eab17, type: 2}
+--- !u!114 &404964690170024899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283422368370231782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &6547047769345210389
 GameObject:
   m_ObjectHideFlags: 0
@@ -82,6 +100,8 @@ GameObject:
   - component: {fileID: 3261940629947222414}
   - component: {fileID: 1769232406834199370}
   - component: {fileID: 8149277192996559715}
+  - component: {fileID: 8798524540030987285}
+  - component: {fileID: 2325765101167168897}
   m_Layer: 0
   m_Name: Cobra
   m_TagString: Untagged
@@ -198,6 +218,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   XStrength: 10
   YStrength: 10
+--- !u!114 &8798524540030987285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6547047769345210389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 2325765101167168897}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &2325765101167168897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6547047769345210389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1001 &8176093753035922811
 PrefabInstance:
   m_ObjectHideFlags: 0

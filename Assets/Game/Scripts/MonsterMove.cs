@@ -1,6 +1,7 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class MonsterMovement : MonoBehaviour
+public class MonsterMovement : MonoBehaviourPun
 {
     private float minX;
     private float maxX;
@@ -46,16 +47,24 @@ public class MonsterMovement : MonoBehaviour
         }
     }
 
+    [PunRPC]
+    public void FlipDirection()
+    {
+        renderer.FlipDirection();
+    }
+
     void ChooseRandomTarget()
     {
         float randomX = Random.Range(minX, maxX);
         targetPosition = new Vector3(randomX, transform.position.y, transform.position.z);
-        if (randomX-transform.position.x>0 && !renderer.ViewDirection) {
+        if (targetPosition.x-transform.position.x>0 && !renderer.ViewDirection) {
             renderer.FlipDirection();
+            photonView.RPC("FlipDirection", RpcTarget.Others);
         }
-        else if (randomX - transform.position.x < 0 && renderer.ViewDirection)
+        else if (targetPosition.x - transform.position.x < 0 && renderer.ViewDirection)
         {
             renderer.FlipDirection();
+            photonView.RPC("FlipDirection", RpcTarget.Others);
         }
         waitTime = Random.Range(minWaitTime, maxWaitTime);  // Choose a random wait time
     }
@@ -68,8 +77,19 @@ public class MonsterMovement : MonoBehaviour
 
     void MoveTowardsTarget()
     {
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        transform.position += direction * speed * Time.deltaTime;
+        if (photonView.IsMine)
+        {
+            Vector3 displacement = targetPosition - transform.position;
+            if (displacement.magnitude <= speed * Time.deltaTime)
+            {
+                transform.position = targetPosition;
+            }
+            else
+            {
+                Vector3 direction = displacement.normalized;
+                transform.position += direction * speed * Time.deltaTime;
+            }
+        }
     }
     void OnDrawGizmos()
     {
