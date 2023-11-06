@@ -14,16 +14,22 @@ public class CharacterSettings : MonoBehaviour
 
     public Button[] buttons;
     private List<bool> avatars;
-    public int e_avatar;
+    int e_avatar;
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         characterChangeForm.SetActive(true);
         otherChangeForm.SetActive(false);
         profile = RecordManager.Instance.UserProfile;
         avatars = profile.avatars;
         e_avatar = profile.e_avatar;
-        SearchingMyCharacter();
+        Debug.Log(e_avatar);
+    }
+
+
+    void Start()
+    {
+        SearchingMyCharacter(e_avatar);
         AddEventListener();
 
     }
@@ -40,7 +46,7 @@ public class CharacterSettings : MonoBehaviour
         for (int i = 0; i < buttons.Length; i++)
         {
             int index = i; // 클로저 문제를 방지하기 위한 지역 변수
-            buttons[i].onClick.AddListener(() => OnClickChangeCharacter(i));
+            buttons[i].onClick.AddListener(() => OnClickChangeCharacter(index));
         }
     }
 
@@ -66,24 +72,22 @@ public class CharacterSettings : MonoBehaviour
         } else
         {
             e_avatar = btnIndex;
-            await RecordManager.Instance.UpdateEquipmentAvatar(e_avatar);
-            SearchingMyCharacter();
+            await RecordManager.Instance.UpdateEquipmentAvatar(btnIndex);
+            SearchingMyCharacter(btnIndex);
         }
     }
-    public void SearchingMyCharacter()
+    public void SearchingMyCharacter(int e_avatar)
     {
-        
+        Color whiteColor = Color.white; // 버튼의 기본 색상을 흰색으로 설정합니다.
+        Color selectedColor = Color.red;
         for (int i = 0; i < avatars.Count; i++)
         {
-            if(i == e_avatar)
-            {
-                Image buttonColor = buttons[i].GetComponent<Image>();
-                buttonColor.color = Color.red;
-            }
+            Image buttonImage = buttons[i].GetComponent<Image>();
+            GameObject lockImage = buttons[i].transform.Find("Lock").gameObject;
+            buttonImage.color = (i == e_avatar) ? selectedColor : whiteColor;
             buttons[i].interactable = avatars[i];
-            Transform lockImageTransform = buttons[i].transform.Find("Lock");
-            GameObject lockImage = lockImageTransform.gameObject;
             lockImage.SetActive(!avatars[i]);
         }
+
     }
 }
