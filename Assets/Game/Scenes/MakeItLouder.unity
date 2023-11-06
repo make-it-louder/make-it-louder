@@ -706,8 +706,8 @@ Transform:
   m_GameObject: {fileID: 193624013}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45.6, y: 205.4139, z: 0}
-  m_LocalScale: {x: 5.291148, y: 22.42321, z: 1}
+  m_LocalPosition: {x: 45.6, y: 206.8165, z: 0}
+  m_LocalScale: {x: 5.291148, y: 25.228354, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1549885606}
@@ -7998,6 +7998,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
+      propertyPath: XStrength
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
+      propertyPath: YStrength
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2093085273266419183, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: m_Name
       value: Eagle 2
@@ -9126,6 +9134,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
+      propertyPath: XStrength
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
+      propertyPath: YStrength
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2093085273266419183, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: m_Name
       value: Eagle 4
@@ -9602,6 +9618,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
+      propertyPath: XStrength
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
+      propertyPath: YStrength
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2093085273266419183, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: m_Name
       value: Eagle 3
@@ -9737,6 +9761,14 @@ PrefabInstance:
     - target: {fileID: 4559213616528715, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -26.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
+      propertyPath: XStrength
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
+      propertyPath: YStrength
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2093085273266419183, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: m_Name
@@ -12272,6 +12304,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
+      propertyPath: XStrength
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
+      propertyPath: YStrength
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2093085273266419183, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: m_Name
       value: Eagle 1
@@ -12636,8 +12676,9 @@ GameObject:
   - component: {fileID: 1549885611}
   - component: {fileID: 1549885610}
   - component: {fileID: 1549885612}
+  - component: {fileID: 1549885613}
   m_Layer: 6
-  m_Name: JumpMap
+  m_Name: UpperWind
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12972,7 +13013,7 @@ CompositeCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_GeometryType: 1
@@ -12985,6 +13026,25 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 1549885605}
+--- !u!251 &1549885613
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549885605}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 180
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1001 &1560233038
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15451,7 +15511,7 @@ GameObject:
   - component: {fileID: 2921737844559648434}
   - component: {fileID: 8372397521305407296}
   m_Layer: 0
-  m_Name: backgroundMap
+  m_Name: BackgroundMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
