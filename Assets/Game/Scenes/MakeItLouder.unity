@@ -8000,11 +8000,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: XStrength
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: YStrength
-      value: 15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2093085273266419183, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: m_Name
@@ -9136,11 +9136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: XStrength
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: YStrength
-      value: 15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2093085273266419183, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: m_Name
@@ -9620,11 +9620,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: XStrength
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: YStrength
-      value: 15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2093085273266419183, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: m_Name
@@ -9764,11 +9764,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: XStrength
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: YStrength
-      value: 15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2093085273266419183, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: m_Name
@@ -12306,11 +12306,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: XStrength
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1668311480580633968, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: YStrength
-      value: 15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2093085273266419183, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
       propertyPath: m_Name
