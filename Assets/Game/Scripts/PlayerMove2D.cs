@@ -186,7 +186,7 @@ public class PlayerMove2D : MonoBehaviourPun
             }
 
             // 방향키 또는 점프키를 눌렀을 때 isHappy를 false로 설정
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Jump"))
             {
                 isHappy = false;
                 renderer.SetAnimatorBool("isHappy", isHappy);
