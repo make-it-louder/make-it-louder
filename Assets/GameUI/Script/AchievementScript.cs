@@ -15,6 +15,9 @@ public class AchievementScript : MonoBehaviour
     public TMP_Text AchieveCount3;
     public TMP_Text AchieveCount4;
 
+    public TMP_Text PlayTimeAchieve1MinText;
+    public TMP_Text PlayTimeAchieve10MinText;
+    public TMP_Text PlayTimeAchieve60MinText;
 
 
     public TMP_Text playTimeText;
@@ -34,6 +37,10 @@ public class AchievementScript : MonoBehaviour
     public GameObject icon2;
     public GameObject icon3;
     public GameObject icon4;
+    public GameObject PlayTimeIcon1Min;
+    public GameObject PlayTimeIcon10Min;
+    public GameObject PlayTimeIcon60Min;
+
 
     // Start is called before the first frame update
     public void OnButtonClick()
@@ -53,10 +60,10 @@ public class AchievementScript : MonoBehaviour
         int currentJumpCount = record["map1"].count_jump;
 
         // 달성도 텍스트 업데이트 및 아이콘 활성화/비활성화
-        UpdateAchievement(AchieveCount, icon1, currentJumpCount, maxForAchieveCount);
-        UpdateAchievement(AchieveCount2, icon2, currentJumpCount, maxForAchieveCount2);
-        UpdateAchievement(AchieveCount3, icon3, currentJumpCount, maxForAchieveCount3);
-        UpdateAchievement(AchieveCount4, icon4, currentJumpCount, maxForAchieveCount4);
+        UpdateAchievementJumpCount(AchieveCount, icon1, currentJumpCount, maxForAchieveCount);
+        UpdateAchievementJumpCount(AchieveCount2, icon2, currentJumpCount, maxForAchieveCount2);
+        UpdateAchievementJumpCount(AchieveCount3, icon3, currentJumpCount, maxForAchieveCount3);
+        UpdateAchievementJumpCount(AchieveCount4, icon4, currentJumpCount, maxForAchieveCount4);
 
         // 프로필 카운트는 최댓값에 제한 없이 현재 점프 횟수를 그대로 표시
         ProfileCount.text = currentJumpCount.ToString() + "회";
@@ -69,6 +76,10 @@ public class AchievementScript : MonoBehaviour
 
         // TimeSpan에서 시, 분, 초를 가져와서 형식화합니다.
         playTimeText.text = string.Format("{0:D2}:{1:D2}:{2:D2}", time.Hours, time.Minutes, time.Seconds);
+
+        // playtime을 double 형태로 가져온 후, 정수 부분만 TimeSpan으로 변환
+       
+        UpdatePlayTimeAchievements(playTimeSeconds); // 플레이 타임 달성도를 업데이트하는 함수를 호출합니다.
 
 
         // ClearCount
@@ -87,6 +98,8 @@ public class AchievementScript : MonoBehaviour
 
         MinClearJump.text = Count_MinJump.ToString() + "회";
 
+
+
     }
 
     private void GetUserData()
@@ -96,12 +109,31 @@ public class AchievementScript : MonoBehaviour
         record = RecordManager.Instance.UserRecords;
     }
 
-    private void UpdateAchievement(TMP_Text achieveText, GameObject icon, int currentCount, int maxCount)
+    private void UpdateAchievementJumpCount(TMP_Text achieveText, GameObject icon, int currentCount, int maxCount)
     {
         // 달성도 텍스트 형식에 맞게 업데이트
         achieveText.text = string.Format("현재달성도 [{0}/{1}]", Mathf.Min(currentCount, maxCount), maxCount);
 
         // 아이콘 활성화/비활성화
         icon.SetActive(currentCount >= maxCount);
+    }
+
+    private void UpdatePlayTimeAchievements(double playTimeSeconds)
+    {
+        // 플레이 타임 달성도 업데이트
+        int minutes = (int)(playTimeSeconds / 60); // 플레이 타임을 분으로 변환
+
+        UpdateAchievementPlayTime(PlayTimeAchieve1MinText, PlayTimeIcon1Min, minutes, 1); // 1분 달성도
+        UpdateAchievementPlayTime(PlayTimeAchieve10MinText, PlayTimeIcon10Min, minutes, 10); // 10분 달성도
+        UpdateAchievementPlayTime(PlayTimeAchieve60MinText, PlayTimeIcon60Min, minutes, 60); // 60분 달성도
+    }
+
+    private void UpdateAchievementPlayTime(TMP_Text achieveText, GameObject icon, int currentMinutes, int maxMinutes)
+    {
+        // 달성도 텍스트 형식에 맞게 업데이트
+        achieveText.text = string.Format("현재달성도 [{0}/{1}분]", Mathf.Min(currentMinutes,maxMinutes), maxMinutes);
+
+        // 아이콘 활성화/비활성화
+        icon.SetActive(currentMinutes >= maxMinutes);
     }
 }
