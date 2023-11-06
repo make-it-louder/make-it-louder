@@ -58,7 +58,7 @@ public class SignSystem : MonoBehaviour
     }
 
     //
-    public void SignUp()
+    public async void SignUp()
     {
 
         if (string.IsNullOrEmpty(email.text))
@@ -66,7 +66,10 @@ public class SignSystem : MonoBehaviour
             OpenPopup("실패", "메일주소를 입력해주세요.");
             return;
         }
-
+        if (username.text.Length > 10)
+        {
+            OpenPopup("실패", "닉네임을 10글자 이내로 입력해주세요.");
+        }
         string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
         if (!Regex.IsMatch(email.text, emailPattern))
         {
@@ -95,6 +98,12 @@ public class SignSystem : MonoBehaviour
         if (string.IsNullOrEmpty(username.text))
         {
             OpenPopup("실패", "유저네임을 입력해주세요.");
+            return;
+        }
+        bool isDuplicated = await FirebaseManager.Instance.IsUsernameTaken(username.text);
+        if (isDuplicated)
+        {
+            OpenPopup("실패", "이미 존재하는 닉네입입니다.");
             return;
         }
         loadingSpinner.SetActive(true);
