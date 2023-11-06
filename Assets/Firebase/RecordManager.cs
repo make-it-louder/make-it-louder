@@ -235,7 +235,7 @@ public class RecordManager : MonoBehaviour
     }
 
     // 클리어시 클리어 기록 업데이트 함수
-    public async Task UpdateClearRecords (string mapName, int countClear, int countMinJump, float minClearTime)
+    public async Task UpdateClearRecords (string mapName, int countMinJump, float minClearTime)
     {
         if (userProfile == null || userRecords == null) { Debug.Log("DB접근 실패"); return; }
 
@@ -243,7 +243,7 @@ public class RecordManager : MonoBehaviour
         float originalMinClearTime = (float)Math.Round(userRecords[mapName].min_cleartime, 2);
         try
         {
-            userRecords[mapName].count_clear += countClear;
+            userRecords[mapName].count_clear += 1;
             // 초기값이 아닐시 최솟값인지 확인하고 업데이트
             if (originalMinJump != 0 || originalMinClearTime != 0)
             {
