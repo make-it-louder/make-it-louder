@@ -78,7 +78,13 @@ public class PlayerMove2D : MonoBehaviourPun
         if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting && jumpTimer <= 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
+            jumpCount++;
             jumpTimer = -jumpPower / (Physics.gravity.y * rb.gravityScale);
+            if (photonView.IsMine)
+            {
+                UpdateJumpCountUI();   // UI
+            }
+            jumpSound.Play();  // 점프 효과음 재생
         }
 
         if (!isGroundedAndRay() && micInput.DB > 0)
@@ -93,18 +99,6 @@ public class PlayerMove2D : MonoBehaviourPun
         renderer.SetAnimatorFloat("hVelocity", Mathf.Abs(rb.velocity.x));
         renderer.SetAnimatorFloat("vVelocity", rb.velocity.y);
         renderer.SetAnimatorBool("isGrounded", isGroundedAndRay());
-
-        // UI
-        if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting && jumpTimer <= 0f)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
-            jumpCount++;
-            if (photonView.IsMine)
-            {
-                UpdateJumpCountUI();   // UI
-            }
-            jumpSound.Play();  // 점프 효과음 재생
-        }
 
         // AreaEffector Enable False When isGrounded() == true
         if (effector != null && isGroundedAndRay())
@@ -210,10 +204,6 @@ public class PlayerMove2D : MonoBehaviourPun
         {
             jumpCountText.text = "JumpCount: " + jumpCount;
         }
-        else
-        {
-            Debug.Log("Cannot find jumpCountText");
-        }
     }
     
     void UpdatePlayTimeUI()
@@ -223,10 +213,6 @@ public class PlayerMove2D : MonoBehaviourPun
         if (playTimeText != null)
         {
             playTimeText.text = $"PlayTime: {minutes:00}:{seconds:00}";
-        }
-        else
-        {
-            Debug.Log("Cannot find jumpCountText");
         }
     }
 

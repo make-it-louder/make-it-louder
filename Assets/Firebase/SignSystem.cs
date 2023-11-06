@@ -44,6 +44,7 @@ public class SignSystem : MonoBehaviour
             }
         }
     }
+
     //
     private void OpenPopup(string title, string content)
     {
