@@ -2,6 +2,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class FixedUIController : MonoBehaviour
 {
@@ -136,6 +137,10 @@ public class FixedUIController : MonoBehaviour
 
         await RecordManager.Instance.UpdateEndGameData("map1", playTime, countJump, countFall);
         // 포톤 로비연결 끊는 로직 추가해야함.
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
         SceneManager.LoadScene("LobbyTest");
         Destroy(gameObject);
     }

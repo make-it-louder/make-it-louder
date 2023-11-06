@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Room : MonoBehaviour
+public class RoomClick : MonoBehaviour
 {
     // Start is called before the first frame update
     private RoomManager roomManager;
