@@ -23,6 +23,7 @@ public class PlayerMove2D : MonoBehaviourPun
     float inputV;
     float inputH;
     public bool isGrounded { get; set; } = false;
+    private float jumpTimer;
     public TMP_Text jumpCountText;  //  UI
     public int jumpCount = 0;
 
@@ -74,9 +75,10 @@ public class PlayerMove2D : MonoBehaviourPun
             rb.velocity = new Vector2(inputH * speed  , rb.velocity.y);
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
-        if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting)
+        if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting && jumpTimer <= 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
+            jumpTimer = -jumpPower / (Physics.gravity.y * rb.gravityScale);
         }
 
         if (!isGroundedAndRay() && micInput.DB > 0)
@@ -93,7 +95,7 @@ public class PlayerMove2D : MonoBehaviourPun
         renderer.SetAnimatorBool("isGrounded", isGroundedAndRay());
 
         // UI
-        if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting)
+        if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting && jumpTimer <= 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
             jumpCount++;
@@ -114,6 +116,7 @@ public class PlayerMove2D : MonoBehaviourPun
         {
             effector.enabled = true;
         }
+        jumpTimer -= Time.fixedDeltaTime;
 
     }
     void Update()
@@ -186,7 +189,7 @@ public class PlayerMove2D : MonoBehaviourPun
             }
 
             // 방향키 또는 점프키를 눌렀을 때 isHappy를 false로 설정
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Jump"))
             {
                 isHappy = false;
                 renderer.SetAnimatorBool("isHappy", isHappy);
@@ -294,7 +297,7 @@ public class PlayerMove2D : MonoBehaviourPun
         Debug.DrawRay(feetRight, -transform.up * rayLength, Color.red);
 
         // 레이캐스트가 왼쪽 끝이나 오른쪽 끝 중 어느 한 곳에서라도 무언가에 부딪혔는지 확인합니다.
-        return (hitLeft.collider != null || hitRight.collider != null) && isGrounded;
+        return (hitLeft.collider != null || hitRight.collider != null);
 
     }
 

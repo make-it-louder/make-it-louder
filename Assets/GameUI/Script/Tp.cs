@@ -5,7 +5,6 @@ public class Tp : MonoBehaviour
 {
     public GameObject popup;
     private Animator animator;  
-    public GameObject background; // 배경 오브젝트를 위한 변수
     // Start is called before the first frame update
     void Start()
     {
@@ -30,10 +29,7 @@ public class Tp : MonoBehaviour
     public void OpenPopup()
     {
         popup.SetActive(true);
-        if (background != null)
-        {
-            background.SetActive(true); // 배경도 활성화
-        }
+        
         if (animator != null)
         {
             animator.Play("Open");
@@ -50,10 +46,8 @@ public class Tp : MonoBehaviour
 
         // 닫기 애니메이션이 끝나는 것을 기다리는 대신 바로 숨깁니다.
         popup.SetActive(false);
-        if (background != null)
-        {
-            background.SetActive(false); // 배경도 비활성화
-        }
+
+        
     }
 
     public void OnBackgroundClicked()

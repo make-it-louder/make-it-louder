@@ -234,13 +234,11 @@ public class RecordManager : MonoBehaviour
         }
     }
 
+    // 클리어시 클리어 기록 업데이트 함수
     public async Task UpdateClearRecords (string mapName, int countClear, int countMinJump, float minClearTime)
     {
-        if (userProfile == null || userRecords == null)
-        {
-            Debug.Log("DB접근 실패");
-            return;
-        }
+        if (userProfile == null || userRecords == null) { Debug.Log("DB접근 실패"); return; }
+
         int originalMinJump = userRecords[mapName].count_minjump;
         float originalMinClearTime = (float)Math.Round(userRecords[mapName].min_cleartime, 2);
         try
@@ -249,14 +247,8 @@ public class RecordManager : MonoBehaviour
             // 초기값이 아닐시 최솟값인지 확인하고 업데이트
             if (originalMinJump != 0 || originalMinClearTime != 0)
             {
-                if (originalMinJump > countMinJump)
-                {
-                    originalMinJump = countMinJump;
-                }
-                else if (originalMinClearTime > minClearTime)
-                {
-                    originalMinClearTime = minClearTime;
-                }
+                userRecords[mapName].count_minjump = Math.Min(originalMinJump, countMinJump);
+                userRecords[mapName].min_cleartime = Math.Min(originalMinClearTime, minClearTime);
             }
             // 처음 클리어시(0 일시) 항상 업데이트
             else
@@ -268,9 +260,27 @@ public class RecordManager : MonoBehaviour
             await databaseReference.Child("records").Child(currentId).Child(mapName).SetRawJsonValueAsync(updatedRecordJsonData);
             Debug.Log("클리어 기록 저장완료");
         } 
-        catch (Exception e)
-        {
-            Debug.LogError("클리어 기록 저장 실패" + e.Message);
-        }
+        catch (Exception e) { Debug.LogError("클리어 기록 저장 실패" + e.Message); }
     }
+
+    // 캐릭터 해금(업적 클리어)시 avatars 업데이트 함수
+    public async Task UpdateNewAvatar (int clearAchievementIndex)
+    {
+        if (userProfile == null || userRecords == null) return;
+        try
+        {
+            List<bool> originalAvatars = userProfile.avatars;
+            if (originalAvatars[clearAchievementIndex] == true) { Debug.Log("이미 있는 캐릭터인데 어떻게 해금이되나요? 버그발견"); return; }
+
+            originalAvatars[clearAchievementIndex] = true;
+
+            await databaseReference.Child("users").Child(currentId).Child("avatars").SetValueAsync(originalAvatars);
+
+            Debug.Log($"{clearAchievementIndex}번째 캐릭터 해금 DB업데이트 성공");
+
+        }
+        catch (Exception e) { Debug.LogError("캐릭터 해금 DB업데이트 실패" + e); }
+    }
+
+
 }
