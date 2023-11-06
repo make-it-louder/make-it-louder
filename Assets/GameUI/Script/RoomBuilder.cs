@@ -1,16 +1,18 @@
 using ExitGames.Client.Photon;
 using Photon.Realtime;
 using TMPro;
+using UltimateClean;
 using UnityEngine;
+using Photon.Pun;
 
-class RoomBuilder: MonoBehaviour
+class RoomBuilder
 {
     private string roomName;
     private byte[] hashedPw;
     private int curPlayer;
     private int maxPlayer;
-
-    public RoomBuilder(RoomInfo roominfo)
+    private LobbyManager lobbyManager;
+    public RoomBuilder(LobbyManager lobbyManager, RoomInfo roominfo)
     {
         roomName = roominfo.Name;
         if (roominfo.CustomProperties.ContainsKey("password"))
@@ -24,21 +26,18 @@ class RoomBuilder: MonoBehaviour
         }
         curPlayer = roominfo.PlayerCount;
         maxPlayer = roominfo.MaxPlayers;
+        this.lobbyManager = lobbyManager;
     }
+
     public GameObject Build(Transform parent)
     {
-        GameObject result = Instantiate(Resources.Load<GameObject>("Room/Room"), parent);
-        Debug.Log(result);
+        GameObject result = GameObject.Instantiate(Resources.Load<GameObject>("Room/Room"), parent);
         Transform IconBackground = result.transform.Find("IconBackground");
-        Debug.Log(IconBackground);
         Transform NameText = IconBackground.Find("NameText");
-        Debug.Log(NameText);
         GameObject TMPHeadline = NameText.Find("HeadlineText")?.gameObject;
-        Debug.Log(TMPHeadline);
         GameObject LockIcon = IconBackground.Find("Lock")?.gameObject;
-        Debug.Log(LockIcon);
         GameObject TMPClientCnt = IconBackground.Find("ClientCnt")?.gameObject;
-        Debug.Log(TMPClientCnt);
+        CleanButton JoinButton = result.transform.Find("EnterButton")?.gameObject.GetComponent<CleanButton>();
         if (TMPHeadline != null)
         {
             TMPHeadline.GetComponent<TMP_Text>().text = roomName;
@@ -54,7 +53,26 @@ class RoomBuilder: MonoBehaviour
         result.name = roomName;
         Room room = result.AddComponent<Room>();
         room.RoomName = roomName;
-        room.hashedPw = hashedPw;
+        room.setHashedPw(hashedPw);
+        if (hashedPw == null)
+        {
+            JoinButton.onClick.AddListener(() =>
+            {
+                lobbyManager.JoinRoom(room.RoomName);
+            });
+        }
+        else
+        {
+            JoinButton.onClick.AddListener(() =>
+            {
+                Debug.Log("Password");
+                Tp tp = GameObject.FindObjectOfType<Canvas>().GetComponents<Tp>()[3];
+                LockRoom lockRoom = tp.popup.gameObject.GetComponent<LockRoom>();
+                lockRoom.Room = room;
+                tp.OpenPopup(); 
+                
+            });
+        }
         return result;
     }
 }

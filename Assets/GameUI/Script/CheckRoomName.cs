@@ -11,8 +11,8 @@ public class RoomCreation : MonoBehaviourPunCallbacks
     public TMP_InputField roomNameInputField; // 방 이름 TMP_InputField
     public Button confirmButton; // 확인 버튼
     public TMP_Text warningMessage; // 경고 메시지를 표시할 TMP_Text
-    public SceneTransition sceneTransition; // SceneTransition 컴포넌트
     private RoomSettings roomSettings;
+    public LobbyManager lobbyManager;
     void Start()
     {
         // 초기 설정: 경고 메시지를 숨깁니다.
@@ -38,8 +38,6 @@ public class RoomCreation : MonoBehaviourPunCallbacks
         {
             // 경고 메시지를 숨깁니다.
             warningMessage.gameObject.SetActive(false);
-            // 씬 전환 수행
-            sceneTransition.PerformTransition();
             // 방 생성 로직 수행
             CreateRoom(roomNameInputField.text);
         }
@@ -51,7 +49,6 @@ public class RoomCreation : MonoBehaviourPunCallbacks
         string passwordText = roomSettings.passwordInputField.text;
         bool passwordEnabled = roomSettings.passwordToggle.isOn;
 
-        RoomOptions roomOptions = new RoomOptions();
         string password = null;
         if (string.IsNullOrEmpty(passwordText) || !passwordEnabled)
         {
@@ -60,20 +57,7 @@ public class RoomCreation : MonoBehaviourPunCallbacks
         else
         {
             password = passwordText;
-            roomOptions.CustomRoomProperties = new Hashtable() { { "password", Room.Encrypt(password) } };
-            roomOptions.CustomRoomPropertiesForLobby = new string[] { "password" };
-            roomOptions.MaxPlayers = 20;
-            Debug.Log("MaxPlayer had set to 20. Please change it when UI changes");
         }
-        PhotonNetwork.CreateRoom(roomName, roomOptions);
-    }
-    public override void OnCreateRoomFailed(short returnCode, string message)
-    {
-        Debug.LogError($"({returnCode})Failed to create room: {message}");
-    }
-    public override void OnCreatedRoom()
-    {
-        Debug.Log("Created room");
-        PhotonNetwork.LoadLevel("MakeItLouder");
+        lobbyManager.CreateRoom(roomName, password);
     }
 }

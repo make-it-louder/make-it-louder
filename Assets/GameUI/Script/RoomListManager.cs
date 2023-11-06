@@ -2,10 +2,11 @@ using Unity;
 using UnityEngine;
 using Photon.Realtime;
 
-public class RoomListManager : MonoBehaviour
+public class RoomListManager
 {
-    public RoomListManager(GameObject container)
+    public RoomListManager(LobbyManager lobbyManager, GameObject container)
     {
+        this.lobbyManager = lobbyManager;
         this.container = container;
     }
     public GameObject Container
@@ -20,10 +21,11 @@ public class RoomListManager : MonoBehaviour
         }
     }
     private GameObject container;
+    private LobbyManager lobbyManager;
 
     public void Add(RoomInfo roomInfo)
     {
-        RoomBuilder newRoom = new RoomBuilder(roomInfo);
+        RoomBuilder newRoom = new RoomBuilder(lobbyManager, roomInfo);
         newRoom.Build(container.transform);
     }
     public void Remove(RoomInfo roomInfo)
@@ -31,7 +33,11 @@ public class RoomListManager : MonoBehaviour
         GameObject room = container.transform.Find(roomInfo.Name)?.gameObject;
         if (room != null)
         {
-            Destroy(room);
+            GameObject.Destroy(room);
         }
+    }
+    public bool Contains(RoomInfo roomInfo)
+    {
+        return container.transform.Find(roomInfo.Name) != null;
     }
 }

@@ -1,14 +1,28 @@
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
+using UltimateClean;
 using UnityEngine;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     public GameObject RoomListContainer;
     RoomListManager roomListManager;
-    private void Awake()
+
+    
+    private void Start()
     {
+        if (RoomListContainer == null)
+        {
+            Debug.LogError("RoomListContainer is null");
+        }
+        roomListManager = new RoomListManager(this, RoomListContainer);
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.JoinLobby();
+            return;
+        }
         FirebaseManager.Profile profile;
         profile = RecordManager.Instance?.UserProfile;
         if (profile == null)
@@ -20,11 +34,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             PhotonNetwork.NickName = profile.username;
         }
         PhotonNetwork.AutomaticallySyncScene = true;
-        if (RoomListContainer == null)
-        {
-            Debug.LogError("RoomListContainer is null");
-        }
-        roomListManager = new RoomListManager(RoomListContainer);
         PhotonNetwork.ConnectUsingSettings();
     }
     
@@ -48,6 +57,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        Debug.Log($"OnRoomListUpdate");
+        foreach (RoomInfo roomInfo in roomList)
+        {
+            Debug.Log($"\t{roomInfo}");
+        }
         foreach (RoomInfo roomInfo in roomList)
         {
             if (roomInfo.RemovedFromList)
@@ -56,11 +70,53 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
             else
             {
-                roomListManager.Add(roomInfo);
+                if (roomListManager.Contains(roomInfo))
+                {
+                    roomListManager.Remove(roomInfo);
+                    roomListManager.Add(roomInfo);
+                }
+                else
+                {
+                    roomListManager.Add(roomInfo);
+                }
             }
         }
     }
 
+    public void JoinRoom(string roomName)
+    {
+        PhotonNetwork.JoinRoom(roomName);
+    }
+    public void JoinSingleRoom()
+    {
+        RoomOptions options = new RoomOptions();
+        options.MaxPlayers = 1;
+        options.IsOpen = false;
+        options.IsVisible = false;
+        PhotonNetwork.CreateRoom(null, options);
+    }
+    public void CreateRoom(string roomName, string password)
+    {
+        RoomOptions roomOptions = new RoomOptions();
+        if (password != null)
+        {
+            roomOptions.CustomRoomProperties = new Hashtable() { { "password", Room.Encrypt(password) } };
+            roomOptions.CustomRoomPropertiesForLobby = new string[] { "password" };
+        }
+        roomOptions.MaxPlayers = 20;
+        Debug.Log("MaxPlayer had set to 20. Please change it when UI changes");
+        PhotonNetwork.CreateRoom(roomName, roomOptions);
+    }
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        Debug.LogError($"({returnCode})Failed to create room: {message}");
+    }
+    public override void OnCreatedRoom()
+    {
+        Debug.Log("Created room");
+        //GetComponent<SceneTransition>().PerformTransition();
+        PhotonNetwork.LoadLevel("MakeItLouder");
+    }
     public override void OnJoinedRoom()
     {
         

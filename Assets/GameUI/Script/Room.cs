@@ -7,7 +7,7 @@ public class Room : MonoBehaviour
 {
     public static readonly SHA256 sha = SHA256.Create();
     
-    public byte[] hashedPw;
+    private byte[] hashedPw;
     public string RoomName;
 
     public static byte[] Encrypt(string password)
@@ -17,6 +17,10 @@ public class Room : MonoBehaviour
     public void setPassword(string password)
     {
         hashedPw = Encrypt(password);
+    }
+    public void setHashedPw(byte[] hashedPw)
+    {
+        this.hashedPw = hashedPw;
     }
     public bool Check(string check)
     {
