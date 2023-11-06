@@ -22,19 +22,6 @@ public class FixedUIController : MonoBehaviour
     public TMP_Text mapName;
 
 
-    void Awake()
-    {
-        if (null == instance)
-        {
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -137,12 +124,17 @@ public class FixedUIController : MonoBehaviour
 
         await RecordManager.Instance.UpdateEndGameData("map1", playTime, countJump, countFall);
         // 포톤 로비연결 끊는 로직 추가해야함.
+
+        AcheivementManager acheivementManager = GetComponent<AcheivementManager>();
+        if (acheivementManager != null)
+        {
+            await acheivementManager.UpdateAllAcheivement();
+        }
         if (PhotonNetwork.InRoom)
         {
             PhotonNetwork.LeaveRoom();
         }
         SceneManager.LoadScene("LobbyTest");
-        Destroy(gameObject);
     }
 
     public void QuitGame ()
