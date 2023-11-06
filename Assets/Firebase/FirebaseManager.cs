@@ -120,7 +120,6 @@ public class FirebaseManager : MonoBehaviour
         public string username;
         public int e_avatar;
         public List<bool> avatars;
-        public List<string> achievements;
 
         public Profile()
         {
@@ -129,13 +128,11 @@ public class FirebaseManager : MonoBehaviour
         public Profile(
             string username,
             int e_avatar,
-            List<bool> avatars,
-            List<string> achievements)
+            List<bool> avatars)
         {
             this.username = username;
             this.e_avatar = e_avatar;
             this.avatars = avatars;
-            this.achievements = achievements;
         }
     }
 
@@ -249,7 +246,7 @@ public class FirebaseManager : MonoBehaviour
         List<bool> defaultAvatars = new List<bool>() { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
         List<string> defaultAchievements = new List<string>() { "achievement1" };
 
-        Profile user = new Profile(username, defaultAvatar, defaultAvatars, defaultAchievements);
+        Profile user = new Profile(username, defaultAvatar, defaultAvatars);
         string json = JsonUtility.ToJson(user);
 
         databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(json);
