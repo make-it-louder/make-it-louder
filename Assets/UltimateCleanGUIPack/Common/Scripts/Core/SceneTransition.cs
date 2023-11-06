@@ -12,7 +12,7 @@ namespace UltimateClean
     /// </summary>
     public class SceneTransition : MonoBehaviour
     {
-        public string scene = "<Insert scene name>";
+        public string scene = "MakeItLouder";
         public float duration = 1.0f;
         public Color color = Color.black;
 

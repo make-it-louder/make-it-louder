@@ -41,6 +41,7 @@ public class FirebaseManager : MonoBehaviour
         }
         else
         {
+            Debug.Log("인스턴스 중복임 Destroy");
             Destroy(gameObject);
         }
     }
@@ -80,11 +81,11 @@ public class FirebaseManager : MonoBehaviour
     {
         // returns the firebaseAuth
         auth = FirebaseAuth.DefaultInstance;
-
+/*
         if (auth.CurrentUser != null)
         {
-            SignOut();
-        }
+            auth.SignOut();
+        }*/
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
 
@@ -144,16 +145,22 @@ public class FirebaseManager : MonoBehaviour
         public float playtime;
         public int count_jump;
         public int count_fall;
+        public int count_clear;
+        public int count_minjump;
+        public float min_cleartime;
 
         public Record()
         {
         }
 
-        public Record(float playtime, int count_jump, int count_fall)
+        public Record(float playtime, int count_jump, int count_fall, int count_clear, int count_minjump, float min_cleartime)
         {
             this.playtime = playtime;
             this.count_jump = count_jump;
             this.count_fall = count_fall;
+            this.count_clear = count_clear;
+            this.count_minjump = count_minjump;
+            this.min_cleartime = min_cleartime;
         }
     }
 
@@ -163,13 +170,23 @@ public class FirebaseManager : MonoBehaviour
         return databaseReference;
     }
 
+    // isLogined?
+    public bool IsLoggedIn()
+    {
+        FirebaseAuth auth = FirebaseAuth.DefaultInstance;
+        return auth.CurrentUser != null;
+    }
 
+    //닉네임 중복검사
+    public async Task<bool> IsUsernameTaken(string username)
+    {
+        var snapshot = await databaseReference.Child("users").OrderByChild("username").EqualTo(username).GetValueAsync();
+        return snapshot.Exists && snapshot.ChildrenCount > 0;
+    }
     // sign up new users
     public async void SignUp(string email, string password, string username, Action<bool> callback)
     {
         bool flag = false;
-
-
         try
         {
             Firebase.Auth.AuthResult result = await auth.CreateUserWithEmailAndPasswordAsync(email, password);
@@ -243,9 +260,9 @@ public class FirebaseManager : MonoBehaviour
     {
         Dictionary<string, Record> records = new Dictionary<string, Record>
         {
-            { "map1", new Record(0f, 0, 0) },
-            { "map2", new Record(0f, 0, 0) },
-            { "map3", new Record(0f, 0, 0) }
+            { "map1", new Record(0f, 0, 0, 0, 0, 0f) },
+            { "map2", new Record(0f, 0, 0, 0, 0, 0f) },
+            { "map3", new Record(0f, 0, 0, 0, 0, 0f) }
         };
 
         string json = JsonConvert.SerializeObject(records, Formatting.Indented);

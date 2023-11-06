@@ -25,6 +25,26 @@ public class SignSystem : MonoBehaviour
     {
     }
 
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (email.isFocused)
+            {
+                password.ActivateInputField();
+            }
+            else if (confirmpassword != null && password.isFocused)
+            {
+                confirmpassword.ActivateInputField();
+            }
+            else if (username != null && confirmpassword.isFocused )
+            {
+                username.ActivateInputField();
+            }
+        }
+    }
+
     //
     private void OpenPopup(string title, string content)
     {
@@ -39,16 +59,18 @@ public class SignSystem : MonoBehaviour
     }
 
     //
-    public void SignUp()
+    public async void SignUp()
     {
-        loadingSpinner.SetActive(true);
 
         if (string.IsNullOrEmpty(email.text))
         {
             OpenPopup("실패", "메일주소를 입력해주세요.");
             return;
         }
-
+        if (username.text.Length > 10)
+        {
+            OpenPopup("실패", "닉네임을 10글자 이내로 입력해주세요.");
+        }
         string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
         if (!Regex.IsMatch(email.text, emailPattern))
         {
@@ -79,7 +101,13 @@ public class SignSystem : MonoBehaviour
             OpenPopup("실패", "유저네임을 입력해주세요.");
             return;
         }
-
+        bool isDuplicated = await FirebaseManager.Instance.IsUsernameTaken(username.text);
+        if (isDuplicated)
+        {
+            OpenPopup("실패", "이미 존재하는 닉네입입니다.");
+            return;
+        }
+        loadingSpinner.SetActive(true);
         FirebaseManager.Instance.SignUp(email.text, password.text, username.text, SignUpCallback);
     }
 

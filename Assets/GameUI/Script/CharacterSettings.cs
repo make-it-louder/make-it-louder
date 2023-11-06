@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,14 +10,28 @@ public class CharacterSettings : MonoBehaviour
     public GameObject characterChangeForm;
     public GameObject otherChangeForm;
 
+    FirebaseManager.Profile profile;
+
     public Button[] buttons;
-    private List<bool> myChr = new List<bool>() { true, false, false, false };
+    private List<bool> avatars;
+    int e_avatar;
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         characterChangeForm.SetActive(true);
         otherChangeForm.SetActive(false);
-        SearchingMyCharacter();
+        profile = RecordManager.Instance.UserProfile;
+        avatars = profile.avatars;
+        e_avatar = profile.e_avatar;
+        Debug.Log(e_avatar);
+    }
+
+
+    void Start()
+    {
+        SearchingMyCharacter(e_avatar);
+        AddEventListener();
+
     }
 
     // Update is called once per frame
@@ -25,6 +40,17 @@ public class CharacterSettings : MonoBehaviour
         
     }
 
+    // 클릭 이벤트 리스너 추가
+    public void AddEventListener()
+    {
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            int index = i; // 클로저 문제를 방지하기 위한 지역 변수
+            buttons[i].onClick.AddListener(() => OnClickChangeCharacter(index));
+        }
+    }
+
+    // 캐릭터창과 꾸미기창 바꾸는 토글
     public void toggleValueChange(bool value)
     {
         if (!value)
@@ -38,17 +64,30 @@ public class CharacterSettings : MonoBehaviour
         }
     }
 
-    public void OnClickChangeCharacter ()
+    public async void OnClickChangeCharacter (int btnIndex)
     {
-    }
-    public void SearchingMyCharacter()
-    {
-        for (int i = 0; i < myChr.Count; i++)
+        if (e_avatar == btnIndex)
         {
-            buttons[i].interactable = myChr[i];
-            Transform lockImageTransform = buttons[i].transform.Find("Lock");
-            GameObject lockImage = lockImageTransform.gameObject;
-            lockImage.SetActive(!myChr[i]);
+            return;
+        } else
+        {
+            e_avatar = btnIndex;
+            await RecordManager.Instance.UpdateEquipmentAvatar(btnIndex);
+            SearchingMyCharacter(btnIndex);
         }
+    }
+    public void SearchingMyCharacter(int e_avatar)
+    {
+        Color whiteColor = Color.white; // 버튼의 기본 색상을 흰색으로 설정합니다.
+        Color selectedColor = Color.red;
+        for (int i = 0; i < avatars.Count; i++)
+        {
+            Image buttonImage = buttons[i].GetComponent<Image>();
+            GameObject lockImage = buttons[i].transform.Find("Lock").gameObject;
+            buttonImage.color = (i == e_avatar) ? selectedColor : whiteColor;
+            buttons[i].interactable = avatars[i];
+            lockImage.SetActive(!avatars[i]);
+        }
+
     }
 }

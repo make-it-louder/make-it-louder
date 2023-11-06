@@ -22,7 +22,7 @@ public class PlayerMove2D : MonoBehaviourPun
     public float jumpPower;
     float inputV;
     float inputH;
-
+    public bool isGrounded { get; set; } = false;
     public TMP_Text jumpCountText;  //  UI
     public int jumpCount = 0;
 
@@ -74,12 +74,12 @@ public class PlayerMove2D : MonoBehaviourPun
             rb.velocity = new Vector2(inputH * speed  , rb.velocity.y);
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
-        if (inputV > 0 && isGrounded() && !IgnoreInput && !isChatting)
+        if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
         }
 
-        if (!isGrounded() && micInput.DB > 0)
+        if (!isGroundedAndRay() && micInput.DB > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -3.5f));
         }
@@ -90,10 +90,10 @@ public class PlayerMove2D : MonoBehaviourPun
         }
         renderer.SetAnimatorFloat("hVelocity", Mathf.Abs(rb.velocity.x));
         renderer.SetAnimatorFloat("vVelocity", rb.velocity.y);
-        renderer.SetAnimatorBool("isGrounded", isGrounded());
+        renderer.SetAnimatorBool("isGrounded", isGroundedAndRay());
 
         // UI
-        if (inputV > 0 && isGrounded() && !IgnoreInput && !isChatting)
+        if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
             jumpCount++;
@@ -105,12 +105,12 @@ public class PlayerMove2D : MonoBehaviourPun
         }
 
         // AreaEffector Enable False When isGrounded() == true
-        if (effector != null && isGrounded())
+        if (effector != null && isGroundedAndRay())
         {
             effector.enabled = false;
         }
         // AreaEffector Enable True When isGrounded() == false
-        else if (effector != null && !isGrounded())
+        else if (effector != null && !isGroundedAndRay())
         {
             effector.enabled = true;
         }
@@ -272,15 +272,40 @@ public class PlayerMove2D : MonoBehaviourPun
         }
     }
 
-    bool isGrounded()
-    {
-        Vector3 feet = rb.transform.position + transform.up * transform.lossyScale.y * (collider.offset.y - collider.size.y / 2 - 0.01f) + transform.right * transform.lossyScale.x * collider.offset.x; ;
-        Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
-        Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
-        Debug.DrawLine(feetLeft, feetRight, Color.red);
+    /*    bool isGrounded()
+        {
+            Vector3 feet = rb.transform.position + transform.up * transform.lossyScale.y * (collider.offset.y - collider.size.y / 2 - 0.01f) + transform.right * transform.lossyScale.x * collider.offset.x; ;
+            Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
+            Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
+            Debug.DrawLine(feetLeft, feetRight, Color.red);
 
-        return (Physics2D.OverlapPoint(feetLeft,1<<LayerMask.NameToLayer("Ground")) != null) || (Physics2D.OverlapPoint(feetRight,1<<LayerMask.NameToLayer("Ground")) != null || (Physics2D.OverlapPoint(feetRight, 1 << LayerMask.NameToLayer("Player"))) || (Physics2D.OverlapPoint(feetLeft, 1 << LayerMask.NameToLayer("Player"))));
+            return (Physics2D.OverlapPoint(feetLeft,1<<LayerMask.NameToLayer("Ground")) != null) || (Physics2D.OverlapPoint(feetRight,1<<LayerMask.NameToLayer("Ground")) != null || (Physics2D.OverlapPoint(feetRight, 1 << LayerMask.NameToLayer("Player"))) || (Physics2D.OverlapPoint(feetLeft, 1 << LayerMask.NameToLayer("Player"))));
+        }*/
+    bool isGroundedAndRay()
+    {
+        // 발의 중앙 위치를 계산합니다.
+        Vector3 feetPosition = rb.transform.position + transform.up * transform.lossyScale.y * (collider.offset.y - collider.size.y / 2 - 0.01f);
+
+        // 레이캐스트의 길이를 조절합니다. 너무 길면 플랫폼에 도달하기 전에 그라운드로 인식될 수 있습니다.
+        float rayLength = 0.1f;
+
+        // 발의 왼쪽 끝과 오른쪽 끝을 계산합니다.
+        Vector3 feetLeft = feetPosition - transform.right * transform.lossyScale.x * collider.size.x / 2;
+        Vector3 feetRight = feetPosition + transform.right * transform.lossyScale.x * collider.size.x / 2;
+
+        // 왼쪽과 오른쪽 끝에서 바닥을 감지하기 위한 레이캐스트를 발사합니다.
+        RaycastHit2D hitLeft = Physics2D.Raycast(feetLeft, -transform.up, rayLength, 1 << LayerMask.NameToLayer("Ground"));
+        RaycastHit2D hitRight = Physics2D.Raycast(feetRight, -transform.up, rayLength, 1 << LayerMask.NameToLayer("Ground"));
+
+        // 레이캐스트를 시각화합니다 (디버깅 용도).
+        Debug.DrawRay(feetLeft, -transform.up * rayLength, Color.red);
+        Debug.DrawRay(feetRight, -transform.up * rayLength, Color.red);
+
+        // 레이캐스트가 왼쪽 끝이나 오른쪽 끝 중 어느 한 곳에서라도 무언가에 부딪혔는지 확인합니다.
+        return (hitLeft.collider != null || hitRight.collider != null) && isGrounded;
+
     }
+
 
     IEnumerator ResetEmotionAfterDelay(string emotion)
     {
@@ -303,4 +328,5 @@ public class PlayerMove2D : MonoBehaviourPun
         }
         renderer.ViewFront = false;
     }
+
 }
