@@ -23,6 +23,7 @@ public class PlayerMove2D : MonoBehaviourPun
     float inputV;
     float inputH;
     public bool isGrounded { get; set; } = false;
+    private float jumpTimer;
     public TMP_Text jumpCountText;  //  UI
     public int jumpCount = 0;
     public int isClear = 0;
@@ -74,9 +75,16 @@ public class PlayerMove2D : MonoBehaviourPun
             rb.velocity = new Vector2(inputH * speed  , rb.velocity.y);
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
-        if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting)
+        if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting && jumpTimer <= 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
+            jumpCount++;
+            jumpTimer = -jumpPower / (Physics.gravity.y * rb.gravityScale);
+            if (photonView.IsMine)
+            {
+                UpdateJumpCountUI();   // UI
+            }
+            jumpSound.Play();  // 점프 효과음 재생
         }
 
         if (!isGroundedAndRay() && micInput.DB > 0)
@@ -92,18 +100,6 @@ public class PlayerMove2D : MonoBehaviourPun
         renderer.SetAnimatorFloat("vVelocity", rb.velocity.y);
         renderer.SetAnimatorBool("isGrounded", isGroundedAndRay());
 
-        // UI
-        if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
-            jumpCount++;
-            if (photonView.IsMine)
-            {
-                UpdateJumpCountUI();   // UI
-            }
-            jumpSound.Play();  // 점프 효과음 재생
-        }
-
         // AreaEffector Enable False When isGrounded() == true
         if (effector != null && isGroundedAndRay())
         {
@@ -114,6 +110,7 @@ public class PlayerMove2D : MonoBehaviourPun
         {
             effector.enabled = true;
         }
+        jumpTimer -= Time.fixedDeltaTime;
 
     }
     void Update()
@@ -207,10 +204,6 @@ public class PlayerMove2D : MonoBehaviourPun
         {
             jumpCountText.text = "JumpCount: " + jumpCount;
         }
-        else
-        {
-            Debug.Log("Cannot find jumpCountText");
-        }
     }
     
     void UpdatePlayTimeUI()
@@ -220,10 +213,6 @@ public class PlayerMove2D : MonoBehaviourPun
         if (playTimeText != null)
         {
             playTimeText.text = $"PlayTime: {minutes:00}:{seconds:00}";
-        }
-        else
-        {
-            Debug.Log("Cannot find jumpCountText");
         }
     }
 
@@ -302,7 +291,7 @@ public class PlayerMove2D : MonoBehaviourPun
         Debug.DrawRay(feetRight, -transform.up * rayLength, Color.red);
 
         // 레이캐스트가 왼쪽 끝이나 오른쪽 끝 중 어느 한 곳에서라도 무언가에 부딪혔는지 확인합니다.
-        return (hitLeft.collider != null || hitRight.collider != null) && isGrounded;
+        return (hitLeft.collider != null || hitRight.collider != null);
 
     }
 
