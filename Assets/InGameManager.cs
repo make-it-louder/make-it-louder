@@ -9,6 +9,7 @@ public class InGameManager : MonoBehaviour
     GameObject spawnedPlayer;
     public GameObject playerPrefab;
     public Vector3 spawnPoint;
+    public FixedUIController controller;
     void Start()
     {
         if (!PhotonNetwork.IsConnected)
@@ -53,6 +54,7 @@ public class InGameManager : MonoBehaviour
         playerMoveBehavior.jumpCountText = jumpCountText;
         playerMoveBehavior.playTimeText = playTimeText;
 
+        controller.player = spawnedPlayer;
         yield break;
     }
 }
