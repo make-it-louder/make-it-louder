@@ -24,7 +24,14 @@ public class AcheivementManager : MonoBehaviour
     void Start()
     {
         GetUserData();
+        player = GameObject.Find("Player");
+        if (player != null) 
+        { 
         playerMove2D = player.GetComponent<PlayerMove2D>();
+        } else
+        {
+            Debug.Log("플레이어 찾을 수 없음");
+        }
         initialPlaytime = records["map1"].playtime;
         initialJumpCount = records["map1"].count_jump;
         initialClearCount = records["map1"].count_clear;
@@ -46,21 +53,25 @@ public class AcheivementManager : MonoBehaviour
 
     public async Task UpdateAllAcheivement ()
     {
+        Debug.Log("실행됨");
         AddConditions();
 
         for (int i = 1; i < initialAchevements.Count; i++)
         {
-            if (initialAchevements[i]) return;
+            if (initialAchevements[i]) continue;
             if (conditions[i-1])
             {
                 profile.avatars[i] = true;
+                Debug.Log(i + "번째 업적달성함");
                 await RecordManager.Instance.UpdateNewAvatar(i);
+                Debug.Log(i + "번째 업적 업데이트함");
             }
         }
     }
 
     public void AddConditions ()
     {
+        Debug.Log("조건넣는중");
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 100);
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 1000);
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 3000);

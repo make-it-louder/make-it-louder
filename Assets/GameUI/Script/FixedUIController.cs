@@ -9,7 +9,6 @@ public class FixedUIController : MonoBehaviour
     public GameObject settingsForm; // Panel GameObject를 참조할 변수
     public GameObject audioSettingsForm;
     public GameObject displaySettingsForm;
-    private static FixedUIController instance = null;
 
     // 로딩스피너
     public GameObject loadingSpinner;
@@ -128,13 +127,14 @@ public class FixedUIController : MonoBehaviour
         AcheivementManager acheivementManager = GetComponent<AcheivementManager>();
         if (acheivementManager != null)
         {
+            Debug.Log("acvm 있어요");
             await acheivementManager.UpdateAllAcheivement();
         }
         if (PhotonNetwork.InRoom)
         {
             PhotonNetwork.LeaveRoom();
         }
-        SceneManager.LoadScene("LobbyTest");
+        SceneManager.LoadSceneAsync("LobbyTest");
     }
 
     public void QuitGame ()

@@ -321,7 +321,6 @@ public class PlayerMove2D : MonoBehaviourPun
     //골인
     void OnTriggerStay2D(Collider2D other)
     {
-        Debug.Log("부딪힘" + other);
         if (other.CompareTag("ClearPoint"))
         {
             OnPlayerEnter();
