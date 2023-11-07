@@ -15,7 +15,7 @@ public class RecordManager : MonoBehaviour
     private static RecordManager instance;
 
     // firebase
-    private string currentId;
+    public string currentId;
     private DatabaseReference databaseReference;
 
     private FirebaseManager.Profile userProfile;

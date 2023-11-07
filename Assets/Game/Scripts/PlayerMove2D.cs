@@ -287,13 +287,16 @@ public class PlayerMove2D : MonoBehaviourPun
         // 왼쪽과 오른쪽 끝에서 바닥을 감지하기 위한 레이캐스트를 발사합니다.
         RaycastHit2D hitLeft = Physics2D.Raycast(feetLeft, -transform.up, rayLength, 1 << LayerMask.NameToLayer("Ground"));
         RaycastHit2D hitRight = Physics2D.Raycast(feetRight, -transform.up, rayLength, 1 << LayerMask.NameToLayer("Ground"));
+        RaycastHit2D hitPlayerleft = Physics2D.Raycast(feetRight, -transform.up, rayLength, 1 << LayerMask.NameToLayer("Player"));
+        RaycastHit2D hitPlayerRight = Physics2D.Raycast(feetRight, -transform.up, rayLength, 1 << LayerMask.NameToLayer("Player"));
+
 
         // 레이캐스트를 시각화합니다 (디버깅 용도).
         Debug.DrawRay(feetLeft, -transform.up * rayLength, Color.red);
         Debug.DrawRay(feetRight, -transform.up * rayLength, Color.red);
 
         // 레이캐스트가 왼쪽 끝이나 오른쪽 끝 중 어느 한 곳에서라도 무언가에 부딪혔는지 확인합니다.
-        return (hitLeft.collider != null || hitRight.collider != null);
+        return (hitLeft.collider != null || hitRight.collider != null || hitPlayerleft.collider !=null || hitPlayerRight.collider != null);
 
     }
 
@@ -362,7 +365,9 @@ public class PlayerMove2D : MonoBehaviourPun
         if (isClear == 1) return;
         else { 
             isClear = 1;
+            string userId = RecordManager.Instance.currentId;
             await RecordManager.Instance.UpdateClearRecords("map1", jumpCount, playTime);
+            RankingManager.Instance.UpdateClearTimeRank(playTime, userId);
             Debug.Log("골인");
         }
     }
