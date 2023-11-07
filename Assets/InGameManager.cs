@@ -1,4 +1,4 @@
-﻿using Photon.Pun;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -30,7 +30,7 @@ public class InGameManager : MonoBehaviour
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
         spawnedPlayer = PhotonNetwork.Instantiate(
               $"player/{playerPrefab.name}",
-              spawnPoint + new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(-0.5f, 0.5f), -9.05f),
+              spawnPoint + new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(-0.5f, 0.5f), -0.1f),
               Quaternion.identity
           );
         GridCamera2D camera = GameObject.Find("Main Camera").GetComponent<GridCamera2D>();
