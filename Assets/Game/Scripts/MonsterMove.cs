@@ -27,7 +27,7 @@ public class MonsterMovement : MonoBehaviourPun
 
     void Update()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient && renderer.enabled == false)
         {
             renderer.enabled = true;
         }
