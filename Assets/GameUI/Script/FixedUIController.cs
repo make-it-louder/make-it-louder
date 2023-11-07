@@ -20,13 +20,14 @@ public class FixedUIController : MonoBehaviour
     public GameObject player;
     public TMP_Text mapName;
 
-
+    public AcheivementManager acheivementManager;
     // Start is called before the first frame update
     void Start()
     {
         DOTween.Init();
         settingsForm.transform.localScale = Vector3.one * 0.1f;
         settingsForm.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -124,11 +125,13 @@ public class FixedUIController : MonoBehaviour
         await RecordManager.Instance.UpdateEndGameData("map1", playTime, countJump, countFall);
         // 포톤 로비연결 끊는 로직 추가해야함.
 
-        AcheivementManager acheivementManager = GetComponent<AcheivementManager>();
         if (acheivementManager != null)
         {
             Debug.Log("acvm 있어요");
             await acheivementManager.UpdateAllAcheivement();
+        } else
+        {
+            Debug.Log("acvm이 없어요");
         }
         if (PhotonNetwork.InRoom)
         {
