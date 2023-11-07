@@ -155,14 +155,22 @@ namespace RainbowArt.CleanFlatUI
             Toggle toggle = item.tab.GetComponent<Toggle>();     
             Tab tab = item.tab.GetComponent<Tab>();   
             Animator animatorTab = item.tab.GetComponent<Animator>(); 
-            Animator animatorView = item.view.GetComponent<Animator>();                    
+            Animator animatorView = item.view.GetComponent<Animator>();
+            ScrollRect scrollRect = item.view.GetComponentInChildren<ScrollRect>();
             if (toggle.isOn)
             {
                 currentIndex = index;
                 onValueChanged.Invoke(currentIndex);
-                item.view.SetActive(true);    
+                item.view.SetActive(true);
+
+                if (scrollRect != null)
+                {
+                    scrollRect.normalizedPosition = new Vector2(0, 1); // 스크롤을 맨 위로 설정합니다.
+                }
+
                 PlayAnimation(animatorTab, "On");
                 PlayAnimation(animatorView, "On");
+
             }
             else
             {

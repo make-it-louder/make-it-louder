@@ -49,6 +49,10 @@ MonoBehaviour:
   - PhotonSetMicVolume
   - SyncChangeCharacterFace
   - SyncChangeCharacterPrefab
+  - FlipDirection
+  - SyncSetDirection
+  - SyncSetEmotion
+  - SyncSetAnimation
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
