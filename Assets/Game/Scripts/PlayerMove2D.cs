@@ -26,7 +26,7 @@ public class PlayerMove2D : MonoBehaviourPun
     private float jumpTimer;
     public TMP_Text jumpCountText;  //  UI
     public int jumpCount = 0;
-
+    public int isClear = 0;
     public TMP_Text playTimeText;  // UI
 
     public bool IgnoreInput { get; set; }
@@ -318,4 +318,22 @@ public class PlayerMove2D : MonoBehaviourPun
         renderer.ViewFront = false;
     }
 
+    //골인
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("ClearPoint"))
+        {
+            OnPlayerEnter();
+        }
+    }
+
+    async void OnPlayerEnter()
+    {
+        if (isClear == 1) return;
+        else { 
+            isClear = 1;
+            await RecordManager.Instance.UpdateClearRecords("map1", jumpCount, playTime);
+            Debug.Log("골인");
+        }
+    }
 }
