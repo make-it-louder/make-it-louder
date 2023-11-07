@@ -12962,6 +12962,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3604003675238669459, guid: a9f33483a3bae0f4da6b6c9affa199d3, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3828223896030702991, guid: a9f33483a3bae0f4da6b6c9affa199d3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -14373,6 +14377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2047122121}
+  conditions: 
 --- !u!1001 &1958371041
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40574,8 +40579,8 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 462266190}
   - {fileID: 5687116403806899977}
-  - {fileID: 1965868266}
   - {fileID: 1590931600}
+  - {fileID: 1965868266}
   - {fileID: 1030989284}
   - {fileID: 863369172}
   - {fileID: 501484166}

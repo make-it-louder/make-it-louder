@@ -332,7 +332,9 @@ public class PlayerMove2D : MonoBehaviourPun
         if (isClear == 1) return;
         else { 
             isClear = 1;
+            string userId = RecordManager.Instance.currentId;
             await RecordManager.Instance.UpdateClearRecords("map1", jumpCount, playTime);
+            RankingManager.Instance.UpdateClearTimeRank(playTime, userId);
             Debug.Log("골인");
         }
     }
