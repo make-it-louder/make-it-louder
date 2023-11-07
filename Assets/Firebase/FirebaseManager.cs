@@ -160,6 +160,19 @@ public class FirebaseManager : MonoBehaviour
             this.min_cleartime = min_cleartime;
         }
     }
+    public class Ranking
+    {
+        public Dictionary<string, string> addicter { get; set; }
+        public Dictionary<string, string> cleartime { get; set; }
+
+        public Ranking()
+        {
+            addicter = new Dictionary<string, string>();
+            cleartime = new Dictionary<string, string>();
+        }
+
+
+    }
 
     //
     public DatabaseReference GetDatabaseReference()
@@ -219,7 +232,6 @@ public class FirebaseManager : MonoBehaviour
             Debug.Log("successfully signed in");
 
             await RecordManager.Instance.GetUser(result.User.UserId);
-             
             flag = true;
         }
         catch (Exception e)
