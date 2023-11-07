@@ -12,7 +12,10 @@ public class GridCamera2D : MonoBehaviour
     private float depth = -10;
     [SerializeField]
     [Range(0.1f, 10)]
-    private float transitionSpeed;
+    private float transitionSpeedX;
+    [SerializeField]
+    [Range(0.1f, 10)]
+    private float transitionSpeedY;
     [SerializeField]
     private bool instantTransition;    
     [SerializeField]
@@ -106,19 +109,21 @@ public class GridCamera2D : MonoBehaviour
             transform.position = GetClampedPosition(targetPos); // 새 위치가 원하는 범위 내에 있는지 확인
             return;
         }
-        Vector3 newPosition;
+        float newPositionx;
+        float newPositiony;
         Vector3 tmpPosition;
-        newPosition = Vector3.Lerp(transform.position, targetPosition, transitionSpeed * Time.deltaTime);
+        newPositionx = Mathf.Lerp(transform.position.x, targetPosition.x, transitionSpeedX * Time.deltaTime);
+        newPositiony = Mathf.Lerp(transform.position.y, targetPosition.y, transitionSpeedY * Time.deltaTime);
         tmpPosition = targetPosition;
         targetPosition = transform.position;
 
         if (!IsWithinCenterRegionV(tmpPosition))
         {
-            targetPosition.y = newPosition.y;
+            targetPosition.y = newPositiony;
         }
         if (!IsWithinCenterRegionH(tmpPosition))
         {
-            targetPosition.x = newPosition.x;
+            targetPosition.x = newPositionx;
         }
 
         transform.position = GetClampedPosition(targetPosition);
