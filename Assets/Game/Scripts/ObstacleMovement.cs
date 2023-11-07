@@ -1,6 +1,7 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class ObstacleMover : MonoBehaviour
+public class ObstacleMover : MonoBehaviourPun
 {
     public Transform targetChild; // 자식 오브젝트를 여기에 드래그 앤 드롭합니다.
     private Vector3 startPosition;
@@ -22,6 +23,10 @@ public class ObstacleMover : MonoBehaviour
 
     void Update()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         // 시간에 따라 왕복 운동을 생성
         float t = (Mathf.Sin(speed * Time.time) + 1.0f) / 2.0f;
 

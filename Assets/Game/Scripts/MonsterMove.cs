@@ -19,6 +19,7 @@ public class MonsterMovement : MonoBehaviourPun
     void Start()
     {
         renderer = transform.Find("Renderer").GetComponent<PlayerRenderManager>();
+        renderer.enabled = false;
         minX = transform.position.x - RangeL;
         maxX = transform.position.x + RangeR;
         ChooseRandomTarget();
@@ -26,6 +27,14 @@ public class MonsterMovement : MonoBehaviourPun
 
     void Update()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            renderer.enabled = true;
+        }
+        else
+        {
+            return;
+        }
         if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
         {
             renderer.SetAnimatorBool("isRun", false);
@@ -43,14 +52,7 @@ public class MonsterMovement : MonoBehaviourPun
         else
         {
             MoveTowardsTarget();
-            renderer.SetAnimatorBool("isRun", true);
         }
-    }
-
-    [PunRPC]
-    public void FlipDirection()
-    {
-        renderer.FlipDirection();
     }
 
     void ChooseRandomTarget()
@@ -59,12 +61,10 @@ public class MonsterMovement : MonoBehaviourPun
         targetPosition = new Vector3(randomX, transform.position.y, transform.position.z);
         if (targetPosition.x-transform.position.x>0 && !renderer.ViewDirection) {
             renderer.FlipDirection();
-            photonView.RPC("FlipDirection", RpcTarget.Others);
         }
         else if (targetPosition.x - transform.position.x < 0 && renderer.ViewDirection)
         {
             renderer.FlipDirection();
-            photonView.RPC("FlipDirection", RpcTarget.Others);
         }
         waitTime = Random.Range(minWaitTime, maxWaitTime);  // Choose a random wait time
     }
@@ -77,19 +77,17 @@ public class MonsterMovement : MonoBehaviourPun
 
     void MoveTowardsTarget()
     {
-        if (photonView.IsMine)
+        Vector3 displacement = targetPosition - transform.position;
+        if (displacement.magnitude <= speed * Time.deltaTime)
         {
-            Vector3 displacement = targetPosition - transform.position;
-            if (displacement.magnitude <= speed * Time.deltaTime)
-            {
-                transform.position = targetPosition;
-            }
-            else
-            {
-                Vector3 direction = displacement.normalized;
-                transform.position += direction * speed * Time.deltaTime;
-            }
+            transform.position = targetPosition;
         }
+        else
+        {
+            Vector3 direction = displacement.normalized;
+            transform.position += direction * speed * Time.deltaTime;
+        }
+        renderer.SetAnimatorBool("isRun", true);
     }
     void OnDrawGizmos()
     {
