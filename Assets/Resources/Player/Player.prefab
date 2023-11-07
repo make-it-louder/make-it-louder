@@ -344,6 +344,7 @@ MonoBehaviour:
   jumpPower: 18
   jumpCountText: {fileID: 0}
   jumpCount: 0
+  isClear: 0
   playTimeText: {fileID: 0}
   jumpSound: {fileID: 0}
   playTime: 0
