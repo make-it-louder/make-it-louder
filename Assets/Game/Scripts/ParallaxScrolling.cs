@@ -6,7 +6,6 @@ public class ParallaxScrolling : MonoBehaviour
     private float[] parallaxScales; // 움직임의 비율
     public float smoothing = 1f;    // 부드러운 움직임을 위한 변수
 
-    public float verticalParallaxScale = 2f; // 세로 움직임의 비율을 조정하는 변수
 
     private Transform cam;          // 메인 카메라의 참조
     private Vector3 previousCamPos; // 이전 프레임에서 카메라의 위치
@@ -28,7 +27,7 @@ public class ParallaxScrolling : MonoBehaviour
         parallaxScales = new float[backgrounds.Length];
         for (int i = 0; i < backgrounds.Length; i++)
         {
-            parallaxScales[i] = backgrounds[i].position.z * -1;
+            parallaxScales[i] = Mathf.Abs(backgrounds[i].position.z) * -1;
         }
     }
 
