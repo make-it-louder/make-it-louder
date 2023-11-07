@@ -26,7 +26,7 @@ public class PlayerMove2D : MonoBehaviourPun
     private float jumpTimer;
     public TMP_Text jumpCountText;  //  UI
     public int jumpCount = 0;
-
+    public int isClear = 0;
     public TMP_Text playTimeText;  // UI
 
     public bool IgnoreInput { get; set; }
@@ -70,9 +70,11 @@ public class PlayerMove2D : MonoBehaviourPun
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(!photonView.IsMine){ return; }
+
         if (inputH != 0 && !IgnoreInput && !isChatting)
         {
-            rb.velocity = new Vector2(inputH * speed  , rb.velocity.y);
+            rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
         if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting && jumpTimer <= 0)
@@ -95,10 +97,15 @@ public class PlayerMove2D : MonoBehaviourPun
         if ((rb.velocity.x < -0.003f || rb.velocity.x > 0.003f) && renderer.ViewDirection != (rb.velocity.x > 0.0f))
         {
             renderer.FlipDirection();
+            photonView.RPC("SyncSetDirection", RpcTarget.Others, renderer.ViewDirection, renderer.ViewFront);
         }
-        renderer.SetAnimatorFloat("hVelocity", Mathf.Abs(rb.velocity.x));
-        renderer.SetAnimatorFloat("vVelocity", rb.velocity.y);
-        renderer.SetAnimatorBool("isGrounded", isGroundedAndRay());
+        float hVelocity = Mathf.Abs(rb.velocity.x);
+        float vVelocity = rb.velocity.y;
+        bool isGrounded = isGroundedAndRay();
+        renderer.SetAnimatorFloat("hVelocity", hVelocity);
+        renderer.SetAnimatorFloat("vVelocity", vVelocity);
+        renderer.SetAnimatorBool("isGrounded", isGrounded);
+        photonView.RPC("SyncSetAnimation", RpcTarget.All, hVelocity, vVelocity, isGrounded);
 
         // AreaEffector Enable False When isGrounded() == true
         if (effector != null && isGroundedAndRay())
@@ -115,87 +122,82 @@ public class PlayerMove2D : MonoBehaviourPun
     }
     void Update()
     {
-        if (photonView.IsMine && !IgnoreInput && !isChatting)
+        if (!photonView.IsMine || IgnoreInput || isChatting)
         {
-            inputV = Input.GetAxis("Jump");
-            inputH = Input.GetAxis("Horizontal");
+            return;
+        }
+        inputV = Input.GetAxis("Jump");
+        inputH = Input.GetAxis("Horizontal");
             
-            playTime += Time.deltaTime;
-            UpdatePlayTimeUI();
+        playTime += Time.deltaTime;
+        UpdatePlayTimeUI();
 
-            ChangeSkyboxMaterial();
+        ChangeSkyboxMaterial();
 
-            // Skybox
-            SmoothSkyboxTransition();
+        // Skybox
+        SmoothSkyboxTransition();
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            isHappy = !isHappy;
+            renderer.SetAnimatorBool("isHappy", isHappy);
+
+            if (isHappy)
             {
-                isHappy = !isHappy;
-                renderer.SetAnimatorBool("isHappy", isHappy);
-
-                if (isHappy)
-                {
-                    isDamage = false;
-                    renderer.SetAnimatorBool("isDamage", isDamage);
-                    isHello = false;
-                    renderer.SetAnimatorBool("isHello", isHello);
-
-                    StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
-                    StartCoroutine(ResetEmotionAfterDelay("isHappy"));
-                }
-                renderer.ViewFront = isHappy;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                isDamage = !isDamage;
+                isDamage = false;
                 renderer.SetAnimatorBool("isDamage", isDamage);
-
-                if (isDamage)
-                {
-                    isHappy = false;
-                    renderer.SetAnimatorBool("isHappy", isHappy);
-                    isHello = false;
-                    renderer.SetAnimatorBool("isHello", isHello);
-
-                    StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
-                    StartCoroutine(ResetEmotionAfterDelay("isDamage"));
-                }
-                renderer.ViewFront = false;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                isHello = !isHello;
+                isHello = false;
                 renderer.SetAnimatorBool("isHello", isHello);
 
-                if (isHello)
-                {
-                    isHappy = false;
-                    renderer.SetAnimatorBool("isHappy", isHappy);
-                    isDamage = false;
-                    renderer.SetAnimatorBool("isDamage", isDamage);
-
-                    StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
-                    StartCoroutine(ResetEmotionAfterDelay("isHello"));
-                }
-                renderer.ViewFront = isHello;
+                StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
+                StartCoroutine(ResetEmotionAfterDelay("isHappy"));
             }
+            renderer.ViewFront = isHappy;
+        }
 
-            // 방향키 또는 점프키를 눌렀을 때 isHappy를 false로 설정
-            if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            isDamage = !isDamage;
+            renderer.SetAnimatorBool("isDamage", isDamage);
+
+            if (isDamage)
             {
                 isHappy = false;
                 renderer.SetAnimatorBool("isHappy", isHappy);
+                isHello = false;
+                renderer.SetAnimatorBool("isHello", isHello);
 
+                StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
+                StartCoroutine(ResetEmotionAfterDelay("isDamage"));
+            }
+            renderer.ViewFront = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            isHello = !isHello;
+            renderer.SetAnimatorBool("isHello", isHello);
+
+            if (isHello)
+            {
+                isHappy = false;
+                renderer.SetAnimatorBool("isHappy", isHappy);
                 isDamage = false;
                 renderer.SetAnimatorBool("isDamage", isDamage);
 
-                isHello = false;
-                renderer.SetAnimatorBool("isHello", isHello);
-                renderer.ViewFront = false;
+                StopAllCoroutines(); // 다른 감정 상태의 코루틴 중지
+                StartCoroutine(ResetEmotionAfterDelay("isHello"));
             }
+            renderer.ViewFront = isHello;
         }
+
+        // 방향키 또는 점프키를 눌렀을 때 isHappy를 false로 설정
+        if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Jump"))
+        {
+            renderer.ViewFront = false;
+        }
+        photonView.RPC("SyncSetDirection", RpcTarget.Others, renderer.ViewDirection, renderer.ViewFront);
+        photonView.RPC("SyncSetEmotion", RpcTarget.Others, isHappy, isDamage, isHello);
     }
     
     void UpdateJumpCountUI()
@@ -315,7 +317,53 @@ public class PlayerMove2D : MonoBehaviourPun
                 renderer.SetAnimatorBool("isHello", isHello);
                 break;
         }
+        photonView.RPC("SyncSetEmotion", RpcTarget.Others, isHappy, isDamage, isHello);
         renderer.ViewFront = false;
+        photonView.RPC("SyncSetDirection", RpcTarget.Others, renderer.ViewDirection, renderer.ViewFront);
+    }
+    [PunRPC]
+    public void SyncSetDirection(bool ViewDirection, bool ViewFront, PhotonMessageInfo info)
+    {
+        PlayerMove2D move = info.photonView.GetComponent<PlayerMove2D>();
+        PlayerRenderManager renderer = move.renderer;
+        renderer.ViewDirection = ViewDirection;
+        renderer.ViewFront = ViewFront;
+    }
+    [PunRPC]
+    public void SyncSetEmotion(bool isHappy, bool isDamage, bool isHello, PhotonMessageInfo info)
+    {
+        PlayerMove2D move = info.photonView.GetComponent<PlayerMove2D>();
+        PlayerRenderManager renderer = move.renderer;
+        renderer.SetAnimatorBool("isHappy", isHappy);
+        renderer.SetAnimatorBool("isDamage", isDamage);
+        renderer.SetAnimatorBool("isHello", isHello);
+    }
+    [PunRPC]
+    public void SyncSetAnimation(float hVelocity, float vVelocity, bool isGrounded, PhotonMessageInfo info)
+    {
+        PlayerMove2D move = info.photonView.GetComponent<PlayerMove2D>();
+        PlayerRenderManager renderer = move.renderer;
+        renderer.SetAnimatorFloat("hVelocity", hVelocity);
+        renderer.SetAnimatorFloat("vVelocity", vVelocity);
+        renderer.SetAnimatorBool("isGrounded", isGrounded);
     }
 
+    //골인
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("ClearPoint"))
+        {
+            OnPlayerEnter();
+        }
+    }
+
+    async void OnPlayerEnter()
+    {
+        if (isClear == 1) return;
+        else { 
+            isClear = 1;
+            await RecordManager.Instance.UpdateClearRecords("map1", jumpCount, playTime);
+            Debug.Log("골인");
+        }
+    }
 }

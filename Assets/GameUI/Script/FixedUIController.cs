@@ -9,7 +9,6 @@ public class FixedUIController : MonoBehaviour
     public GameObject settingsForm; // Panel GameObject를 참조할 변수
     public GameObject audioSettingsForm;
     public GameObject displaySettingsForm;
-    private static FixedUIController instance = null;
 
     // 로딩스피너
     public GameObject loadingSpinner;
@@ -21,26 +20,14 @@ public class FixedUIController : MonoBehaviour
     public GameObject player;
     public TMP_Text mapName;
 
-
-    void Awake()
-    {
-        if (null == instance)
-        {
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
-
+    public AcheivementManager acheivementManager;
     // Start is called before the first frame update
     void Start()
     {
         DOTween.Init();
         settingsForm.transform.localScale = Vector3.one * 0.1f;
         settingsForm.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -137,12 +124,20 @@ public class FixedUIController : MonoBehaviour
 
         await RecordManager.Instance.UpdateEndGameData("map1", playTime, countJump, countFall);
         // 포톤 로비연결 끊는 로직 추가해야함.
+
+        if (acheivementManager != null)
+        {
+            Debug.Log("acvm 있어요");
+            await acheivementManager.UpdateAllAcheivement();
+        } else
+        {
+            Debug.Log("acvm이 없어요");
+        }
         if (PhotonNetwork.InRoom)
         {
             PhotonNetwork.LeaveRoom();
         }
-        SceneManager.LoadScene("LobbyTest");
-        Destroy(gameObject);
+        SceneManager.LoadSceneAsync("LobbyTest");
     }
 
     public void QuitGame ()

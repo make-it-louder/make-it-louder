@@ -1,4 +1,4 @@
-using Photon.Pun;
+﻿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,6 +10,7 @@ public class InGameManager : MonoBehaviour
     public GameObject playerPrefab;
     public Vector3 spawnPoint;
     public FixedUIController controller;
+    public AcheivementManager acvmtController;
     void Start()
     {
         if (!PhotonNetwork.IsConnected)
@@ -55,6 +56,7 @@ public class InGameManager : MonoBehaviour
         playerMoveBehavior.playTimeText = playTimeText;
 
         controller.player = spawnedPlayer;
+        acvmtController.player = spawnedPlayer;
         yield break;
     }
 }
