@@ -1,6 +1,7 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class MonsterMovement : MonoBehaviour
+public class MonsterMovement : MonoBehaviourPun
 {
     private float minX;
     private float maxX;
@@ -18,6 +19,7 @@ public class MonsterMovement : MonoBehaviour
     void Start()
     {
         renderer = transform.Find("Renderer").GetComponent<PlayerRenderManager>();
+        renderer.enabled = false;
         minX = transform.position.x - RangeL;
         maxX = transform.position.x + RangeR;
         ChooseRandomTarget();
@@ -25,6 +27,14 @@ public class MonsterMovement : MonoBehaviour
 
     void Update()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            renderer.enabled = true;
+        }
+        else
+        {
+            return;
+        }
         if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
         {
             renderer.SetAnimatorBool("isRun", false);
@@ -42,7 +52,6 @@ public class MonsterMovement : MonoBehaviour
         else
         {
             MoveTowardsTarget();
-            renderer.SetAnimatorBool("isRun", true);
         }
     }
 
@@ -50,10 +59,10 @@ public class MonsterMovement : MonoBehaviour
     {
         float randomX = Random.Range(minX, maxX);
         targetPosition = new Vector3(randomX, transform.position.y, transform.position.z);
-        if (randomX-transform.position.x>0 && !renderer.ViewDirection) {
+        if (targetPosition.x-transform.position.x>0 && !renderer.ViewDirection) {
             renderer.FlipDirection();
         }
-        else if (randomX - transform.position.x < 0 && renderer.ViewDirection)
+        else if (targetPosition.x - transform.position.x < 0 && renderer.ViewDirection)
         {
             renderer.FlipDirection();
         }
@@ -68,8 +77,17 @@ public class MonsterMovement : MonoBehaviour
 
     void MoveTowardsTarget()
     {
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        transform.position += direction * speed * Time.deltaTime;
+        Vector3 displacement = targetPosition - transform.position;
+        if (displacement.magnitude <= speed * Time.deltaTime)
+        {
+            transform.position = targetPosition;
+        }
+        else
+        {
+            Vector3 direction = displacement.normalized;
+            transform.position += direction * speed * Time.deltaTime;
+        }
+        renderer.SetAnimatorBool("isRun", true);
     }
     void OnDrawGizmos()
     {
