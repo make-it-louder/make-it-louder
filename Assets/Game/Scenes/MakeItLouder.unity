@@ -9852,7 +9852,7 @@ MonoBehaviour:
   currentBounds: {fileID: 0}
   depth: -10
   transitionSpeedX: 1
-  transitionSpeedY: 1
+  transitionSpeedY: 2.1
   instantTransition: 1
   horizontalThreshold: 0.33
   verticalThreshold: 0.33

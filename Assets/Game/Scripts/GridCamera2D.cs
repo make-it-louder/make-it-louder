@@ -89,7 +89,45 @@ public class GridCamera2D : MonoBehaviour
 
 
         Vector3 targetPosition = follows.transform.position;
-        targetPosition.z = depth;
+        targetPosition.z = depth;/*
+        if (IsOutsideViewport(follows.transform.position))
+        {
+            Vector3 targetPos = transform.position;
+
+            // 객체가 뷰포트 아래쪽에 있는지 확인
+            if (follows.transform.position.y < Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).y)
+            {
+                targetPos.y = follows.transform.position.y + Camera.main.orthographicSize;
+            }
+            // 객체가 뷰포트 위쪽에 있는지 확인
+            else if (follows.transform.position.y > Camera.main.ViewportToWorldPoint(new Vector3(0, 1, 0)).y)
+            {
+                targetPos.y = follows.transform.position.y - Camera.main.orthographicSize;
+            }
+
+            targetPos.z = depth; // 적절한 깊이 값으로 설정
+            transform.position = GetClampedPosition(targetPos); // 새 위치가 원하는 범위 내에 있는지 확인
+            return;
+        }*/
+        float newPositionx;
+        float newPositiony;
+        Vector3 tmpPosition;
+        newPositionx = Mathf.Lerp(transform.position.x, targetPosition.x, transitionSpeedX * Time.deltaTime);
+        newPositiony = Mathf.Lerp(transform.position.y, targetPosition.y, transitionSpeedY * Time.deltaTime);
+        tmpPosition = targetPosition;
+        targetPosition = transform.position;
+
+        if (!IsWithinCenterRegionV(tmpPosition))
+        {
+            targetPosition.y = newPositiony;
+        }
+        if (!IsWithinCenterRegionH(tmpPosition))
+        {
+            targetPosition.x = newPositionx;
+        }
+
+        transform.position = GetClampedPosition(targetPosition);
+
         if (IsOutsideViewport(follows.transform.position))
         {
             Vector3 targetPos = transform.position;
@@ -109,23 +147,5 @@ public class GridCamera2D : MonoBehaviour
             transform.position = GetClampedPosition(targetPos); // 새 위치가 원하는 범위 내에 있는지 확인
             return;
         }
-        float newPositionx;
-        float newPositiony;
-        Vector3 tmpPosition;
-        newPositionx = Mathf.Lerp(transform.position.x, targetPosition.x, transitionSpeedX * Time.deltaTime);
-        newPositiony = Mathf.Lerp(transform.position.y, targetPosition.y, transitionSpeedY * Time.deltaTime);
-        tmpPosition = targetPosition;
-        targetPosition = transform.position;
-
-        if (!IsWithinCenterRegionV(tmpPosition))
-        {
-            targetPosition.y = newPositiony;
-        }
-        if (!IsWithinCenterRegionH(tmpPosition))
-        {
-            targetPosition.x = newPositionx;
-        }
-
-        transform.position = GetClampedPosition(targetPosition);
     }
 }
