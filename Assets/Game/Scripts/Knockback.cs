@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Knockback : MonoBehaviour
@@ -21,10 +22,10 @@ public class Knockback : MonoBehaviour
         {
             // 플레이어의 Rigidbody2D 컴포넌트를 가져옵니다.
             Rigidbody2D playerRb = collider.gameObject.GetComponent<Rigidbody2D>();
-            //blinkingObject = collider.gameObject.GetComponent<BlinkingObject>();
+            blinkingObject = collider.gameObject.GetComponent<BlinkingObject>();
             playerMove2D = collider.gameObject.GetComponent<PlayerMove2D>();
             if (playerMove2D.IgnoreInput == true) return;
-            //blinkingObject.StartBlinking();
+            blinkingObject.StartSwapMaterialCoroutine();
             playerMove2D.IgnoreInput = true;
             StartCoroutine(ResetIgnoreInput());
 
