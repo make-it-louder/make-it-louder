@@ -176,7 +176,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 6
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -733,8 +733,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 417.76123, y: -833.6188}
-  m_SizeDelta: {x: 835.5313, y: 492.7625}
+  m_AnchoredPosition: {x: 249.11133, y: -995.13153}
+  m_SizeDelta: {x: 498.2316, y: 169.7369}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1950733031260286851
 CanvasRenderer:
@@ -1289,6 +1289,7 @@ MonoBehaviour:
   scrollView: {fileID: 183767145926076187}
   scrollBarVertical: {fileID: 7552893090480819560}
   Handle: {fileID: 5665076237232770952}
+  playerMove2D: {fileID: 0}
 --- !u!114 &6760937623024596443
 MonoBehaviour:
   m_ObjectHideFlags: 0
