@@ -5,25 +5,35 @@ using UnityEngine;
 public class RotateObstacle : MonoBehaviour
 {
 
+    SoundSubscriber soundSubscriber;
     Rigidbody2D rb;
 
-    public float rotateSpeed = 0.2f;
+    [SerializeField]
+    SoundEventManager soundManager;
+
+    private float rotateSpeed = 0.2f;
     public bool reverse;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        soundSubscriber = soundManager.Subscribe(gameObject);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        //Debug.Log(soundSubscriber.normalizedDB);
+        if (soundSubscriber.normalizedDB > 0.001f)
+        {
+            rotateSpeed = 0.4f;
+        }
+        else
+        {
+            rotateSpeed = 0.2f;
+        }
+
         if (!reverse)
         {
             transform.Rotate(0, 0, rotateSpeed);
@@ -32,5 +42,6 @@ public class RotateObstacle : MonoBehaviour
         {
             transform.Rotate(0, 0, -rotateSpeed);
         }
+        
     }
 }
