@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
 using System;
+using UltimateClean;
 
 public class PlayerMove2D : MonoBehaviourPun
 {
@@ -36,6 +37,8 @@ public class PlayerMove2D : MonoBehaviourPun
     public AudioSource jumpSound; // 점프 효과음을 위한 AudioSource
 
     private float emotionDuration = 3f; // 감정 상태가 지속되는 시간
+
+    public Popup clearPopup;
 
     void Start()
     {
@@ -195,7 +198,6 @@ public class PlayerMove2D : MonoBehaviourPun
             }
             renderer.ViewFront = isHello;
         }
-
         // 방향키 또는 점프키를 눌렀을 때 isHappy를 false로 설정
         if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Jump"))
         {
@@ -380,10 +382,13 @@ public class PlayerMove2D : MonoBehaviourPun
         if (isClear == 1) return;
         else { 
             isClear = 1;
+            Debug.Log("골인");
+            Popup copy = Instantiate(clearPopup, clearPopup.transform.parent);
+            copy.gameObject.SetActive(true);
+            copy.Open();
             string userId = RecordManager.Instance.currentId;
             await RecordManager.Instance.UpdateClearRecords("map1", jumpCount, playTime);
             RankingManager.Instance.UpdateClearTimeRank(playTime, userId);
-            Debug.Log("골인");
         }
     }
 }
