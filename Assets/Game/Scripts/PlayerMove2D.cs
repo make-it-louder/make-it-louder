@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
+using System;
+using UltimateClean;
 
 public class PlayerMove2D : MonoBehaviourPun
 {
@@ -35,6 +37,8 @@ public class PlayerMove2D : MonoBehaviourPun
     public AudioSource jumpSound; // 점프 효과음을 위한 AudioSource
 
     private float emotionDuration = 3f; // 감정 상태가 지속되는 시간
+
+    public Popup clearPopup;
 
     void Start()
     {
@@ -77,11 +81,15 @@ public class PlayerMove2D : MonoBehaviourPun
             rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
-        if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting && jumpTimer <= 0)
+        if (inputV > 0 && !IgnoreInput && !isChatting && (isGroundedAndRay() || isClear == 1) && jumpTimer <= 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
             jumpCount++;
             jumpTimer = -jumpPower / (Physics.gravity.y * rb.gravityScale);
+            if (isClear == 1)
+            {
+                jumpTimer = 0.3f; //무한 점프가 돼도 0.3초 딜레이 -> 무한 점프 방지
+            }
             if (photonView.IsMine)
             {
                 UpdateJumpCountUI();   // UI
@@ -190,7 +198,6 @@ public class PlayerMove2D : MonoBehaviourPun
             }
             renderer.ViewFront = isHello;
         }
-
         // 방향키 또는 점프키를 눌렀을 때 isHappy를 false로 설정
         if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Jump"))
         {
@@ -345,10 +352,20 @@ public class PlayerMove2D : MonoBehaviourPun
     public void SyncSetAnimation(float hVelocity, float vVelocity, bool isGrounded, PhotonMessageInfo info)
     {
         PlayerMove2D move = info.photonView.GetComponent<PlayerMove2D>();
-        PlayerRenderManager renderer = move.renderer;
-        renderer.SetAnimatorFloat("hVelocity", hVelocity);
-        renderer.SetAnimatorFloat("vVelocity", vVelocity);
-        renderer.SetAnimatorBool("isGrounded", isGrounded);
+        PlayerRenderManager renderer = move?.renderer;
+        try
+        {
+            renderer.SetAnimatorFloat("hVelocity", hVelocity);
+            renderer.SetAnimatorFloat("vVelocity", vVelocity);
+            renderer.SetAnimatorBool("isGrounded", isGrounded);
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.LogError("NullReferenceException");
+            Debug.LogError($"renderer:{renderer}");
+            Debug.LogError($"animatorController: {renderer.animatorController}");
+            Debug.LogError($"exception: {e}");
+        }
     }
 
     //골인
@@ -365,10 +382,15 @@ public class PlayerMove2D : MonoBehaviourPun
         if (isClear == 1) return;
         else { 
             isClear = 1;
-            string userId = RecordManager.Instance.currentId;
-            await RecordManager.Instance.UpdateClearRecords("map1", jumpCount, playTime);
-            RankingManager.Instance.UpdateClearTimeRank(playTime, userId);
             Debug.Log("골인");
+            Popup copy = Instantiate(clearPopup, clearPopup.transform.parent);
+            copy.gameObject.SetActive(true);
+            copy.Open();
+            string userId = RecordManager.Instance.currentId;
+            await RecordManager.Instance.UpdateClearRecords("map1", jumpCount, playTime); // 최소점프, 최소 클리어타임 업데이트
+            await RecordManager.Instance.UpdateEndGameData("map1", playTime, jumpCount, 0); // 이 방에서의 기록 중간업데이트
+            RankingManager.Instance.UpdateClearTimeRank(playTime, userId); // 클리어했으니 클리어타임 랭킹 업데이트
+            RankingManager.Instance.UpdateMinJumpRank(jumpCount, userId); // 클리어했으니 점프랭킹 업데이트
         }
     }
 }

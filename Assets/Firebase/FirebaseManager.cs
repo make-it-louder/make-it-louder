@@ -162,13 +162,17 @@ public class FirebaseManager : MonoBehaviour
     }
     public class Ranking
     {
-        public Dictionary<string, string> addicter { get; set; }
-        public Dictionary<string, string> cleartime { get; set; }
+        public Dictionary<string, float> addicter { get; set; }
+        public Dictionary<string, float> cleartime { get; set; }
+        public Dictionary<string, int> min_jump { get; set; }
+        public Dictionary<string, int> max_jump { get; set; }
 
         public Ranking()
         {
-            addicter = new Dictionary<string, string>();
-            cleartime = new Dictionary<string, string>();
+            addicter = new Dictionary<string, float>();
+            cleartime = new Dictionary<string, float>();
+            min_jump = new Dictionary<string, int>();
+            max_jump = new Dictionary<string, int>();
         }
 
 
