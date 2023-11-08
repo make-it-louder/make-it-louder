@@ -336,6 +336,10 @@ public class PlayerMove2D : MonoBehaviourPun
     {
         PlayerMove2D move = info.photonView.GetComponent<PlayerMove2D>();
         PlayerRenderManager renderer = move.renderer;
+        if (renderer == null)
+        {
+            return;
+        }
         renderer.ViewDirection = ViewDirection;
         renderer.ViewFront = ViewFront;
     }
@@ -344,6 +348,10 @@ public class PlayerMove2D : MonoBehaviourPun
     {
         PlayerMove2D move = info.photonView.GetComponent<PlayerMove2D>();
         PlayerRenderManager renderer = move.renderer;
+        if (renderer == null)
+        {
+            return;
+        }
         renderer.SetAnimatorBool("isHappy", isHappy);
         renderer.SetAnimatorBool("isDamage", isDamage);
         renderer.SetAnimatorBool("isHello", isHello);
@@ -353,6 +361,10 @@ public class PlayerMove2D : MonoBehaviourPun
     {
         PlayerMove2D move = info.photonView.GetComponent<PlayerMove2D>();
         PlayerRenderManager renderer = move?.renderer;
+        if (renderer == null)
+        {
+            return;
+        }
         try
         {
             renderer.SetAnimatorFloat("hVelocity", hVelocity);
