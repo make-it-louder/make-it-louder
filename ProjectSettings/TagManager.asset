@@ -9,6 +9,7 @@ TagManager:
   - enemys
   - windEffector
   - ClearPoint
+  - targetPos
   layers:
   - Default
   - TransparentFX
