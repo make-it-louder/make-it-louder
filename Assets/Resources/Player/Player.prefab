@@ -348,6 +348,7 @@ MonoBehaviour:
   isClear: 0
   playTimeText: {fileID: 0}
   jumpSound: {fileID: 0}
+  clearPopup: {fileID: 0}
   playTime: 0
   SkyboxMaterials:
   - {fileID: 2100000, guid: 2441c79940171dc43b33badf9fe97828, type: 2}
@@ -606,7 +607,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7957fdd3a0533a49a11acc7e2e1948b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceMaterialName: Material/Stun
   swapDuration: 0.1
   totalDuration: 1
 --- !u!1001 &2891546483354343077
