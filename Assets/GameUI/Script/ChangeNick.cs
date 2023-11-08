@@ -1,9 +1,10 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ChangeNick : MonoBehaviour
+public class ChangeNick : MonoBehaviourPunCallbacks
 {
     public TMP_InputField cn;
     public TMP_Text nick;
@@ -38,6 +39,7 @@ public class ChangeNick : MonoBehaviour
     {
         await RecordManager.Instance.UpdateUsername(cn.text);
         nick.text = cn.text;
+        PhotonNetwork.NickName = nick.text;
 
     }
 }
