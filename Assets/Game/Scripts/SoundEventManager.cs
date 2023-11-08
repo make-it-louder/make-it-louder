@@ -108,24 +108,26 @@ public class SoundEventManager : MonoBehaviourPun
             return 0f;
         }
         float DB = 0.0f;
-        lock (soundInputs)
+
+        foreach (int i in soundInputs.Keys)
         {
-            foreach (int i in soundInputs.Keys)
+            INormalizedSoundInput soundInput = soundInputs[i];
+            if (soundInput == null)
             {
-                INormalizedSoundInput soundInput = soundInputs[i];
-                try
+                continue;
+            }
+            try
+            {
+                float distance = Vector2.Distance(soundInput.gameObject.transform.position, other.transform.position);
+                if (distance < maxDistance)
                 {
-                    float distance = Vector2.Distance(soundInput.gameObject.transform.position, other.transform.position);
-                    if (distance < maxDistance)
-                    {
-                        float localDBEffect = soundInput.normalizedDB / (distance * distance);
-                        DB += localDBEffect;
-                    }
+                    float localDBEffect = soundInput.normalizedDB / (distance * distance);
+                    DB = Mathf.Max(DB, localDBEffect);
                 }
-                catch (MissingReferenceException)
-                {
-                    continue;
-                }
+            }
+            catch (MissingReferenceException)
+            {
+                continue;
             }
         }
         DB = Mathf.Clamp(DB, 0.0f, 1.0f);
