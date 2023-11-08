@@ -27,7 +27,7 @@ public class LogoFade : MonoBehaviour
     }
     IEnumerator FadeLogos()
     {
-        yield return StartCoroutine(FadeInOut(firstLogo));
+        //yield return StartCoroutine(FadeInOut(firstLogo));
         yield return StartCoroutine(FadeIn(secondLogo));
         yield return StartCoroutine(TextAnimation(pressAny));
 
@@ -42,6 +42,10 @@ public class LogoFade : MonoBehaviour
             Color color = logoImage.color;
             color.a = i;
             logoImage.color = color;
+            if (Input.anyKey)
+            {
+                break;
+            }
             yield return null;
         }
 
@@ -51,6 +55,12 @@ public class LogoFade : MonoBehaviour
             Color color = logoImage.color;
             color.a = i;
             logoImage.color = color;
+            if (Input.anyKey)
+            {
+                color.a = 0;
+                logoImage.color = color;
+                yield break;
+            }
             yield return null;
         }
     }
@@ -63,6 +73,10 @@ public class LogoFade : MonoBehaviour
             Color color = logoImage.color;
             color.a = i;
             logoImage.color = color;
+            if (Input.anyKey)
+            {
+                break;
+            }
             yield return null;
         }
         Color lastColor = logoImage.color;
