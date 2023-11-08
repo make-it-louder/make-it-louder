@@ -19,6 +19,12 @@ public class AchievementScript : MonoBehaviour
     public TMP_Text PlayTimeAchieve10MinText;
     public TMP_Text PlayTimeAchieve60MinText;
 
+    public TMP_Text ClearCount1;
+    public TMP_Text ClearCount3;
+    public TMP_Text ClearCount10;
+    public TMP_Text ClearCount102;
+
+
 
     public TMP_Text playTimeText;
 
@@ -40,7 +46,10 @@ public class AchievementScript : MonoBehaviour
     public GameObject PlayTimeIcon1Min;
     public GameObject PlayTimeIcon10Min;
     public GameObject PlayTimeIcon60Min;
-
+    public GameObject ClearCounticon1;
+    public GameObject ClearCounticon3;
+    public GameObject ClearCounticon10;
+    public GameObject ClearCounticon102;
 
     // Start is called before the first frame update
     public void OnButtonClick()
@@ -56,6 +65,11 @@ public class AchievementScript : MonoBehaviour
         int maxForAchieveCount3 = 3000;
         int maxForAchieveCount4 = 10000;
 
+        int maxForClearCount1 = 1;
+        int maxForClearCount3 = 3;
+        int maxForClearCount10 = 10;
+        int maxForClearCount102 = 102;
+
         // 현재 점프 횟수 가져오기
         int currentJumpCount = record["map1"].count_jump;
 
@@ -64,6 +78,15 @@ public class AchievementScript : MonoBehaviour
         UpdateAchievementJumpCount(AchieveCount2, icon2, currentJumpCount, maxForAchieveCount2);
         UpdateAchievementJumpCount(AchieveCount3, icon3, currentJumpCount, maxForAchieveCount3);
         UpdateAchievementJumpCount(AchieveCount4, icon4, currentJumpCount, maxForAchieveCount4);
+
+        // 현재 클리어 횟수
+        int currentClearCount = record["map1"].count_clear;
+
+        UpdateAchievementClearCount(ClearCount1, ClearCounticon1, currentClearCount, maxForClearCount1);
+        UpdateAchievementClearCount(ClearCount3, ClearCounticon3, currentClearCount, maxForClearCount3);
+        UpdateAchievementClearCount(ClearCount10, ClearCounticon10, currentClearCount, maxForClearCount10);
+        UpdateAchievementClearCount(ClearCount102, ClearCounticon102, currentClearCount, maxForClearCount102);
+
 
         // 프로필 카운트는 최댓값에 제한 없이 현재 점프 횟수를 그대로 표시
         ProfileCount.text = currentJumpCount.ToString() + "회";
@@ -102,13 +125,17 @@ public class AchievementScript : MonoBehaviour
 
     }
 
+
+
+
+
     private void GetUserData()
     {
         // RecordManager 인스턴스로부터 사용자 데이터 가져오기
         profile = RecordManager.Instance.UserProfile;
         record = RecordManager.Instance.UserRecords;
     }
-
+    // 총 점프 업적
     private void UpdateAchievementJumpCount(TMP_Text achieveText, GameObject icon, int currentCount, int maxCount)
     {
         // 달성도 텍스트 형식에 맞게 업데이트
@@ -116,6 +143,13 @@ public class AchievementScript : MonoBehaviour
 
         // 아이콘 활성화/비활성화
         icon.SetActive(currentCount >= maxCount);
+    }
+    // 클리어횟수 업적
+    private void UpdateAchievementClearCount(TMP_Text achieveText, GameObject icon, int currentClearCount, int maxClearCount)
+    {
+        achieveText.text = string.Format("현재달성도 [{0}/{1}]", Mathf.Min(currentClearCount, maxClearCount), maxClearCount);
+
+        icon.SetActive(currentClearCount >= maxClearCount);
     }
 
     private void UpdatePlayTimeAchievements(double playTimeSeconds)

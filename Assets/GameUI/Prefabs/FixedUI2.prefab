@@ -12891,6 +12891,7 @@ MonoBehaviour:
   quitPopup: {fileID: 8155186457269632849}
   player: {fileID: 0}
   mapName: {fileID: 0}
+  acheivementManager: {fileID: 0}
 --- !u!1 &7213639243935069245
 GameObject:
   m_ObjectHideFlags: 0
@@ -17647,6 +17648,10 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.11764706
       objectReference: {fileID: 0}
+    - target: {fileID: 3678229025972216703, guid: 049e5c10613865c458546e7653cb9961, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3798432320557381528, guid: 049e5c10613865c458546e7653cb9961, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -18315,6 +18320,10 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: d749ca0fc33f29043be0cce3414d64a6, type: 2}
     - target: {fileID: 6618837192485691263, guid: 3df05ec99be071544839080085d60325, type: 3}
       propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7487489300365003570, guid: 3df05ec99be071544839080085d60325, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8024934962351298061, guid: 3df05ec99be071544839080085d60325, type: 3}
