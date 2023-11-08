@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UltimateClean;
 using UnityEngine;
 
 public class InGameManager : MonoBehaviour
@@ -11,6 +12,7 @@ public class InGameManager : MonoBehaviour
     public Vector3 spawnPoint;
     public FixedUIController controller;
     public AcheivementManager acvmtController;
+    public Popup clearPopup;
     void Start()
     {
         if (!PhotonNetwork.IsConnected)
@@ -54,6 +56,7 @@ public class InGameManager : MonoBehaviour
 
         playerMoveBehavior.jumpCountText = jumpCountText;
         playerMoveBehavior.playTimeText = playTimeText;
+        playerMoveBehavior.clearPopup = clearPopup;
 
         controller.player = spawnedPlayer;
         acvmtController.player = spawnedPlayer;
