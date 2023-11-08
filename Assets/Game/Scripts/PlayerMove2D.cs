@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
+using System;
 
 public class PlayerMove2D : MonoBehaviourPun
 {
@@ -77,11 +78,15 @@ public class PlayerMove2D : MonoBehaviourPun
             rb.velocity = new Vector2(inputH * speed, rb.velocity.y);
         }
         //Debug.Log($"inputV > 0 : {inputV > 0}, isGrounded(): {isGrounded()}");
-        if (inputV > 0 && isGroundedAndRay() && !IgnoreInput && !isChatting && jumpTimer <= 0)
+        if (inputV > 0 && !IgnoreInput && !isChatting && (isGroundedAndRay() || isClear == 1) && jumpTimer <= 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, inputV * jumpPower);
             jumpCount++;
             jumpTimer = -jumpPower / (Physics.gravity.y * rb.gravityScale);
+            if (isClear == 1)
+            {
+                jumpTimer = 0.3f; //무한 점프가 돼도 0.3초 딜레이 -> 무한 점프 방지
+            }
             if (photonView.IsMine)
             {
                 UpdateJumpCountUI();   // UI
@@ -345,10 +350,20 @@ public class PlayerMove2D : MonoBehaviourPun
     public void SyncSetAnimation(float hVelocity, float vVelocity, bool isGrounded, PhotonMessageInfo info)
     {
         PlayerMove2D move = info.photonView.GetComponent<PlayerMove2D>();
-        PlayerRenderManager renderer = move.renderer;
-        renderer.SetAnimatorFloat("hVelocity", hVelocity);
-        renderer.SetAnimatorFloat("vVelocity", vVelocity);
-        renderer.SetAnimatorBool("isGrounded", isGrounded);
+        PlayerRenderManager renderer = move?.renderer;
+        try
+        {
+            renderer.SetAnimatorFloat("hVelocity", hVelocity);
+            renderer.SetAnimatorFloat("vVelocity", vVelocity);
+            renderer.SetAnimatorBool("isGrounded", isGrounded);
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.LogError("NullReferenceException");
+            Debug.LogError($"renderer:{renderer}");
+            Debug.LogError($"animatorController: {renderer.animatorController}");
+            Debug.LogError($"exception: {e}");
+        }
     }
 
     //골인
