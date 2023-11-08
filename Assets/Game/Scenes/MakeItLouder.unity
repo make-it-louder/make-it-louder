@@ -11846,7 +11846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 5120038271507591434, guid: 167be1a9a48e8df42ae0e4dfad85346c, type: 3}
-  spawnPoint: {x: 17, y: -3.5, z: 0}
+  spawnPoint: {x: 17, y: 0, z: 0}
   controller: {fileID: 1590931601}
   acvmtController: {fileID: 0}
 --- !u!4 &918361633
