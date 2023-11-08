@@ -4052,7 +4052,7 @@ MonoBehaviour:
   ClearCount: {fileID: 1806776314}
   MinCleartime: {fileID: 1806776315}
   MinClearJump: {fileID: 1806776316}
-  CharacterNum: {fileID: 0}
+  CharacterNum: {fileID: 541973723}
   icon1: {fileID: 1453013406}
   icon2: {fileID: 1919334867}
   icon3: {fileID: 2090118542}
@@ -19837,11 +19837,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 770612575737486180, guid: dd35a5e483c42454cb83ebfc47eae046, type: 3}
+    - target: {fileID: 6585260410022934354, guid: fd0956dd865546842994316560ff28ab, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: fd522d915c89c234185aa429839595a5, type: 2}
-    - target: {fileID: 6585260410022934354, guid: fd0956dd865546842994316560ff28ab, type: 3}
+    - target: {fileID: 770612575737486180, guid: dd35a5e483c42454cb83ebfc47eae046, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: fd522d915c89c234185aa429839595a5, type: 2}
