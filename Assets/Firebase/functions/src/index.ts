@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+
 exports.scheduledFunctionCrontab = functions.pubsub
   .schedule("0 0,6,12,18 * * *")
   .timeZone("Asia/Seoul") // 이 부분을 해당 지역의 시간대로 변경하세요.
