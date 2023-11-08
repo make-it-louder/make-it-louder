@@ -55,6 +55,7 @@ public class RankingManager : MonoBehaviour
             if (snapshot.Exists)
             {
                 string json = snapshot.GetRawJsonValue();
+                Debug.Log(json);
                 FirebaseManager.Ranking rankingDe = JsonConvert.DeserializeObject<FirebaseManager.Ranking>(json);
                 ranking = rankingDe;
                 return ranking;
