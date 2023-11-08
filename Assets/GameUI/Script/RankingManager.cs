@@ -13,7 +13,7 @@ public class RankingManager : MonoBehaviour
     private static RankingManager instance;
     DatabaseReference databaseReference;
     public FirebaseManager.Ranking ranking;
-    public List<string> cleartimeRank;
+    public List<string> cleartimeRank; // 인덱스로 사용할 key값 리스트
     public static RankingManager Instance
     {
         get
@@ -41,7 +41,7 @@ public class RankingManager : MonoBehaviour
         GetClearTimeRank();
     }
 
-    public async Task<FirebaseManager.Ranking> GetRanking ()
+    public async Task<FirebaseManager.Ranking> GetRanking () //root 필드 ranking
     {
         var task = databaseReference.Child("ranking").GetValueAsync();
         await task;
@@ -87,22 +87,31 @@ public class RankingManager : MonoBehaviour
 
     public async void UpdateClearTimeRank (float minClearTime, string userId)
     {
-        string minCT = minClearTime.ToString();
-        if (cleartimeRank.Count < 10) // 10개가 안될때 그냥 넣으면 됨.
+        bool isDuplicated = cleartimeRank.Contains(userId);
+
+
+        if (cleartimeRank.Count < 10) // 10개가 안될때 그냥 넣으면 됨. 단 중복시 한번더 계산
         {
+            if (isDuplicated)
+            {
+                ranking.cleartime[userId] = Math.Min(ranking.cleartime[userId], minClearTime);
+            }
+            else
+            {
+                ranking.cleartime.Add(userId, minClearTime);
+            }
             Debug.Log("빈집 넣을게");
-            ranking.cleartime.Add(userId, minCT);
             await UpdateClearTimeDB();
 
         }
         else  // 이미 10위 이상있을때 10위를 빼고 넣으면 됨.
         {
             Debug.Log("넣을게");
-            float lastRankTime = float.Parse(ranking.cleartime[cleartimeRank[9]]);
+            float lastRankTime = ranking.cleartime[cleartimeRank[9]];
             if (minClearTime < lastRankTime)  //랭킹안에 들때 넣기
             {
                 ranking.cleartime.Remove(cleartimeRank[9]);
-                ranking.cleartime.Add(userId, minCT);
+                ranking.cleartime.Add(userId, minClearTime);
                 await UpdateClearTimeDB();
             }
         }
