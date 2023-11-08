@@ -128,6 +128,7 @@ public class ChatManager : MonoBehaviourPun
         }
         scrollBarVertical.GetComponent<Image>().enabled = true;
         Handle.GetComponent<Image>().enabled = true;
+        SetAlphaOne();
     }
     public void UnActiveChat()
     {
@@ -142,5 +143,28 @@ public class ChatManager : MonoBehaviourPun
         }
         scrollBarVertical.GetComponent<Image>().enabled = false;
         Handle.GetComponent<Image>().enabled = false;
+        SetAlphaZero();
+    }
+
+    private void SetAlphaZero()
+    {
+        foreach (Transform child in parentContent)
+        {
+            ChatMessage chatMessage = child.GetComponent<ChatMessage>();
+            chatMessage.RestartMyCoroutine();
+            if (!chatMessage.IsFadeOutRunning())
+            {
+                child.GetComponent<TextMeshProUGUI>().alpha = 0.0f;
+            }
+        }
+    }
+    private void SetAlphaOne()
+    {
+        foreach (Transform child in parentContent)
+        {
+            ChatMessage chatMessage = child.GetComponent<ChatMessage>();
+            chatMessage.StopMyCoroutine();
+            child.GetComponent<TextMeshProUGUI>().alpha = 1.0f;
+        }
     }
 }
