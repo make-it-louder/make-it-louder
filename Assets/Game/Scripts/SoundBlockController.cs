@@ -48,12 +48,7 @@ public class SoundBlockController : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if (PhotonNetwork.IsMasterClient && !photonView.IsMine)
-        {
-            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
-            Debug.Log("TransferOwnership");
-        }
-        if (!photonView.IsMine)
+        if (!PhotonNetwork.IsMasterClient)
         {
             return;
         }
@@ -83,12 +78,7 @@ public class SoundBlockController : MonoBehaviourPun
 
     void FixedUpdate()
     {
-        if (PhotonNetwork.IsMasterClient && !photonView.IsMine)
-        {
-            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
-            Debug.Log("TransferOwnership");
-        }
-        if (!photonView.IsMine)
+        if (!PhotonNetwork.IsMasterClient)
         {
             return;
         }
