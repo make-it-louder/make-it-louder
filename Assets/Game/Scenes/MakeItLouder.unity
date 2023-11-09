@@ -12641,6 +12641,52 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b235d3388090734eadbbc63e98dbf89, type: 3}
+--- !u!1 &856396607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 856396609}
+  - component: {fileID: 856396608}
+  m_Layer: 0
+  m_Name: CharacterList
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &856396608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856396607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e385a6f1c4d8b79468f2216b4eac42ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterList: []
+  micInputs: []
+--- !u!4 &856396609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856396607}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1178.0938, y: 521.0519, z: -3.537489}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &860132339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12967,10 +13013,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f57fe863161b414d96c40da5b4e61c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnedPlayer: {fileID: 0}
   playerPrefab: {fileID: 5120038271507591434, guid: 167be1a9a48e8df42ae0e4dfad85346c, type: 3}
   spawnPoint: {x: 17, y: 0, z: 0}
   controller: {fileID: 1590931601}
   acvmtController: {fileID: 1944073032}
+  characterList: {fileID: 856396608}
   clearPopup: {fileID: 2508498369120458880}
 --- !u!4 &918361633
 Transform:
@@ -46243,3 +46291,4 @@ SceneRoots:
   - {fileID: 14736397}
   - {fileID: 1944073031}
   - {fileID: 565815540}
+  - {fileID: 856396609}

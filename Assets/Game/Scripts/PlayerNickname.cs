@@ -16,6 +16,7 @@ public class PlayerNickname : MonoBehaviourPunCallbacks
     private void RPC_SetNickname(string newNickname)
     {
         GetComponentInChildren<TMP_Text>().text = newNickname;
+        gameObject.name = newNickname;
     }
 }
 
