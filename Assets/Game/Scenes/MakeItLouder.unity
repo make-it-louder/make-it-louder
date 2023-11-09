@@ -394,11 +394,6 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3529495337659696404, guid: 54e2893e209ad96478fcbab0e087308c,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5095308306384805898, guid: 54e2893e209ad96478fcbab0e087308c,
         type: 3}
       propertyPath: m_Name
@@ -433,11 +428,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -0.000030517578
-      objectReference: {fileID: 0}
-    - target: {fileID: 5937539152169832373, guid: 54e2893e209ad96478fcbab0e087308c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 5937539152169832373, guid: 54e2893e209ad96478fcbab0e087308c,
         type: 3}
@@ -13199,6 +13189,11 @@ PrefabInstance:
       propertyPath: rotateSpeed
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7384826377866771395, guid: 5a1a9b6094774c34ea4858c1b2d45c66,
+        type: 3}
+      propertyPath: soundManager
+      value: 
+      objectReference: {fileID: 481474897}
     - target: {fileID: 8162127003492328342, guid: 5a1a9b6094774c34ea4858c1b2d45c66,
         type: 3}
       propertyPath: m_Layer
@@ -13558,6 +13553,11 @@ PrefabInstance:
       propertyPath: rotateSpeed
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7384826377866771395, guid: 5a1a9b6094774c34ea4858c1b2d45c66,
+        type: 3}
+      propertyPath: soundManager
+      value: 
+      objectReference: {fileID: 481474897}
     - target: {fileID: 8162127003492328342, guid: 5a1a9b6094774c34ea4858c1b2d45c66,
         type: 3}
       propertyPath: m_Layer
@@ -16105,6 +16105,11 @@ PrefabInstance:
       propertyPath: rotateSpeed
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7384826377866771395, guid: 5a1a9b6094774c34ea4858c1b2d45c66,
+        type: 3}
+      propertyPath: soundManager
+      value: 
+      objectReference: {fileID: 481474897}
     - target: {fileID: 8162127003492328342, guid: 5a1a9b6094774c34ea4858c1b2d45c66,
         type: 3}
       propertyPath: m_Layer
@@ -19824,8 +19829,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2084534692}
   - {fileID: 1934091758}
+  - {fileID: 2084534692}
   m_Father: {fileID: 14736397}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1934091757
@@ -19855,7 +19860,7 @@ Transform:
   m_GameObject: {fileID: 1934091757}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 39.678, y: 17.5, z: 0}
+  m_LocalPosition: {x: 39.678, y: 17.5, z: -0.01}
   m_LocalScale: {x: 1.1942, y: 1.1942, z: 1.1942}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20016,6 +20021,11 @@ PrefabInstance:
       propertyPath: rotateSpeed
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7384826377866771395, guid: 5a1a9b6094774c34ea4858c1b2d45c66,
+        type: 3}
+      propertyPath: soundManager
+      value: 
+      objectReference: {fileID: 481474897}
     - target: {fileID: 8162127003492328342, guid: 5a1a9b6094774c34ea4858c1b2d45c66,
         type: 3}
       propertyPath: m_Layer

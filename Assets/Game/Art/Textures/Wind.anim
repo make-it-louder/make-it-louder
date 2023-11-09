@@ -8,7 +8,7 @@ AnimationClip:
   m_PrefabAsset: {fileID: 0}
   m_Name: Wind
   serializedVersion: 7
-  m_Legacy: 0
+  m_Legacy: 1
   m_Compressed: 0
   m_UseHighQualityCurve: 1
   m_RotationCurves: []
@@ -41,22 +41,8 @@ AnimationClip:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   m_ClipBindingConstant:
-    genericBindings:
-    - serializedVersion: 2
-      path: 0
-      attribute: 0
-      script: {fileID: 0}
-      typeID: 212
-      customType: 23
-      isPPtrCurve: 1
-      isIntCurve: 0
-      isSerializeReferenceCurve: 0
-    pptrCurveMapping:
-    - {fileID: 21300000, guid: dbcadfd314cc0604386d1a5bdcdc97c4, type: 3}
-    - {fileID: 21300000, guid: 170a6fb35a6a2e34c86ecee2b43c7bf7, type: 3}
-    - {fileID: 21300000, guid: 902992579bdb7cc45b7294a5bb21da84, type: 3}
-    - {fileID: 21300000, guid: f7f65b2d1e5b95f40af3bccb9dc89eda, type: 3}
-    - {fileID: 21300000, guid: a953227dba578e34da12902485d3f794, type: 3}
+    genericBindings: []
+    pptrCurveMapping: []
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

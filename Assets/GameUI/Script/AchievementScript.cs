@@ -24,7 +24,14 @@ public class AchievementScript : MonoBehaviour
     public TMP_Text ClearCount10;
     public TMP_Text ClearCount102;
 
+    public TMP_Text ChallangeTime15;
 
+    public TMP_Text ChallangeJump100;
+
+    public TMP_Text AchieveCharacterNumText;
+
+
+    // profile info
     public TMP_Text playTimeText;
 
     public TMP_Text ProfileCount;
@@ -50,6 +57,13 @@ public class AchievementScript : MonoBehaviour
     public GameObject ClearCounticon10;
     public GameObject ClearCounticon102;
 
+
+    public GameObject ChallangeTime15icon;
+    public GameObject ChallangeJump100icon;
+
+    public GameObject CharacterNumicon;
+    
+
     // Start is called before the first frame update
     public void OnButtonClick()
     {
@@ -69,6 +83,12 @@ public class AchievementScript : MonoBehaviour
         int maxForClearCount10 = 10;
         int maxForClearCount102 = 102;
 
+        int minForChallangeJump100 = 100;
+
+        int maxCharacterAchievement = 15;
+
+
+
         // 현재 점프 횟수 가져오기
         int currentJumpCount = record["map1"].count_jump;
 
@@ -86,9 +106,35 @@ public class AchievementScript : MonoBehaviour
         UpdateAchievementClearCount(ClearCount10, ClearCounticon10, currentClearCount, maxForClearCount10);
         UpdateAchievementClearCount(ClearCount102, ClearCounticon102, currentClearCount, maxForClearCount102);
 
+        // CharacterNum
+        int cnt = 0;
+
+        for (int i = 0; i < profile.avatars.Count; i++)
+        {
+            if (profile.avatars[i])
+            {
+                cnt++;
+            }
+        }
+
+        CharacterNum.text = cnt.ToString() + "개";
+
+        UpdateAchievementCharacterNum(AchieveCharacterNumText, CharacterNumicon, cnt, maxCharacterAchievement);
+
+
+        // 업적을 위한 최소점프
+
+        int MinCurrentClaerJump = record["map1"].count_minjump;
+
+
+        UpdateAchievementChallangeJump(ChallangeJump100, ChallangeJump100icon, MinCurrentClaerJump, minForChallangeJump100);
+
+
+
+
 
         // 프로필 카운트는 최댓값에 제한 없이 현재 점프 횟수를 그대로 표시
-        ProfileCount.text = currentJumpCount.ToString() + "회";
+        ProfileCount.text = currentJumpCount.ToString("N0") + "회";
 
         // playtime을 double 형태로 가져온 후, 정수 부분만 TimeSpan으로 변환
         double playTimeSeconds = record["map1"].playtime; // Firebase에서 가져온 시간 데이터
@@ -115,24 +161,21 @@ public class AchievementScript : MonoBehaviour
         TimeSpan time2 = TimeSpan.FromSeconds(Minclaertime);
         MinCleartime.text = string.Format("{0:D2}:{1:D2}:{2:D2}", time2.Hours, time2.Minutes, time2.Seconds);
 
+        UpdateMinTimeAchievment(Min_clearsecond);
+
         // MinClearJump
         int Count_MinJump = record["map1"].count_minjump;
 
         MinClearJump.text = Count_MinJump.ToString() + "회";
 
-        int cnt = 0;
 
-        for (int i = 0; i < profile.avatars.Count; i++)
-        {
-            if (profile.avatars[i])
-            {
-                cnt++;
-            }
-        }
 
-        CharacterNum.text = cnt.ToString() + "개";
 
     }
+
+
+
+
 
     private void GetUserData()
     {
@@ -144,7 +187,7 @@ public class AchievementScript : MonoBehaviour
     private void UpdateAchievementJumpCount(TMP_Text achieveText, GameObject icon, int currentCount, int maxCount)
     {
         // 달성도 텍스트 형식에 맞게 업데이트
-        achieveText.text = string.Format("현재달성도 [{0}/{1}]", Mathf.Min(currentCount, maxCount), maxCount);
+        achieveText.text = string.Format("현재달성도 [{0:N0}/{1:N0}]", Mathf.Min(currentCount, maxCount), maxCount);
 
         // 아이콘 활성화/비활성화
         icon.SetActive(currentCount >= maxCount);
@@ -170,9 +213,42 @@ public class AchievementScript : MonoBehaviour
     private void UpdateAchievementPlayTime(TMP_Text achieveText, GameObject icon, int currentMinutes, int maxMinutes)
     {
         // 달성도 텍스트 형식에 맞게 업데이트
-        achieveText.text = string.Format("현재달성도 [{0}/{1}분]", Mathf.Min(currentMinutes,maxMinutes), maxMinutes);
+        achieveText.text = string.Format("현재달성도 [{0}/{1}]", Mathf.Min(currentMinutes,maxMinutes), maxMinutes);
 
         // 아이콘 활성화/비활성화
         icon.SetActive(currentMinutes >= maxMinutes);
     }
+    ////////////////////////
+    
+    private void UpdateMinTimeAchievment(double Min_clearsecond)
+    {
+        int minutes = (int)(Min_clearsecond / 60); // 플레이 타임을 분으로 변환
+        UpdateAchievementChallengeMinTime(ChallangeTime15, ChallangeTime15icon, minutes, 15);
+    }
+
+    private void UpdateAchievementChallengeMinTime(TMP_Text achieveText, GameObject icon, int currentMinutes, int minMinutes)
+    {
+        // 달성도 텍스트 형식에 맞게 업데이트
+        achieveText.text = string.Format("현재달성도 [{0}/{1}]", Mathf.Max(currentMinutes, minMinutes), minMinutes);
+
+        // 아이콘 활성화/비활성화
+        icon.SetActive(minMinutes >= currentMinutes);
+    }
+
+    ////////////////////////
+    private void UpdateAchievementCharacterNum(TMP_Text achieveText, GameObject icon, int currentNum, int maxNum)
+    {
+        achieveText.text = string.Format("현재달성도 [{0}/{1}]", Mathf.Min(currentNum, maxNum), maxNum);
+
+        icon.SetActive(currentNum >= maxNum);
+    }
+
+    private void UpdateAchievementChallangeJump(TMP_Text achieveText, GameObject icon, int MinCurrentClaerJump, int minForChallangeJump100)
+    {
+        achieveText.text = string.Format("현재달성도 [{0:N0}/{1:N0}]", Mathf.Max(MinCurrentClaerJump, minForChallangeJump100), minForChallangeJump100);
+
+        icon.SetActive(minForChallangeJump100 >= MinCurrentClaerJump);
+    }
+
+
 }
