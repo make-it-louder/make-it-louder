@@ -38,7 +38,7 @@ public class ObstacleMover : MonoBehaviourPun
 
         if (input.normalizedDB > 0.01f)
         {
-            timer += speed * Time.deltaTime * 0.5f;
+            timer += speed * Time.deltaTime * velocityRate;
         }
         else
         {
