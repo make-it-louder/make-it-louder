@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using System.Linq;
+using System;
 
 public class SoundEventManager : MonoBehaviourPun
 {
@@ -121,11 +122,15 @@ public class SoundEventManager : MonoBehaviourPun
                 float distance = Vector2.Distance(soundInput.gameObject.transform.position, other.transform.position);
                 if (distance < maxDistance)
                 {
-                    float localDBEffect = soundInput.normalizedDB / (distance * distance);
+                    float localDBEffect = soundInput.normalizedDB;
                     DB = Mathf.Max(DB, localDBEffect);
                 }
             }
             catch (MissingReferenceException)
+            {
+                continue;
+            }
+            catch (NullReferenceException)
             {
                 continue;
             }
@@ -152,8 +157,9 @@ public class SoundSubscriber : INormalizedSoundInput
     {
         get
         {
-            if (gameObject == null)
+            if (manager == null || gameObject == null)
             {
+                Debug.Log($"SoundSubscriber: manager({manager}) or gameObject({gameObject}) is null");
                 return 0.0f;
             }
             return manager.GetLocalDBAt(gameObject);

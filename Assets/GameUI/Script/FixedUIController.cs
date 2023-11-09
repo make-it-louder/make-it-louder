@@ -25,6 +25,10 @@ public class FixedUIController : MonoBehaviour
     void Start()
     {
         DOTween.Init();
+        if (settingsForm == null)
+        {
+            return;
+        }
         settingsForm.transform.localScale = Vector3.one * 0.1f;
         settingsForm.SetActive(false);
 
