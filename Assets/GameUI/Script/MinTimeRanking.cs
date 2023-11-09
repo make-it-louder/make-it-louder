@@ -116,7 +116,7 @@ public class MinTimeRanking : MonoBehaviour
                     GameObject rankItem = Instantiate(rank4, ranksParent);
                     rankItem.transform.Find("Content/NameText").GetComponent<TMP_Text>().text = rankerNick[i];
                     rankItem.transform.Find("Content/PointsText").GetComponent<TMP_Text>().text = ConvertToTime(ranking[rankerId[i]]);
-
+                    rankItem.transform.Find("Content/RankText").GetComponent<TMP_Text>().text = (i + 1).ToString();
                 }
             }
         });
