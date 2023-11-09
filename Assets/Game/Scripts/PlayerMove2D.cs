@@ -392,7 +392,11 @@ public class PlayerMove2D : MonoBehaviourPun
     async void OnPlayerEnter()
     {
         if (isClear == 1) return;
-        else { 
+        else {
+            if (!photonView.IsMine)
+            {
+                return;
+            }
             isClear = 1;
             Debug.Log("골인");
             Popup copy = Instantiate(clearPopup, clearPopup.transform.parent);
