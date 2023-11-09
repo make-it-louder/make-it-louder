@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
+using UnityEngine.UI;
 
 public class SignSystem : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class SignSystem : MonoBehaviour
     public GameObject popupWindow;
     public TMP_Text popupTitle;
     public TMP_Text popupContent;
+
+    public Button loginButton; // 에디터에서 할당
+    public Button signupButton; // 에디터에서 할당
 
     public GameObject loadingSpinner;
     // Start is called before the first frame update
@@ -41,6 +45,16 @@ public class SignSystem : MonoBehaviour
             else if (username != null && confirmpassword.isFocused )
             {
                 username.ActivateInputField();
+            }
+        } else if (Input.GetKeyDown(KeyCode.Return))
+        {
+            if (loginForm.activeSelf == true)
+            {
+                loginButton.onClick.Invoke();
+            }
+            else if (signupForm.activeSelf == true)
+            {
+                signupButton.onClick.Invoke();
             }
         }
     }
