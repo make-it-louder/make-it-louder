@@ -43,8 +43,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private System.Collections.IEnumerator JoinLobby()
     {
+        float startTime = Time.time;
         Debug.Log("Call JoinLobby");
-        yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
+        yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady || Time.time - startTime > 10.0f);
+        yield return new WaitUntil(() => PhotonNetwork.NetworkClientState == ClientState.ConnectedToMasterServer || Time.time - startTime > 10.0f);
+        if (Time.time - startTime > 10.0f)
+        {
+            Debug.LogError("Failed to join lobby: Timeout");
+            yield break;
+        }
         if (PhotonNetwork.InLobby || PhotonNetwork.NetworkClientState == ClientState.JoiningLobby)
         {
             yield break;
