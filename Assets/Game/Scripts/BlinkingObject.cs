@@ -38,7 +38,6 @@ public class BlinkingObject : MonoBehaviour
         // 설정한 총 시간이 지날 때까지 반복합니다.
         while (Time.time - startTime < totalDuration)
         {
-            Debug.Log("변");
             // 새 Material로 변경합니다.
             materials[0] = newMaterial;
             skinnedMeshRenderer.materials = materials;

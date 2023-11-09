@@ -63,7 +63,7 @@ public class SoundBlockController : MonoBehaviourPun
         }
         else
         {
-            if (input.normalizedDB > 0.0f)
+            if (input.normalizedDB > 0.01f)
             {
                 isMovingUp = true;
                 upTime += Time.deltaTime;
