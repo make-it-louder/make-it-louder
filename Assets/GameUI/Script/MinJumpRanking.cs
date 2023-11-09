@@ -114,6 +114,7 @@ public class MinJumpRanking : MonoBehaviour
                     GameObject rankItem = Instantiate(rank4, ranksParent);
                     rankItem.transform.Find("Content/NameText").GetComponent<TMP_Text>().text = rankerNick[i];
                     rankItem.transform.Find("Content/PointsText").GetComponent<TMP_Text>().text = ranking[rankerId[i]].ToString() + "회";
+                    rankItem.transform.Find("Content/RankText").GetComponent<TMP_Text>().text = (i + 1).ToString();
                 }
             }
         });
