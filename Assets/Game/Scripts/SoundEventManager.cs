@@ -122,7 +122,7 @@ public class SoundEventManager : MonoBehaviourPun
                 float distance = Vector2.Distance(soundInput.gameObject.transform.position, other.transform.position);
                 if (distance < maxDistance)
                 {
-                    float localDBEffect = soundInput.normalizedDB / (distance * distance);
+                    float localDBEffect = soundInput.normalizedDB;
                     DB = Mathf.Max(DB, localDBEffect);
                 }
             }
