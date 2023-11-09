@@ -99,8 +99,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 903922d1f53228e43bffeddb2aa92310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundManager: {fileID: 0}
   targetChild: {fileID: 7041087512976298218}
   speed: 2
+  velocityRate: 0.5
 --- !u!114 &8060993490773154991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,7 +322,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: 452cd83b532eddc4198624efb5753b83, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: 452cd83b532eddc4198624efb5753b83, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0

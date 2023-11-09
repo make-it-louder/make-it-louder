@@ -34,7 +34,6 @@ public class Knockback : MonoBehaviour
             knockbackDirection.y = YStrength;
             if (knockbackDirection.x <= 0) knockbackDirection.x = -XStrength;
             else knockbackDirection.x = XStrength;
-            Debug.Log(knockbackDirection);
 
             // 플레이어에게 밀려나는 효과를 적용합니다.a
             playerRb.velocity = knockbackDirection;
