@@ -168,8 +168,17 @@ public class AchievementScript : MonoBehaviour
 
         MinClearJump.text = Count_MinJump.ToString() + "회";
 
+        int cnt = 0;
 
+        for (int i = 0; i < profile.avatars.Count; i++)
+        {
+            if (profile.avatars[i])
+            {
+                cnt++;
+            }
+        }
 
+        CharacterNum.text = cnt.ToString() + "개";
 
     }
 
