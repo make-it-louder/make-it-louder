@@ -68,7 +68,7 @@ public class FirebaseManager : MonoBehaviour
             dependencyStatus = task.Result;
             if (dependencyStatus == Firebase.DependencyStatus.Available)
             {
-                Debug.LogError("All firebase dependencies have been resolved: " + dependencyStatus);
+                Debug.Log("All firebase dependencies have been resolved");
             }
             else
             {

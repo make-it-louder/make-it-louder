@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using System.Linq;
+using System;
 
 public class SoundEventManager : MonoBehaviourPun
 {
@@ -129,6 +130,10 @@ public class SoundEventManager : MonoBehaviourPun
             {
                 continue;
             }
+            catch (NullReferenceException)
+            {
+                continue;
+            }
         }
         DB = Mathf.Clamp(DB, 0.0f, 1.0f);
         return DB;
@@ -152,8 +157,9 @@ public class SoundSubscriber : INormalizedSoundInput
     {
         get
         {
-            if (gameObject == null)
+            if (manager == null || gameObject == null)
             {
+                Debug.Log($"SoundSubscriber: manager({manager}) or gameObject({gameObject}) is null");
                 return 0.0f;
             }
             return manager.GetLocalDBAt(gameObject);

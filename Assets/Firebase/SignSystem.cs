@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
+using Photon.Pun;
 
 public class SignSystem : MonoBehaviour
 {
@@ -133,6 +134,8 @@ public class SignSystem : MonoBehaviour
     {
         loadingSpinner.SetActive(true);
         FirebaseManager.Instance.SignIn(email.text, password.text, SignInCallback);
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     private void SignInCallback(bool flag)
@@ -140,14 +143,18 @@ public class SignSystem : MonoBehaviour
         loadingSpinner.SetActive(false);
         if (flag)
         {
-            SceneManager.LoadScene("LobbyTest");
+            StartCoroutine(JoinLobbyAfterPhotonConnection());
         }
         else
         {
             OpenPopup("실패", "메일주소/비밀번호를 확인해주세요!");
         }
     }
-
+    private IEnumerator JoinLobbyAfterPhotonConnection()
+    {
+        yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
+        SceneManager.LoadScene("LobbyTest");
+    }
     //
     public void SignOut()
     {
