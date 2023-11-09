@@ -533,6 +533,8 @@ MonoBehaviour:
   popupWindow: {fileID: 1233511990}
   popupTitle: {fileID: 2011496762}
   popupContent: {fileID: 800285631}
+  loginButton: {fileID: 8061307773555080231}
+  signupButton: {fileID: 1201052301}
   loadingSpinner: {fileID: 635475027}
 --- !u!1 &134632780 stripped
 GameObject:
@@ -2634,6 +2636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cleartimeRank: []
+  minJumpRank: []
 --- !u!4 &499009456
 Transform:
   m_ObjectHideFlags: 0
@@ -2644,6 +2647,50 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 846.6983, y: 611.0429, z: -0.24444018}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &529780105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 529780107}
+  - component: {fileID: 529780106}
+  m_Layer: 0
+  m_Name: UnityMainThreadDispatcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &529780106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529780105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb46a7841b5f9154587dc9a8d80a13f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &529780107
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529780105}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.1906619, y: 1.4338391, z: 52.962963}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3892,6 +3939,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1201052301 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2315289584108803517, guid: 130df6e6b97ec57408c43002885a0ef8, type: 3}
+  m_PrefabInstance: {fileID: 283185309}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1230277219
 GameObject:
   m_ObjectHideFlags: 0
@@ -4579,6 +4637,8 @@ MonoBehaviour:
   popupWindow: {fileID: 1233511990}
   popupTitle: {fileID: 2011496762}
   popupContent: {fileID: 800285631}
+  loginButton: {fileID: 8061307773555080231}
+  signupButton: {fileID: 1201052301}
   loadingSpinner: {fileID: 635475027}
 --- !u!224 &1411844643 stripped
 RectTransform:
@@ -5803,6 +5863,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8957257931002886726, guid: 97ecf7e5f3278104d98b4081e434cf37, type: 3}
   m_PrefabInstance: {fileID: 5798911016701101427}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8061307773555080231 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7608016960271299683, guid: 97ecf7e5f3278104d98b4081e434cf37, type: 3}
+  m_PrefabInstance: {fileID: 5798911016701101427}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -5816,3 +5887,4 @@ SceneRoots:
   - {fileID: 1131102321}
   - {fileID: 656979862}
   - {fileID: 499009456}
+  - {fileID: 529780107}
