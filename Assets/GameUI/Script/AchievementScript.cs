@@ -134,7 +134,7 @@ public class AchievementScript : MonoBehaviour
 
 
         // 프로필 카운트는 최댓값에 제한 없이 현재 점프 횟수를 그대로 표시
-        ProfileCount.text = currentJumpCount.ToString() + "회";
+        ProfileCount.text = currentJumpCount.ToString("N0") + "회";
 
         // playtime을 double 형태로 가져온 후, 정수 부분만 TimeSpan으로 변환
         double playTimeSeconds = record["map1"].playtime; // Firebase에서 가져온 시간 데이터
@@ -168,17 +168,8 @@ public class AchievementScript : MonoBehaviour
 
         MinClearJump.text = Count_MinJump.ToString() + "회";
 
-        int cnt = 0;
 
-        for (int i = 0; i < profile.avatars.Count; i++)
-        {
-            if (profile.avatars[i])
-            {
-                cnt++;
-            }
-        }
 
-        CharacterNum.text = cnt.ToString() + "개";
 
     }
 
@@ -196,7 +187,7 @@ public class AchievementScript : MonoBehaviour
     private void UpdateAchievementJumpCount(TMP_Text achieveText, GameObject icon, int currentCount, int maxCount)
     {
         // 달성도 텍스트 형식에 맞게 업데이트
-        achieveText.text = string.Format("현재달성도 [{0}/{1}]", Mathf.Min(currentCount, maxCount), maxCount);
+        achieveText.text = string.Format("현재달성도 [{0:N0}/{1:N0}]", Mathf.Min(currentCount, maxCount), maxCount);
 
         // 아이콘 활성화/비활성화
         icon.SetActive(currentCount >= maxCount);
@@ -254,7 +245,7 @@ public class AchievementScript : MonoBehaviour
 
     private void UpdateAchievementChallangeJump(TMP_Text achieveText, GameObject icon, int MinCurrentClaerJump, int minForChallangeJump100)
     {
-        achieveText.text = string.Format("현재달성도 [{0}/{1}]", Mathf.Max(MinCurrentClaerJump, minForChallangeJump100), minForChallangeJump100);
+        achieveText.text = string.Format("현재달성도 [{0:N0}/{1:N0}]", Mathf.Max(MinCurrentClaerJump, minForChallangeJump100), minForChallangeJump100);
 
         icon.SetActive(minForChallangeJump100 >= MinCurrentClaerJump);
     }

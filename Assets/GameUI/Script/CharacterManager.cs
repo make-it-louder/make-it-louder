@@ -11,8 +11,12 @@ public class CharacterManager : MonoBehaviour
 
     void Start()
     {
-        // 초기 캐릭터 설정 (예: 첫 번째 캐릭터 활성화)
-        ChangeCharacter(0);
+        FirebaseManager.Profile profile = RecordManager.Instance.UserProfile;
+
+        int initChar = profile.e_avatar;
+        // 초기 캐릭터 설정 
+        Debug.Log(initChar);
+        ChangeCharacter(initChar);
     }
 
     // 캐릭터를 변경하는 메서드
