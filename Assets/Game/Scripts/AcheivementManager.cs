@@ -65,12 +65,13 @@ public class AcheivementManager : MonoBehaviour
         PlayerMove2D playerMove2D = player.GetComponent<PlayerMove2D>();
         Debug.Log("시작점프" + initialJumpCount);
         Debug.Log("뛴점프" + playerMove2D.jumpCount);
+        Debug.Log("플레이시간" + initialPlaytime);
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 100); // 1번 점프 100번
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 1000); // 2번 점프 1000번
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 3000); // 3번 점프 3000번
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 10000); // 4번 점프 10000번
-        conditions.Add(initialPlaytime + playerMove2D.playTime >= 300); // 5번 플레이타임 5분
-        conditions.Add(initialPlaytime + playerMove2D.playTime >= 1800); // 6번 플레이타임 30분
+        conditions.Add(initialPlaytime + playerMove2D.playTime >= 60); // 5번 플레이타임 1분
+        conditions.Add(initialPlaytime + playerMove2D.playTime >= 600); // 6번 플레이타임 10분
         conditions.Add(initialPlaytime + playerMove2D.playTime >= 3600);  // 7번 플레이타임 1시간
         conditions.Add(initialClearCount + playerMove2D.isClear >= 1);  // 8번 최초클리어
         conditions.Add(initialClearCount + playerMove2D.isClear >= 3);  // 9번 3번 클리어
