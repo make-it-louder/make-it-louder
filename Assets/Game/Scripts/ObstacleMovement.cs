@@ -34,7 +34,7 @@ public class ObstacleMover : MonoBehaviourPun
         {
             return;
         }
-        if (timer > 10) timer -= Mathf.Floor(timer / (2 * Mathf.PI)) * (2 * Mathf.PI);
+        if (timer > 1000) timer -= Mathf.Floor(timer / (2 * Mathf.PI)) * (2 * Mathf.PI);
 
         if (input.normalizedDB > 0.01f)
         {
