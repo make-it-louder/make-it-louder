@@ -137,7 +137,6 @@ public class RankingManager : MonoBehaviour
     {
         bool isDuplicated = cleartimeRank.Contains(userId);
 
-
         if (cleartimeRank.Count < 10) // 10개가 안될때 그냥 넣으면 됨. 단 중복시 한번더 계산
         {
             if (isDuplicated)
