@@ -12,7 +12,6 @@ public class AcheivementManager : MonoBehaviour
 
     // player using
     public GameObject player;
-    PlayerMove2D playerMove2D;
     // 업적달성 계산을 위한 초기 데이터
     float initialPlaytime;
     int initialJumpCount;
@@ -24,13 +23,6 @@ public class AcheivementManager : MonoBehaviour
     void Start()
     {
         GetUserData();
-        if (player != null) 
-        { 
-        playerMove2D = player.GetComponent<PlayerMove2D>();
-        } else
-        {
-            Debug.Log("플레이어 찾을 수 없음");
-        }
         initialPlaytime = records["map1"].playtime;
         initialJumpCount = records["map1"].count_jump;
         initialClearCount = records["map1"].count_clear;
@@ -41,7 +33,6 @@ public class AcheivementManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
     //Profile, Record 테이블 할당
     private void GetUserData ()
@@ -57,7 +48,10 @@ public class AcheivementManager : MonoBehaviour
 
         for (int i = 1; i < initialAchevements.Count; i++)
         {
+            Debug.Log(i.ToString());
+
             if (initialAchevements[i]) continue;
+            Debug.Log(conditions[i - 1] + i.ToString());
             if (conditions[i-1])
             {
                 await RecordManager.Instance.UpdateNewAvatar(i);
@@ -68,7 +62,9 @@ public class AcheivementManager : MonoBehaviour
 
     public void AddConditions ()
     {
-        Debug.Log("조건넣는중");
+        PlayerMove2D playerMove2D = player.GetComponent<PlayerMove2D>();
+        Debug.Log("시작점프" + initialJumpCount);
+        Debug.Log("뛴점프" + playerMove2D.jumpCount);
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 100); // 1번 점프 100번
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 1000); // 2번 점프 1000번
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 3000); // 3번 점프 3000번
