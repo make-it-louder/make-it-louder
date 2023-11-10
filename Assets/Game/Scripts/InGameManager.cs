@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class InGameManager : MonoBehaviour
 {
-    [SerializeField]
     private GameObject spawnedPlayer;
     [SerializeField]
     private GameObject playerPrefab;
@@ -41,6 +40,9 @@ public class InGameManager : MonoBehaviour
               spawnPoint + new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(-0.5f, 0.5f), -0.1f),
               Quaternion.identity
           );
+        FirebaseManager.Profile profile = RecordManager.Instance.UserProfile;
+        Debug.Log($"Player character: ({(CharacterPrefabNames)profile.e_avatar})");
+        spawnedPlayer.GetComponentInChildren<PlayerPrefabManager>().CharacterPrefabName = (CharacterPrefabNames)profile.e_avatar;
         GridCamera2D camera = GameObject.Find("Main Camera").GetComponent<GridCamera2D>();
         camera.follows = spawnedPlayer;
         spawnedPlayer.GetComponent<PlayerNickname>().SetNickname(PhotonNetwork.LocalPlayer.NickName);
