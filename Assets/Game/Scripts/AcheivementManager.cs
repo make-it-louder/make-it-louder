@@ -43,19 +43,15 @@ public class AcheivementManager : MonoBehaviour
 
     public async Task UpdateAllAcheivement ()
     {
-        Debug.Log("실행됨");
         AddConditions();
 
         for (int i = 1; i < initialAchevements.Count; i++)
         {
-            Debug.Log(i.ToString());
-
             if (initialAchevements[i]) continue;
-            Debug.Log(conditions[i - 1] + i.ToString());
             if (conditions[i-1])
             {
                 await RecordManager.Instance.UpdateNewAvatar(i);
-                Debug.Log(i + "번째 업적 업데이트함");
+                Debug.Log(i + "번째 업적 업데이트");
             }
         }
     }
@@ -63,9 +59,7 @@ public class AcheivementManager : MonoBehaviour
     public void AddConditions ()
     {
         PlayerMove2D playerMove2D = player.GetComponent<PlayerMove2D>();
-        Debug.Log("시작점프" + initialJumpCount);
-        Debug.Log("뛴점프" + playerMove2D.jumpCount);
-        Debug.Log("플레이시간" + initialPlaytime);
+
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 100); // 1번 점프 100번
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 1000); // 2번 점프 1000번
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 3000); // 3번 점프 3000번

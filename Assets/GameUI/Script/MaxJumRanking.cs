@@ -46,7 +46,6 @@ public class MaxJumpRanking : MonoBehaviour
         if (snapshot != null)
         {
             string json = snapshot.GetRawJsonValue();
-            Debug.Log(json);
             Dictionary<string, FirebaseManager.Profile> allUsersDict = JsonConvert.DeserializeObject<Dictionary<string, FirebaseManager.Profile>>(json);
             allUsers = allUsersDict.Keys.ToList();
 
@@ -60,6 +59,7 @@ public class MaxJumpRanking : MonoBehaviour
                     {
                         cnt++;
                         rankerNicks.Add(allUsersDict[user].username);
+                        break;
                     }
                 }
             }
