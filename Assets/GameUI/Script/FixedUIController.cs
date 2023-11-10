@@ -38,10 +38,6 @@ public class FixedUIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (settingsForm.activeSelf)
-        {
-
-        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("일단들어옴");
