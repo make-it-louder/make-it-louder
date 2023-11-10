@@ -16,7 +16,7 @@ public class CharacterSelectionManager : MonoBehaviour
         LoadCharacterStatusAsync();
     }
 
-    async Task LoadCharacterStatusAsync()
+    public void LoadCharacterStatusAsync()
     {
         // FirebaseManager의 싱글톤 인스턴스에서 프로필 데이터를 비동기적으로 가져옵니다.
         FirebaseManager.Profile profile = RecordManager.Instance.UserProfile;
