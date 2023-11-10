@@ -36,19 +36,15 @@ public class PlayerPrefabManager : MonoBehaviourPun
     void SyncChangeCharacterPrefab(int ViewID, int characterPrefabID)
     {
         CharacterPrefabNames characterPrefabName = (CharacterPrefabNames)characterPrefabID;
-        GameObject go = PhotonView.Find(ViewID).gameObject;
-        if (characterPrefab != null)
-        {
-            Destroy(characterPrefab);
-        }
-        characterPrefab = Instantiate(CuteBirdPrefabList.Find(characterPrefabName.ToString()).gameObject, transform);
+        Material newMaterial = CuteBirdPrefabList.Find(characterPrefabName.ToString()).GetChild(0).GetComponent<SkinnedMeshRenderer>().sharedMaterial;
+        characterPrefab.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().sharedMaterial = newMaterial;
         SyncChangeCharacterFace(ViewID, (int)characterFacePrefabName);
     }
     private void OnCharacterPrefabChanged(CharacterPrefabNames value)
     {
         if (photonView.IsMine)
         {
-            photonView.RPC("SyncChangeCharacterPrefab", RpcTarget.All, photonView.ViewID, (int)value);
+            photonView.RPC("SyncChangeCharacterPrefab", RpcTarget.AllBuffered, photonView.ViewID, (int)value);
         }
     }
 
@@ -86,7 +82,7 @@ public class PlayerPrefabManager : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            photonView.RPC("SyncChangeCharacterFace", RpcTarget.All, photonView.ViewID, (int)value);
+            photonView.RPC("SyncChangeCharacterFace", RpcTarget.AllBuffered, photonView.ViewID, (int)value);
         }
     }
 
