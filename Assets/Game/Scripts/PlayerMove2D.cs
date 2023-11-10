@@ -98,7 +98,7 @@ public class PlayerMove2D : MonoBehaviourPun
             jumpSound.Play();  // 점프 효과음 재생
         }
 
-        if (!isGroundedAndRay() && micInput.DB > 0)
+        if (!isGroundedAndRay() && micInput.normalizedDB > 0.5)
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -3.5f));
         }
