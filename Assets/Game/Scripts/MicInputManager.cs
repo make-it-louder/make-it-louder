@@ -91,7 +91,8 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
         {
             soundEventManager.AddPublisher(this);
         }
-        if (GetComponent<PhotonView>().IsMine)
+        PhotonView pv = GetComponent<PhotonView>();
+        if (pv != null && pv.IsMine)
         {
             AudioMixer mixer = Resources.Load<AudioMixer>("Audio/AudioMixer");
             if (mixer == null)
