@@ -85,7 +85,7 @@ public class AchievementScript : MonoBehaviour
 
         int minForChallangeJump100 = 100;
 
-        int maxCharacterAchievement = 15;
+        int maxCharacterAchievement = 14;
 
 
 
