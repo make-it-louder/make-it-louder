@@ -90,11 +90,9 @@ public class MinTimeRanking : MonoBehaviour
             {
                 if (i == 0) // 1등일때 1등 프리팹 사용
                 {
-                    Debug.Log("일단들어옴");
                     GameObject rankItem = Instantiate(rank1, ranksParent);
                     rankItem.transform.Find("Content/NameText").GetComponent<TMP_Text>().text = rankerNick[i];
                     rankItem.transform.Find("Content/PointsText").GetComponent<TMP_Text>().text = ConvertToTime(ranking[rankerId[i]]);
-                    Debug.Log("됐냐?");
 
                 }
                 else if (i == 1) // 2등일때 2등 프리팹 사용
