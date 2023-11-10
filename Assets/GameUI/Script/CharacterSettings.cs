@@ -9,7 +9,8 @@ public class CharacterSettings : MonoBehaviour
 {
     public GameObject characterChangeForm;
     public GameObject otherChangeForm;
-
+    [SerializeField]
+    private CharacterListManager characterListManager;
     FirebaseManager.Profile profile;
 
     public Button[] buttons;
@@ -47,9 +48,9 @@ public class CharacterSettings : MonoBehaviour
         {
             int index = i; // 클로저 문제를 방지하기 위한 지역 변수
             buttons[i].onClick.AddListener(() => OnClickChangeCharacter(index));
+            buttons[i].onClick.AddListener(() => characterListManager.SetMyCharacterPrefabName((CharacterPrefabNames)index));
         }
     }
-
     // 캐릭터창과 꾸미기창 바꾸는 토글
     public void toggleValueChange(bool value)
     {
@@ -72,6 +73,7 @@ public class CharacterSettings : MonoBehaviour
         } else
         {
             e_avatar = btnIndex;
+            profile.e_avatar = btnIndex;
             await RecordManager.Instance.UpdateEquipmentAvatar(btnIndex);
             SearchingMyCharacter(btnIndex);
         }
