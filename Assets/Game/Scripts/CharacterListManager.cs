@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CharacterListManager : MonoBehaviour
 {
+    public delegate void PlayerChangeDelegate();
+    public event PlayerChangeDelegate PlayerChange;
     [SerializeField]
     GameObject mine;
     [SerializeField]
@@ -39,6 +41,7 @@ public class CharacterListManager : MonoBehaviour
             characterList[i] = transform.GetChild(i).gameObject;
         }
         micInputs = transform.GetComponentsInChildren<MicInputManager>();
+        PlayerChange();
     }
 
     public void SetMyCharacterPrefabName(CharacterPrefabNames index)
