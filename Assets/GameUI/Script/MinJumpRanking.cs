@@ -46,7 +46,6 @@ public class MinJumpRanking : MonoBehaviour
         if (snapshot != null)
         {
             string json = snapshot.GetRawJsonValue();
-            Debug.Log(json);
             Dictionary<string, FirebaseManager.Profile> allUsersDict = JsonConvert.DeserializeObject<Dictionary<string, FirebaseManager.Profile>>(json);
             allUsers = allUsersDict.Keys.ToList();
 
@@ -54,6 +53,7 @@ public class MinJumpRanking : MonoBehaviour
             rankerId = RankingManager.Instance.minJumpRank;
             for (int i = 0; i < rankerId.Count; i++)
             {
+                Debug.Log(rankerId[i]);
                 foreach (string user in allUsers)
                 {
                     if (rankerId[i] == user)
@@ -63,7 +63,6 @@ public class MinJumpRanking : MonoBehaviour
                     }
                 }
             }
-            Debug.Log("닉네임 변환 완료2");
             return rankerNicks;
         }
         else
@@ -78,23 +77,21 @@ public class MinJumpRanking : MonoBehaviour
         databaseReference = Instance.GetDatabaseReference();
         rankerNick = await ConvertUserIdToNickName();
         Dictionary<string, int> ranking = RankingManager.Instance.ranking.min_jump;
+        Debug.Log(rankerId.Count);
         UnityMainThreadDispatcher.Instance.ExecuteInUpdate(() =>
         {
             foreach (Transform child in ranksParent)
             {
                 Destroy(child.gameObject); // 기존의 랭킹 UI 제거
             }
-            Debug.Log(rankerNick.Count);
             // 데이터베이스에서 받은 데이터로 랭킹 UI 업데이트
             for (int i = 0; i < rankerNick.Count; i++)
             {
                 if (i == 0) // 1등일때 1등 프리팹 사용
                 {
-                    Debug.Log("일단들어옴2");
                     GameObject rankItem = Instantiate(rank1, ranksParent);
                     rankItem.transform.Find("Content/NameText").GetComponent<TMP_Text>().text = rankerNick[i];
                     rankItem.transform.Find("Content/PointsText").GetComponent<TMP_Text>().text = ranking[rankerId[i]].ToString() + "회";
-                    Debug.Log("됐냐?2");
 
                 }
                 else if (i == 1) // 2등일때 2등 프리팹 사용
