@@ -80,8 +80,8 @@ public class AcheivementManager : MonoBehaviour
         conditions.Add(initialClearCount + playerMove2D.isClear >= 3);  // 9번 3번 클리어
         conditions.Add(initialClearCount + playerMove2D.isClear >= 10);  // 10번 10번 클리어
         conditions.Add(initialClearCount + playerMove2D.isClear >= 102);  // 11번 102번 클리어
-        conditions.Add(initialPlaytime + records["map1"].min_cleartime < 300); // 12번 5분안에 클리어
-        conditions.Add(initialJumpCount + records["map1"].count_minjump < 300); // 13번 300번 점프 안에 클리어
+        conditions.Add(initialPlaytime + records["map1"].min_cleartime < 300 && playerMove2D.isClear == 1); // 12번 5분안에 클리어
+        conditions.Add(initialJumpCount + records["map1"].count_minjump < 300 && playerMove2D.isClear == 1); // 13번 300번 점프 안에 클리어
         int cnt_avatars = 0; 
         for (int i = 0; i < profile.avatars.Count; i++)
         {
