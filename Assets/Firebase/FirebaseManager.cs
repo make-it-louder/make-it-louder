@@ -44,6 +44,7 @@ public class FirebaseManager : MonoBehaviour
             Debug.Log("인스턴스 중복임 Destroy");
             Destroy(gameObject);
         }
+
     }
 
     void Start()

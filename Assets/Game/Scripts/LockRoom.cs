@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class LockRoom : MonoBehaviour
 {
+    [HideInInspector]
     public Room Room;
     public TMP_InputField inputField;
     public TMP_Text wrongPasswordText; // 비밀번호가 틀렸을 때 표시할 텍스트
@@ -12,6 +13,7 @@ public class LockRoom : MonoBehaviour
 
     private void Start()
     {
+        
         wrongPasswordText.gameObject.SetActive(false); // 초기에는 경고 텍스트를 숨깁니다.
     }
 
