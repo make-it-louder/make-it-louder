@@ -21,7 +21,10 @@ public class FadeInObject : MonoBehaviour
         spriteRenderer.color = color;
         cameraTransform = Camera.main.transform;
         backgroundMusicController = GameObject.FindObjectOfType<BackgroundMusicController>();
-        backgroundMusicController.playForest();
+        if (backgroundMusicController != null)
+        {
+            backgroundMusicController.playForest();
+        }
     }
 
     void Update()
@@ -32,7 +35,7 @@ public class FadeInObject : MonoBehaviour
             // 현재 페이드 시간을 증가시키고, 그에 따라 투명도를 계산
             currentFadeTime += Time.deltaTime;
             currentFadeTime = Mathf.Min(currentFadeTime, fadeDuration); // fadeDuration을 초과하지 않도록 함
-            if(backgroundMusicController.isPlay(forest))
+            if(backgroundMusicController != null && backgroundMusicController.isPlay(forest))
             {
                 backgroundMusicController.playCliff();
             }
@@ -42,7 +45,7 @@ public class FadeInObject : MonoBehaviour
         {
             // 카메라가 활성화 높이 아래로 내려갔을 때 투명도를 서서히 감소
             currentFadeTime -= Time.deltaTime;
-            if (backgroundMusicController.isPlay(cliff))
+            if (backgroundMusicController != null && backgroundMusicController.isPlay(cliff))
             {
                 backgroundMusicController.playForest();
             }

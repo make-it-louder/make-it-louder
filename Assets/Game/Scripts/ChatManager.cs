@@ -117,6 +117,7 @@ public class ChatManager : MonoBehaviourPun
 
     public void ActiveChat()
     {
+        SetAlphaOne();
         Image parentImage = GetComponentInParent<Image>();
         if (parentImage != null)
         {
@@ -128,10 +129,10 @@ public class ChatManager : MonoBehaviourPun
         }
         scrollBarVertical.GetComponent<Image>().enabled = true;
         Handle.GetComponent<Image>().enabled = true;
-        SetAlphaOne();
     }
     public void UnActiveChat()
     {
+        SetAlphaZero();
         Image parentImage = GetComponentInParent<Image>();
         if (parentImage != null)
         {
@@ -143,7 +144,6 @@ public class ChatManager : MonoBehaviourPun
         }
         scrollBarVertical.GetComponent<Image>().enabled = false;
         Handle.GetComponent<Image>().enabled = false;
-        SetAlphaZero();
     }
 
     private void SetAlphaZero()
@@ -152,6 +152,7 @@ public class ChatManager : MonoBehaviourPun
         {
             ChatMessage chatMessage = child.GetComponent<ChatMessage>();
             chatMessage.RestartMyCoroutine();
+            chatMessage.savetime += 0.5f;
             if (!chatMessage.IsFadeOutRunning())
             {
                 child.GetComponent<TextMeshProUGUI>().alpha = 0.0f;
