@@ -52919,7 +52919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minHeight: 0
-  maxHeight: 412
+  maxHeight: 436
   sprites:
   - {fileID: 21300000, guid: 591ccfa95b60b3c4d85709ea32b106c4, type: 3}
   - {fileID: 21300000, guid: d60ed0743c815ec4395dc01474bc368f, type: 3}
