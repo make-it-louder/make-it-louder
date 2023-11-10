@@ -15,6 +15,8 @@ public class RankingManager : MonoBehaviour
     public FirebaseManager.Ranking ranking;
     public List<string> cleartimeRank; // 인덱스로 사용할 key값 리스트
     public List<string> minJumpRank; //인덱스로 사용할 key값 리스트
+    public List<string> maxJumpRank;
+    public List<string> addicterRank;
     public static RankingManager Instance
     {
         get
@@ -41,6 +43,8 @@ public class RankingManager : MonoBehaviour
         await GetRanking();
         GetClearTimeRank();
         GetMinJumpRank();
+        GetMaxJumpRank();
+        GetAddicterRank();
     }
 
     public async Task<FirebaseManager.Ranking> GetRanking () //root 필드 ranking
@@ -81,7 +85,7 @@ public class RankingManager : MonoBehaviour
 
     public void GetClearTimeRank () // 클리어타임값을 키값(클리어타임) 순으로 정렬한 리스트 만들기
     {
-        if (ranking.cleartime.Count< 0) { 
+        if (ranking.cleartime.Count > 0) { 
             cleartimeRank = ranking.cleartime.OrderBy(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
         }
         else
@@ -92,9 +96,33 @@ public class RankingManager : MonoBehaviour
     }
     public void GetMinJumpRank() // 점프횟수순위를 키값(클리어타임) 순으로 정렬한 리스트 만들기
     {
-        if (ranking.min_jump.Count < 0)
+        if (ranking.min_jump.Count > 0)
         { 
             minJumpRank = ranking.min_jump.OrderBy(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
+        }
+        else
+        {
+            Debug.Log("랭킹이 아직 없어요");
+
+        }
+    }
+    public void GetMaxJumpRank() // 점프횟수순위를 키값(클리어타임) 순으로 정렬한 리스트 만들기
+    {
+        if (ranking.max_jump.Count > 0)
+        {
+            maxJumpRank = ranking.max_jump.OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
+        }
+        else
+        {
+            Debug.Log("랭킹이 아직 없어요");
+
+        }
+    }
+    public void GetAddicterRank () // 점프횟수순위를 키값(클리어타임) 순으로 정렬한 리스트 만들기
+    {
+        if (ranking.addicter.Count > 0)
+        {
+            addicterRank = ranking.addicter.OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
         }
         else
         {
