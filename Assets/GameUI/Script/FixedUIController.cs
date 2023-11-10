@@ -21,6 +21,7 @@ public class FixedUIController : MonoBehaviour
     public TMP_Text mapName;
 
     public AcheivementManager acheivementManager;
+    bool isIgnored;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +38,10 @@ public class FixedUIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (settingsForm.activeSelf)
+        {
+
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("일단들어옴");
