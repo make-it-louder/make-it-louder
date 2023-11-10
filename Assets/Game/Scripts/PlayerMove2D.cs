@@ -430,7 +430,7 @@ public class PlayerMove2D : MonoBehaviourPun
     {
         GameObject parent = GameObject.Find("CharacterList");
         if (parent != null) {
-            info.photonView.gameObject.transform.parent = parent.transform;
+            transform.parent = parent.transform;
         }
         else
         {
