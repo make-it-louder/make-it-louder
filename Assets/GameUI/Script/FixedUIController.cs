@@ -21,6 +21,7 @@ public class FixedUIController : MonoBehaviour
     public TMP_Text mapName;
 
     public AcheivementManager acheivementManager;
+    bool isIgnored;
     // Start is called before the first frame update
     void Start()
     {

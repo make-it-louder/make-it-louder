@@ -83,7 +83,7 @@ public class MaxJumpRanking : MonoBehaviour
             {
                 Destroy(child.gameObject); // 기존의 랭킹 UI 제거
             }
-            Debug.Log(rankerNick.Count);
+            Debug.Log(rankerNick.Count + "맥점카운트");
             // 데이터베이스에서 받은 데이터로 랭킹 UI 업데이트
             for (int i = 0; i < rankerNick.Count; i++)
             {
