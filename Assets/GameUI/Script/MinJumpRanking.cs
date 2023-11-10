@@ -87,6 +87,7 @@ public class MinJumpRanking : MonoBehaviour
             // 데이터베이스에서 받은 데이터로 랭킹 UI 업데이트
             for (int i = 0; i < rankerNick.Count; i++)
             {
+                if (ranking[rankerId[i]] == 0) continue;
                 if (i == 0) // 1등일때 1등 프리팹 사용
                 {
                     GameObject rankItem = Instantiate(rank1, ranksParent);
