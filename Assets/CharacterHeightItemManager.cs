@@ -65,7 +65,7 @@ public class CharacterHeightItemManager : MonoBehaviourPun
             progress = (height - characterHeightTracker.minHeight) /
                         (characterHeightTracker.maxHeight - characterHeightTracker.minHeight);
             rectTransform.anchoredPosition =
-              new Vector2(parentRect.width / 2, Mathf.Clamp(parentRect.height * progress, 0.0f, parentRect.height));
+              new Vector2(0, Mathf.Clamp(parentRect.height * progress, 0.0f, parentRect.height));
             description.text = $"{Nickname}: {Height: 0.0}m 등반중!";
         }
         if (prevNickname != Nickname)
