@@ -1,3 +1,4 @@
+using UltimateClean;
 using UnityEngine;
 
 public class FadeInObject : MonoBehaviour
@@ -9,7 +10,7 @@ public class FadeInObject : MonoBehaviour
     private float currentFadeTime = 0f; // 현재 페이드 진행 시간
     public AudioClip forest;
     public AudioClip cliff;
-    public AudioSource audioSource;
+    public BackgroundMusicController backgroundMusicController;
     void Start()
     {
         // SpriteRenderer 컴포넌트 참조
@@ -19,6 +20,8 @@ public class FadeInObject : MonoBehaviour
         color.a = 0f;
         spriteRenderer.color = color;
         cameraTransform = Camera.main.transform;
+        backgroundMusicController = GameObject.FindObjectOfType<BackgroundMusicController>();
+        backgroundMusicController.playForest();
     }
 
     void Update()
@@ -29,9 +32,9 @@ public class FadeInObject : MonoBehaviour
             // 현재 페이드 시간을 증가시키고, 그에 따라 투명도를 계산
             currentFadeTime += Time.deltaTime;
             currentFadeTime = Mathf.Min(currentFadeTime, fadeDuration); // fadeDuration을 초과하지 않도록 함
-            if(audioSource.clip == forest)
+            if(backgroundMusicController.isPlay(forest))
             {
-                audioSource.clip = cliff; audioSource.Play();
+                backgroundMusicController.playCliff();
             }
         }
 
@@ -39,9 +42,9 @@ public class FadeInObject : MonoBehaviour
         {
             // 카메라가 활성화 높이 아래로 내려갔을 때 투명도를 서서히 감소
             currentFadeTime -= Time.deltaTime;
-            if (audioSource.clip == cliff)
+            if (backgroundMusicController.isPlay(cliff))
             {
-                audioSource.clip = forest; audioSource.Play();
+                backgroundMusicController.playForest();
             }
         }
 
