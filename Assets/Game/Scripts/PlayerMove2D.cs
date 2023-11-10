@@ -52,10 +52,11 @@ public class PlayerMove2D : MonoBehaviourPun
         jumpSound = GetComponent<AudioSource>(); // 점프사운드 정의
 
         GameObject windEffector = GameObject.FindGameObjectWithTag("windEffector");
-        if(windEffector != null)
+        if (windEffector != null)
         {
             effector = windEffector.GetComponent<AreaEffector2D>();
         }
+        SetParent();
     }
     public float playTime = 0f;
 
@@ -74,7 +75,7 @@ public class PlayerMove2D : MonoBehaviourPun
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(!photonView.IsMine){ return; }
+        if (!photonView.IsMine) { return; }
 
         if (inputH != 0 && !IgnoreInput && !isChatting)
         {
@@ -136,7 +137,7 @@ public class PlayerMove2D : MonoBehaviourPun
         }
         inputV = Input.GetAxis("Jump");
         inputH = Input.GetAxis("Horizontal");
-            
+
         playTime += Time.deltaTime;
         UpdatePlayTimeUI();
 
@@ -206,7 +207,7 @@ public class PlayerMove2D : MonoBehaviourPun
         photonView.RPC("SyncSetDirection", RpcTarget.Others, renderer.ViewDirection, renderer.ViewFront);
         photonView.RPC("SyncSetEmotion", RpcTarget.Others, isHappy, isDamage, isHello);
     }
-    
+
     void UpdateJumpCountUI()
     {
         if (jumpCountText != null)
@@ -214,7 +215,7 @@ public class PlayerMove2D : MonoBehaviourPun
             jumpCountText.text = "JumpCount: " + jumpCount;
         }
     }
-    
+
     void UpdatePlayTimeUI()
     {
         int minutes = (int)(playTime / 60);
@@ -226,7 +227,7 @@ public class PlayerMove2D : MonoBehaviourPun
     }
 
 
-    
+
     void ChangeSkyboxMaterial()
     {
         float currentY = transform.position.y;
@@ -257,7 +258,7 @@ public class PlayerMove2D : MonoBehaviourPun
         }
     }
 
-    
+
     void SmoothSkyboxTransition()
     {
         if (lerpValue < 1f && targetSkyboxMaterial != null)
@@ -303,7 +304,7 @@ public class PlayerMove2D : MonoBehaviourPun
         Debug.DrawRay(feetRight, -transform.up * rayLength, Color.red);
 
         // 레이캐스트가 왼쪽 끝이나 오른쪽 끝 중 어느 한 곳에서라도 무언가에 부딪혔는지 확인합니다.
-        return (hitLeft.collider != null || hitRight.collider != null || hitPlayerleft.collider !=null || hitPlayerRight.collider != null);
+        return (hitLeft.collider != null || hitRight.collider != null || hitPlayerleft.collider != null || hitPlayerRight.collider != null);
 
     }
 
@@ -392,7 +393,11 @@ public class PlayerMove2D : MonoBehaviourPun
     async void OnPlayerEnter()
     {
         if (isClear == 1) return;
-        else { 
+        else {
+            if (!photonView.IsMine)
+            {
+                return;
+            }
             isClear = 1;
             Debug.Log("골인");
             Popup copy = Instantiate(clearPopup, clearPopup.transform.parent);
@@ -401,8 +406,25 @@ public class PlayerMove2D : MonoBehaviourPun
             string userId = RecordManager.Instance.currentId;
             await RecordManager.Instance.UpdateClearRecords("map1", jumpCount, playTime); // 최소점프, 최소 클리어타임 업데이트
             await RecordManager.Instance.UpdateEndGameData("map1", playTime, jumpCount, 0); // 이 방에서의 기록 중간업데이트
-            RankingManager.Instance.UpdateClearTimeRank(playTime, userId); // 클리어했으니 클리어타임 랭킹 업데이트
-            RankingManager.Instance.UpdateMinJumpRank(jumpCount, userId); // 클리어했으니 점프랭킹 업데이트
+            await RankingManager.Instance.UpdateClearTimeRank(playTime, userId); // 클리어했으니 클리어타임 랭킹 업데이트
+            await RankingManager.Instance.UpdateMinJumpRank(jumpCount, userId); // 클리어했으니 점프랭킹 업데이트
+        }
+    }
+
+    public void SetParent()
+    {
+        photonView.RPC("SyncSetParent", RpcTarget.AllBuffered);
+    }
+    [PunRPC]
+    void SyncSetParent(PhotonMessageInfo info)
+    {
+        GameObject parent = GameObject.Find("CharacterList");
+        if (parent != null) {
+            info.photonView.gameObject.transform.parent = parent.transform;
+        }
+        else
+        {
+            Debug.LogError("Cannot find parent");
         }
     }
 }

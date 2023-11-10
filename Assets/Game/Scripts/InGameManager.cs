@@ -7,12 +7,18 @@ using UnityEngine;
 
 public class InGameManager : MonoBehaviour
 {
-    GameObject spawnedPlayer;
-    public GameObject playerPrefab;
-    public Vector3 spawnPoint;
-    public FixedUIController controller;
-    public AcheivementManager acvmtController;
-    public Popup clearPopup;
+    [SerializeField]
+    private GameObject spawnedPlayer;
+    [SerializeField]
+    private GameObject playerPrefab;
+    [SerializeField]
+    private Vector3 spawnPoint;
+    [SerializeField]
+    private FixedUIController controller;
+    [SerializeField]
+    private AcheivementManager acvmtController;
+    [SerializeField]
+    private Popup clearPopup;
     void Start()
     {
         if (!PhotonNetwork.IsConnected)
@@ -57,7 +63,6 @@ public class InGameManager : MonoBehaviour
         playerMoveBehavior.jumpCountText = jumpCountText;
         playerMoveBehavior.playTimeText = playTimeText;
         playerMoveBehavior.clearPopup = clearPopup;
-
         controller.player = spawnedPlayer;
         acvmtController.player = spawnedPlayer;
         yield break;

@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
+using UnityEngine.UI;
+using Photon.Pun;
 
 public class SignSystem : MonoBehaviour
 {
@@ -18,6 +20,9 @@ public class SignSystem : MonoBehaviour
     public GameObject popupWindow;
     public TMP_Text popupTitle;
     public TMP_Text popupContent;
+
+    public Button loginButton; // 에디터에서 할당
+    public Button signupButton; // 에디터에서 할당
 
     public GameObject loadingSpinner;
     // Start is called before the first frame update
@@ -41,6 +46,16 @@ public class SignSystem : MonoBehaviour
             else if (username != null && confirmpassword.isFocused )
             {
                 username.ActivateInputField();
+            }
+        } else if (Input.GetKeyDown(KeyCode.Return))
+        {
+            if (loginForm.activeSelf == true)
+            {
+                loginButton.onClick.Invoke();
+            }
+            else if (signupForm.activeSelf == true)
+            {
+                signupButton.onClick.Invoke();
             }
         }
     }
@@ -133,6 +148,8 @@ public class SignSystem : MonoBehaviour
     {
         loadingSpinner.SetActive(true);
         FirebaseManager.Instance.SignIn(email.text, password.text, SignInCallback);
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     private void SignInCallback(bool flag)
@@ -140,14 +157,18 @@ public class SignSystem : MonoBehaviour
         loadingSpinner.SetActive(false);
         if (flag)
         {
-            SceneManager.LoadScene("LobbyTest");
+            StartCoroutine(JoinLobbyAfterPhotonConnection());
         }
         else
         {
             OpenPopup("실패", "메일주소/비밀번호를 확인해주세요!");
         }
     }
-
+    private IEnumerator JoinLobbyAfterPhotonConnection()
+    {
+        yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
+        SceneManager.LoadScene("LobbyTest");
+    }
     //
     public void SignOut()
     {

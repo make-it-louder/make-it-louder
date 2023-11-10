@@ -10,7 +10,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject RoomListContainer;
     RoomListManager roomListManager;
 
-    
+
     private void Start()
     {
         if (RoomListContainer == null)
@@ -18,11 +18,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             Debug.LogError("RoomListContainer is null");
         }
         roomListManager = new RoomListManager(this, RoomListContainer);
-        if (PhotonNetwork.IsConnected)
-        {
-            PhotonNetwork.JoinLobby();
-            return;
-        }
         FirebaseManager.Profile profile;
         profile = RecordManager.Instance?.UserProfile;
         if (profile == null)
@@ -33,14 +28,43 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.NickName = profile.username;
         }
-        PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.ConnectUsingSettings();
+
+        if (PhotonNetwork.IsConnected)
+        {
+            StartCoroutine(JoinLobby());
+            return;
+        }
+        else
+        {
+            PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.ConnectUsingSettings();
+        }
     }
-    
+
+    private System.Collections.IEnumerator JoinLobby()
+    {
+        float startTime = Time.time;
+        Debug.Log("Call JoinLobby");
+        yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady || Time.time - startTime > 10.0f);
+        yield return new WaitUntil(() => PhotonNetwork.NetworkClientState == ClientState.ConnectedToMasterServer || Time.time - startTime > 10.0f);
+        if (Time.time - startTime > 10.0f)
+        {
+            Debug.LogError("Failed to join lobby: Timeout");
+            yield break;
+        }
+        if (PhotonNetwork.InLobby || PhotonNetwork.NetworkClientState == ClientState.JoiningLobby)
+        {
+            yield break;
+        }
+        else
+        {
+            PhotonNetwork.JoinLobby();
+        }
+    }
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to master");
-        PhotonNetwork.JoinLobby();
+        StartCoroutine(JoinLobby());
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
