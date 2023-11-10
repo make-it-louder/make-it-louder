@@ -44,7 +44,7 @@ public class PlayerPrefabManager : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            photonView.RPC("SyncChangeCharacterPrefab", RpcTarget.All, photonView.ViewID, (int)value);
+            photonView.RPC("SyncChangeCharacterPrefab", RpcTarget.AllBuffered, photonView.ViewID, (int)value);
         }
     }
 
@@ -82,7 +82,7 @@ public class PlayerPrefabManager : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            photonView.RPC("SyncChangeCharacterFace", RpcTarget.All, photonView.ViewID, (int)value);
+            photonView.RPC("SyncChangeCharacterFace", RpcTarget.AllBuffered, photonView.ViewID, (int)value);
         }
     }
 
