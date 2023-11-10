@@ -50618,7 +50618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Room: {fileID: 0}
   inputField: {fileID: 1846766236}
-  wrongPasswordText: {fileID: 0}
+  wrongPasswordText: {fileID: 1815667461}
   lobbyManager: {fileID: 319632818}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
