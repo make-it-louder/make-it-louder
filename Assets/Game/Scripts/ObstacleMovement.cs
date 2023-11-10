@@ -12,6 +12,7 @@ public class ObstacleMover : MonoBehaviourPun
     public float speed = 1.0f; // 이동 속도
     private float timer = 0.0f;
     public float velocityRate = 1.0f;
+    public float soundsensitivity = 0.01f;
     void Start()
     {
         if (targetChild == null)
@@ -36,7 +37,7 @@ public class ObstacleMover : MonoBehaviourPun
         }
         if (timer > 1000) timer -= Mathf.Floor(timer / (2 * Mathf.PI)) * (2 * Mathf.PI);
 
-        if (input.normalizedDB > 0.01f)
+        if (input.normalizedDB > soundsensitivity)
         {
             timer += speed * Time.deltaTime * velocityRate;
         }
