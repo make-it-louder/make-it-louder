@@ -60,10 +60,11 @@ public class MinTimeRanking : MonoBehaviour
                     {
                         cnt++;
                         rankerNicks.Add(allUsersDict[user].username);
+                        break;
                     }
                 }
             }
-            Debug.Log("닉네임 변환 완료");
+            Debug.Log("최소시간 닉 변환완료");
             return rankerNicks;
         }
         else
@@ -78,6 +79,8 @@ public class MinTimeRanking : MonoBehaviour
         databaseReference = Instance.GetDatabaseReference();
         rankerNick = await ConvertUserIdToNickName();
         Dictionary<string, float> ranking = RankingManager.Instance.ranking.cleartime;
+        Debug.Log(rankerNick.Count + "민탐 랭커닉네임개수");
+        Debug.Log(ranking.Count + "민탐 랭킹 유저아이디 개수");
         UnityMainThreadDispatcher.Instance.ExecuteInUpdate(() =>
         {
             foreach (Transform child in ranksParent)
