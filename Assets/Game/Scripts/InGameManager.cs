@@ -18,6 +18,8 @@ public class InGameManager : MonoBehaviour
     private AcheivementManager acvmtController;
     [SerializeField]
     private Popup clearPopup;
+    [SerializeField]
+    private CharacterListManager characterListManager;
     void Start()
     {
         if (!PhotonNetwork.IsConnected)
@@ -65,6 +67,8 @@ public class InGameManager : MonoBehaviour
         playerMoveBehavior.jumpCountText = jumpCountText;
         playerMoveBehavior.playTimeText = playTimeText;
         playerMoveBehavior.clearPopup = clearPopup;
+
+        characterListManager.Mine = spawnedPlayer;
         controller.player = spawnedPlayer;
         acvmtController.player = spawnedPlayer;
         yield break;
