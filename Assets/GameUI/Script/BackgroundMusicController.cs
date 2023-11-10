@@ -8,6 +8,9 @@ public class BackgroundMusicController : MonoBehaviour
     public AudioClip lobby;
     public AudioClip forest;
     public AudioClip cliff;
+    public float lobbyVol = 0.08f;
+    public float forestVol = 0.2f;
+    public float cliffVol = 0.2f;
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -21,18 +24,24 @@ public class BackgroundMusicController : MonoBehaviour
 
     public void playForest()
     {
-        audioSource.clip = forest; audioSource.Play();
+        audioSource.clip = forest;
+        audioSource.volume = forestVol;
+        audioSource.Play();
     }
 
 
     public void playCliff()
     {
-        audioSource.clip = cliff; audioSource.Play();
+        audioSource.clip = cliff;
+        audioSource.volume = cliffVol;
+        audioSource.Play();
     }
 
     public void playLobby()
     {
-        audioSource.clip = lobby; audioSource.Play();
+        audioSource.clip = lobby;
+        audioSource.volume = lobbyVol;
+        audioSource.Play();
     }
     public bool isPlay(AudioClip clip)
     {
