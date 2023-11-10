@@ -81,7 +81,7 @@ public class RankingManager : MonoBehaviour
 
     public void GetClearTimeRank () // 클리어타임값을 키값(클리어타임) 순으로 정렬한 리스트 만들기
     {
-        if (ranking.cleartime.Count< 0) { 
+        if (ranking.cleartime.Count > 0) { 
             cleartimeRank = ranking.cleartime.OrderBy(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
         }
         else
@@ -92,7 +92,7 @@ public class RankingManager : MonoBehaviour
     }
     public void GetMinJumpRank() // 점프횟수순위를 키값(클리어타임) 순으로 정렬한 리스트 만들기
     {
-        if (ranking.min_jump.Count < 0)
+        if (ranking.min_jump.Count > 0)
         { 
             minJumpRank = ranking.min_jump.OrderBy(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
         }
