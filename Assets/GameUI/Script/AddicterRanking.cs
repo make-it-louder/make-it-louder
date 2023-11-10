@@ -60,10 +60,11 @@ public class AddicterRanking : MonoBehaviour
                     {
                         cnt++;
                         rankerNicks.Add(allUsersDict[user].username);
+                        break;
                     }
                 }
             }
-            Debug.Log("닉네임 변환 완료");
+            Debug.Log("중독자 닉네임 변환완료");
             return rankerNicks;
         }
         else

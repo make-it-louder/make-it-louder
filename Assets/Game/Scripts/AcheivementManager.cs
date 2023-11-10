@@ -12,7 +12,6 @@ public class AcheivementManager : MonoBehaviour
 
     // player using
     public GameObject player;
-    PlayerMove2D playerMove2D;
     // 업적달성 계산을 위한 초기 데이터
     float initialPlaytime;
     int initialJumpCount;
@@ -24,13 +23,6 @@ public class AcheivementManager : MonoBehaviour
     void Start()
     {
         GetUserData();
-        if (player != null) 
-        { 
-        playerMove2D = player.GetComponent<PlayerMove2D>();
-        } else
-        {
-            Debug.Log("플레이어 찾을 수 없음");
-        }
         initialPlaytime = records["map1"].playtime;
         initialJumpCount = records["map1"].count_jump;
         initialClearCount = records["map1"].count_clear;
@@ -41,7 +33,6 @@ public class AcheivementManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
     //Profile, Record 테이블 할당
     private void GetUserData ()
@@ -52,7 +43,6 @@ public class AcheivementManager : MonoBehaviour
 
     public async Task UpdateAllAcheivement ()
     {
-        Debug.Log("실행됨");
         AddConditions();
 
         for (int i = 1; i < initialAchevements.Count; i++)
@@ -61,20 +51,21 @@ public class AcheivementManager : MonoBehaviour
             if (conditions[i-1])
             {
                 await RecordManager.Instance.UpdateNewAvatar(i);
-                Debug.Log(i + "번째 업적 업데이트함");
+                Debug.Log(i + "번째 업적 업데이트");
             }
         }
     }
 
     public void AddConditions ()
     {
-        Debug.Log("조건넣는중");
+        PlayerMove2D playerMove2D = player.GetComponent<PlayerMove2D>();
+
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 100); // 1번 점프 100번
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 1000); // 2번 점프 1000번
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 3000); // 3번 점프 3000번
         conditions.Add(initialJumpCount + playerMove2D.jumpCount >= 10000); // 4번 점프 10000번
-        conditions.Add(initialPlaytime + playerMove2D.playTime >= 300); // 5번 플레이타임 5분
-        conditions.Add(initialPlaytime + playerMove2D.playTime >= 1800); // 6번 플레이타임 30분
+        conditions.Add(initialPlaytime + playerMove2D.playTime >= 60); // 5번 플레이타임 1분
+        conditions.Add(initialPlaytime + playerMove2D.playTime >= 600); // 6번 플레이타임 10분
         conditions.Add(initialPlaytime + playerMove2D.playTime >= 3600);  // 7번 플레이타임 1시간
         conditions.Add(initialClearCount + playerMove2D.isClear >= 1);  // 8번 최초클리어
         conditions.Add(initialClearCount + playerMove2D.isClear >= 3);  // 9번 3번 클리어

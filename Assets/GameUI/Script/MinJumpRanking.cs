@@ -60,6 +60,7 @@ public class MinJumpRanking : MonoBehaviour
                     {
                         cnt++;
                         rankerNicks.Add(allUsersDict[user].username);
+                        break;
                     }
                 }
             }
@@ -77,7 +78,6 @@ public class MinJumpRanking : MonoBehaviour
         databaseReference = Instance.GetDatabaseReference();
         rankerNick = await ConvertUserIdToNickName();
         Dictionary<string, int> ranking = RankingManager.Instance.ranking.min_jump;
-        Debug.Log(rankerId.Count);
         UnityMainThreadDispatcher.Instance.ExecuteInUpdate(() =>
         {
             foreach (Transform child in ranksParent)
