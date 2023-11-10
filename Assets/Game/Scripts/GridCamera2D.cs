@@ -9,7 +9,7 @@ public class GridCamera2D : MonoBehaviour
     [SerializeField]
     private BoxCollider2D currentBounds;  // Current bounds
     [SerializeField]
-    private float depth = -10;
+    private float depth = -1000;
     [SerializeField]
     [Range(0.1f, 10)]
     private float transitionSpeedX;
