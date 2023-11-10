@@ -37,7 +37,8 @@ public class CharacterHeightItemManager : MonoBehaviourPun
     void SyncSetTarget(int ViewID, PhotonMessageInfo info)
     {
         GameObject target = PhotonView.Find(ViewID).gameObject;
-        SetTarget(target);
+        this.target = target;
+        this.playerPrefabManager = target.GetComponentInChildren<PlayerPrefabManager>();
     }
     
     private float prevHeight = 0;
