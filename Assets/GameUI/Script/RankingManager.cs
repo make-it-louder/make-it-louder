@@ -111,6 +111,7 @@ public class RankingManager : MonoBehaviour
         if (ranking.max_jump.Count > 0)
         {
             maxJumpRank = ranking.max_jump.OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
+            Debug.Log(maxJumpRank.Count);
         }
         else
         {

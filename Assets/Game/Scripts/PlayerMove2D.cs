@@ -138,6 +138,16 @@ public class PlayerMove2D : MonoBehaviourPun
         inputV = Input.GetAxis("Jump");
         inputH = Input.GetAxis("Horizontal");
 
+        if (inputH != 0)
+        {
+            isHappy = false;
+            isDamage = false;
+            isHello = false;
+            renderer.SetAnimatorBool("isHappy", false);
+            renderer.SetAnimatorBool("isDamage", false);
+            renderer.SetAnimatorBool("isHello", false);
+            renderer.ViewFront = false;
+        }
         playTime += Time.deltaTime;
         UpdatePlayTimeUI();
 
@@ -317,17 +327,17 @@ public class PlayerMove2D : MonoBehaviourPun
         {
             case "isHappy":
                 isHappy = false;
-                renderer.SetAnimatorBool("isHappy", isHappy);
                 break;
             case "isDamage":
                 isDamage = false;
-                renderer.SetAnimatorBool("isDamage", isDamage);
                 break;
             case "isHello":
                 isHello = false;
-                renderer.SetAnimatorBool("isHello", isHello);
                 break;
         }
+        renderer.SetAnimatorBool("isHappy", false);
+        renderer.SetAnimatorBool("isDamage",false);
+        renderer.SetAnimatorBool("isHello", false);
         photonView.RPC("SyncSetEmotion", RpcTarget.Others, isHappy, isDamage, isHello);
         renderer.ViewFront = false;
         photonView.RPC("SyncSetDirection", RpcTarget.Others, renderer.ViewDirection, renderer.ViewFront);

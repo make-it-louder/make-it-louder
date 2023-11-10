@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterListManager : MonoBehaviour
 {
+    [SerializeField]
+    GameObject mine;
     [SerializeField]
     GameObject[] characterList;
     [SerializeField]
@@ -15,6 +18,11 @@ public class CharacterListManager : MonoBehaviour
     public MicInputManager[] MicInputs
     {
         get { return micInputs; }
+    }
+    public GameObject Mine
+    {
+        get { return mine; }
+        set { mine = value; }
     }
     // Start is called before the first frame update
     void Start()
@@ -31,5 +39,18 @@ public class CharacterListManager : MonoBehaviour
             characterList[i] = transform.GetChild(i).gameObject;
         }
         micInputs = transform.GetComponentsInChildren<MicInputManager>();
+    }
+
+    public void SetMyCharacterPrefabName(CharacterPrefabNames index)
+    {
+        StartCoroutine(WaitCharacterLoad(()=>
+        {
+            mine.GetComponentInChildren<PlayerPrefabManager>().CharacterPrefabName = index;
+        }));
+    }
+    private IEnumerator WaitCharacterLoad(Action callback)
+    {
+        yield return new WaitUntil(() => Mine != null);
+        callback();
     }
 }

@@ -66,11 +66,10 @@ class RoomBuilder
             JoinButton.onClick.AddListener(() =>
             {
                 Debug.Log("Password");
-                Tp tp = GameObject.FindObjectOfType<Canvas>().GetComponents<Tp>()[3];
-                LockRoom lockRoom = tp.popup.gameObject.GetComponent<LockRoom>();
+                PopupManager popupmanager = GameObject.FindObjectOfType<Canvas>().GetComponent<PopupManager>();
+                LockRoom lockRoom = popupmanager.popups[1].gameObject.GetComponent<LockRoom>();
                 lockRoom.Room = room;
-                tp.OpenPopup(); 
-                
+                popupmanager.OpenPopup(1);
             });
         }
         return result;

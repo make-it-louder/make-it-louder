@@ -33,7 +33,7 @@ public class CharacterManager : MonoBehaviour
 
         // 현재 캐릭터 인덱스 업데이트
         currentCharacterIndex = characterIndex;
-
+        RecordManager.Instance.UserProfile.e_avatar = characterIndex;
         // Firebase에 아바타 인덱스 업데이트
         UpdateAvatarIndexInFirebase(characterIndex);
     }

@@ -85,7 +85,7 @@ public class AchievementScript : MonoBehaviour
 
         int minForChallangeJump100 = 100;
 
-        int maxCharacterAchievement = 15;
+        int maxCharacterAchievement = 14;
 
 
 
@@ -219,11 +219,20 @@ public class AchievementScript : MonoBehaviour
         icon.SetActive(currentMinutes >= maxMinutes);
     }
     ////////////////////////
-    
+
     private void UpdateMinTimeAchievment(double Min_clearsecond)
     {
-        int minutes = (int)(Min_clearsecond / 60); // 플레이 타임을 분으로 변환
-        UpdateAchievementChallengeMinTime(ChallangeTime15, ChallangeTime15icon, minutes, 15);
+        // 클리어하지 않은 상태일 때 예외 처리
+        if (Min_clearsecond == 0)
+        {
+            ChallangeTime15.text = "클리어 기록 없음";
+            ChallangeTime15icon.SetActive(false); // 아이콘을 비활성화
+        }
+        else
+        {
+            int minutes = (int)(Min_clearsecond / 60);
+            UpdateAchievementChallengeMinTime(ChallangeTime15, ChallangeTime15icon, minutes, 15);
+        }
     }
 
     private void UpdateAchievementChallengeMinTime(TMP_Text achieveText, GameObject icon, int currentMinutes, int minMinutes)
@@ -243,12 +252,20 @@ public class AchievementScript : MonoBehaviour
         icon.SetActive(currentNum >= maxNum);
     }
 
-    private void UpdateAchievementChallangeJump(TMP_Text achieveText, GameObject icon, int MinCurrentClaerJump, int minForChallangeJump100)
+private void UpdateAchievementChallangeJump(TMP_Text achieveText, GameObject icon, int MinCurrentClearJump, int minForChallangeJump100)
+{
+    // 클리어하지 않은 상태일 때 예외 처리
+    if (MinCurrentClearJump == 0)
     {
-        achieveText.text = string.Format("현재달성도 [{0:N0}/{1:N0}]", Mathf.Max(MinCurrentClaerJump, minForChallangeJump100), minForChallangeJump100);
-
-        icon.SetActive(minForChallangeJump100 >= MinCurrentClaerJump);
+        achieveText.text = "클리어 기록 없음";
+        icon.SetActive(false); // 아이콘을 비활성화
     }
+    else
+    {
+        achieveText.text = string.Format("현재달성도 [{0:N0}/{1:N0}]", Mathf.Max(MinCurrentClearJump, minForChallangeJump100), minForChallangeJump100);
+        icon.SetActive(minForChallangeJump100 >= MinCurrentClearJump);
+    }
+}
 
 
 }
