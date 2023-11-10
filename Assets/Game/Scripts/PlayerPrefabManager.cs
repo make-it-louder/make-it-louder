@@ -15,6 +15,7 @@ public class PlayerPrefabManager : MonoBehaviourPun
     [SerializeField]
     private CharacterPrefabNames characterPrefabNameInspector;
     private CharacterPrefabNames characterPrefabName;
+    private BlinkingObject blinkingObject;
     public CharacterPrefabNames CharacterPrefabName
     {
         get
@@ -38,6 +39,7 @@ public class PlayerPrefabManager : MonoBehaviourPun
         CharacterPrefabNames characterPrefabName = (CharacterPrefabNames)characterPrefabID;
         Material newMaterial = CuteBirdPrefabList.Find(characterPrefabName.ToString()).GetChild(0).GetComponent<SkinnedMeshRenderer>().sharedMaterial;
         characterPrefab.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().sharedMaterial = newMaterial;
+        blinkingObject.ChangeMaterial(newMaterial);
         SyncChangeCharacterFace(ViewID, (int)characterFacePrefabName);
     }
     private void OnCharacterPrefabChanged(CharacterPrefabNames value)
@@ -93,6 +95,7 @@ public class PlayerPrefabManager : MonoBehaviourPun
         CharacterFacePrefabName = characterFacePrefabName;
         CharacterPrefabName = characterPrefabName;
         characterPrefab = transform.GetChild(0).gameObject;
+        blinkingObject = transform.GetComponentInParent<BlinkingObject>();
     }
 
     void OnValidate()

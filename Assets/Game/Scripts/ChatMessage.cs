@@ -12,7 +12,7 @@ public class ChatMessage : MonoBehaviour
     public float fadeDuration = 2.0f; // 페이드 아웃 지속 시간 (초)
     private bool isFadingOut = false;
     private float saveAlpha = 1.0f;
-    private float savetime = 0.0f;
+    public float savetime = 0.0f;
     private Coroutine myCoroutine;
     private bool stop = false;
     void Awake()
@@ -71,7 +71,7 @@ public class ChatMessage : MonoBehaviour
             if (time > delay)
             {
                 // 시간에 따라 알파값을 감소시킵니다.
-                saveAlpha = Mathf.Lerp(startAlpha, 0, ((time - delay) / duration));
+                saveAlpha = Mathf.Lerp(1, 0, ((time - delay) / duration));
                 tmpText.alpha = saveAlpha;
             }
             yield return null; // 다음 프레임까지 기다립니다.
@@ -81,6 +81,7 @@ public class ChatMessage : MonoBehaviour
         // 최종 알파값을 0으로 설정하여 완전히 투명하게 만듭니다.
         tmpText.alpha = 0;
         isFadingOut = false;
+        Debug.Log(tmpText.text);
     }
 
     public bool IsFadeOutRunning()
