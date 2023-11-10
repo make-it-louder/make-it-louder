@@ -72,6 +72,7 @@ public class CharacterSettings : MonoBehaviour
             return;
         } else
         {
+            Debug.Log(btnIndex);
             e_avatar = btnIndex;
             profile.e_avatar = btnIndex;
             await RecordManager.Instance.UpdateEquipmentAvatar(btnIndex);
