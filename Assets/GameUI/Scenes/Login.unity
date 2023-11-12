@@ -2637,6 +2637,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cleartimeRank: []
   minJumpRank: []
+  maxJumpRank: []
+  addicterRank: []
 --- !u!4 &499009456
 Transform:
   m_ObjectHideFlags: 0

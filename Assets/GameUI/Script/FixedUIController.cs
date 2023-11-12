@@ -128,7 +128,10 @@ public class FixedUIController : MonoBehaviour
         int countFall = 0;
         loadingSpinner.SetActive(true);
         BackgroundMusicController backgroundMusicController = GameObject.FindObjectOfType<BackgroundMusicController>();
-        backgroundMusicController.playLobby();
+        if(backgroundMusicController != null )
+        {
+            backgroundMusicController.playLobby();
+        }
         await RecordManager.Instance.UpdateEndGameData("map1", playTime, countJump, countFall);
         // 포톤 로비연결 끊는 로직 추가해야함.
 
@@ -147,8 +150,36 @@ public class FixedUIController : MonoBehaviour
         SceneManager.LoadSceneAsync("LobbyTest");
     }
 
-    public void QuitGame ()
+    public async void QuitGame ()
     {
+        PlayerMove2D playerMove2D = player.GetComponent<PlayerMove2D>();
+        float playTime = playerMove2D.playTime;
+        int countJump = playerMove2D.jumpCount;
+        int countFall = 0;
+        loadingSpinner.SetActive(true);
+        BackgroundMusicController backgroundMusicController = GameObject.FindObjectOfType<BackgroundMusicController>();
+        backgroundMusicController.playLobby();
+        await RecordManager.Instance.UpdateEndGameData("map1", playTime, countJump, countFall);
+        // 포톤 로비연결 끊는 로직 추가해야함.
+
+        if (acheivementManager != null)
+        {
+            Debug.Log("acvm 있어요");
+            await acheivementManager.UpdateAllAcheivement();
+        }
+        else
+        {
+            Debug.Log("acvm이 없어요");
+        }
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
         Application.Quit();
+    }
+    public void Logout ()
+    {
+        FirebaseManager.Instance.SignOut();
+        SceneManager.LoadScene("Login");
     }
 }
