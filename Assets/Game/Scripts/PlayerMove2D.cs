@@ -39,7 +39,7 @@ public class PlayerMove2D : MonoBehaviourPun
     private float emotionDuration = 3f; // 감정 상태가 지속되는 시간
 
     public Popup clearPopup;
-
+    public AcheivementManager acheivementManager;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -418,6 +418,15 @@ public class PlayerMove2D : MonoBehaviourPun
             await RecordManager.Instance.UpdateEndGameData("map1", playTime, jumpCount, 0); // 이 방에서의 기록 중간업데이트
             await RankingManager.Instance.UpdateClearTimeRank(playTime, userId); // 클리어했으니 클리어타임 랭킹 업데이트
             await RankingManager.Instance.UpdateMinJumpRank(jumpCount, userId); // 클리어했으니 점프랭킹 업데이트
+            if (acheivementManager != null)
+            {
+                Debug.Log("acvm 있어요");
+                await acheivementManager.UpdateAllAcheivement();
+            }
+            else
+            {
+                Debug.Log("acvm이 없어요");
+            }
         }
     }
 
