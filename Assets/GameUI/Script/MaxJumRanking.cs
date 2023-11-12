@@ -74,6 +74,7 @@ public class MaxJumpRanking : MonoBehaviour
 
     public async void ShowUIRanking()
     {
+        databaseReference = FirebaseManager.Instance.GetDatabaseReference();
         await RankingManager.Instance.GetMaxJumpRank();
         rankerNick = await ConvertUserIdToNickName();
         Dictionary<string, int> ranking = RankingManager.Instance.ranking.max_jump;

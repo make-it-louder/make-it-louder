@@ -76,6 +76,7 @@ public class AddicterRanking : MonoBehaviour
 
     public async void ShowUIRanking()
     {
+        databaseReference = FirebaseManager.Instance.GetDatabaseReference();
         await RankingManager.Instance.GetAddicterRank();
         rankerNick = await ConvertUserIdToNickName();
         Dictionary<string, float> ranking = RankingManager.Instance.ranking.addicter;
@@ -135,7 +136,7 @@ public class AddicterRanking : MonoBehaviour
         TimeSpan toTime = TimeSpan.FromSeconds(intPart);
 
         // 시간 형식 문자열로 변환
-        string timeFormat = string.Format("{0:D2}:{1:D2}:{2:D2}:{3:D2}",
+        string timeFormat = string.Format("{0:D2}:{1:D2}:{2:D2}.<size=70%>{3:D2}</size>",
             (int)toTime.TotalHours, // 시간
             toTime.Minutes,         // 분
             toTime.Seconds,         // 초
