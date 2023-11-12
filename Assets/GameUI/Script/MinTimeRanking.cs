@@ -76,6 +76,7 @@ public class MinTimeRanking : MonoBehaviour
 
     public async void ShowUIRanking ()
     {
+        databaseReference = FirebaseManager.Instance.GetDatabaseReference();
         await RankingManager.Instance.GetClearTimeRank();
         rankerNick = await ConvertUserIdToNickName();
         Dictionary<string, float> ranking = RankingManager.Instance.ranking.cleartime;

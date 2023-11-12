@@ -76,6 +76,7 @@ public class AddicterRanking : MonoBehaviour
 
     public async void ShowUIRanking()
     {
+        databaseReference = FirebaseManager.Instance.GetDatabaseReference();
         await RankingManager.Instance.GetAddicterRank();
         rankerNick = await ConvertUserIdToNickName();
         Dictionary<string, float> ranking = RankingManager.Instance.ranking.addicter;
