@@ -75,7 +75,8 @@ public class MinJumpRanking : MonoBehaviour
 
     public async void ShowUIRanking()
     {
-        databaseReference = Instance.GetDatabaseReference();
+        databaseReference = FirebaseManager.Instance.GetDatabaseReference();
+        await RankingManager.Instance.GetMinJumpRank();
         rankerNick = await ConvertUserIdToNickName();
         Dictionary<string, int> ranking = RankingManager.Instance.ranking.min_jump;
         UnityMainThreadDispatcher.Instance.ExecuteInUpdate(() =>

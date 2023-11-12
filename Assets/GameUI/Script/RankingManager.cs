@@ -41,10 +41,10 @@ public class RankingManager : MonoBehaviour
     {
         databaseReference = FirebaseManager.Instance.GetDatabaseReference();
         await GetRanking();
-        GetClearTimeRank();
-        GetMinJumpRank();
-        GetMaxJumpRank();
-        GetAddicterRank();
+        await GetClearTimeRank();
+        await GetMinJumpRank();
+        await GetMaxJumpRank();
+        await GetAddicterRank();
     }
 
     public async Task<FirebaseManager.Ranking> GetRanking () //root 필드 ranking
@@ -83,8 +83,9 @@ public class RankingManager : MonoBehaviour
         }
     }
 
-    public void GetClearTimeRank () // 클리어타임값을 키값(클리어타임) 순으로 정렬한 리스트 만들기
+    public async Task GetClearTimeRank () // 클리어타임값을 키값(클리어타임) 순으로 정렬한 리스트 만들기
     {
+        ranking = await GetRanking();
         if (ranking.cleartime.Count > 0) { 
             cleartimeRank = ranking.cleartime.OrderBy(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
         }
@@ -94,8 +95,9 @@ public class RankingManager : MonoBehaviour
              
         }
     }
-    public void GetMinJumpRank() // 점프횟수순위를 키값(클리어타임) 순으로 정렬한 리스트 만들기
+    public async Task GetMinJumpRank() // 점프횟수순위를 키값(클리어타임) 순으로 정렬한 리스트 만들기
     {
+        ranking = await GetRanking();
         if (ranking.min_jump.Count > 0)
         { 
             minJumpRank = ranking.min_jump.OrderBy(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
@@ -106,8 +108,9 @@ public class RankingManager : MonoBehaviour
 
         }
     }
-    public void GetMaxJumpRank() // 점프횟수순위를 키값(클리어타임) 순으로 정렬한 리스트 만들기
+    public async Task GetMaxJumpRank() // 점프횟수순위를 키값(클리어타임) 순으로 정렬한 리스트 만들기
     {
+        ranking = await GetRanking();
         if (ranking.max_jump.Count > 0)
         {
             maxJumpRank = ranking.max_jump.OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
@@ -119,8 +122,9 @@ public class RankingManager : MonoBehaviour
 
         }
     }
-    public void GetAddicterRank () // 점프횟수순위를 키값(클리어타임) 순으로 정렬한 리스트 만들기
+    public async Task GetAddicterRank () // 점프횟수순위를 키값(클리어타임) 순으로 정렬한 리스트 만들기
     {
+        ranking = await GetRanking();
         if (ranking.addicter.Count > 0)
         {
             addicterRank = ranking.addicter.OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
@@ -162,7 +166,7 @@ public class RankingManager : MonoBehaviour
                 await UpdateClearTimeDB();
             }
         }
-        GetClearTimeRank(); // 리스트 재정렬
+        await GetClearTimeRank(); // 리스트 재정렬
     }
 
     public async Task UpdateClearTimeDB()
@@ -232,6 +236,7 @@ public class RankingManager : MonoBehaviour
                 await UpdateMinJumpDB();
             }
         }
-        GetMinJumpRank(); // 리스트 재정렬
+        await GetMinJumpRank(); // 리스트 재정렬
     }
+
 }
