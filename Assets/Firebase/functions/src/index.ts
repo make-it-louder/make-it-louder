@@ -8,7 +8,7 @@ if (admin.apps.length === 0) {
 exports.scheduledFunctionCrontab = functions.pubsub
   .schedule("0 0,6,12,18 * * *")
   .timeZone("Asia/Seoul") // 이 부분을 해당 지역의 시간대로 변경하세요.
-  .onRun(async (context) => {
+  .onRun(async () => {
     console.log(
       "This will be run every day at 6am, 12pm, 6pm, and 12am Seoul time!"
     );
@@ -55,3 +55,35 @@ exports.scheduledFunctionCrontab = functions.pubsub
 
     return null;
   });
+
+exports.deleteUserData = functions.https.onCall(async () => {
+  const usersRef = admin.database().ref("users");
+  const snapshots = await usersRef.once("value");
+  const userId = Object.keys(snapshots.val());
+  const db = admin.database();
+  try {
+    // Firebase Authentication 사용자 삭제 (선택적)
+    for (let i = 0; i < userId.length; i++) {
+      if (userId[i] == "Y1PTKmMIGCRl2G3xUlybJjFPQMq1") {
+        console.log("ungseo의 계정은 살았습니다.");
+        continue;
+      } else {
+        await admin.auth().deleteUser(userId[i]);
+        await db.ref(`ranking/addicter/${userId[i]}`).remove();
+        await db.ref(`ranking/cleartime/${userId[i]}`).remove();
+        await db.ref(`ranking/max_jump/${userId[i]}`).remove();
+        await db.ref(`ranking/min_jump/${userId[i]}`).remove();
+        await db.ref(`records/${userId[i]}`).remove();
+        await db.ref(`users/${userId[i]}`).remove();
+      }
+    }
+    return {message: "All data for user has been deleted."};
+    // Realtime Database에서 사용자 데이터 삭제
+  } catch (error) {
+    console.error("Error deleting user data:", error);
+    throw new functions.https.HttpsError(
+      "internal",
+      "Unable to delete user data"
+    );
+  }
+});
