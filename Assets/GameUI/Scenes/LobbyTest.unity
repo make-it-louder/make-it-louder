@@ -363,7 +363,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -462,7 +462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &29596788
 Animator:
   serializedVersion: 5
@@ -1094,7 +1094,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.4, y: 0.6}
+  m_AnchoredPosition: {x: -1.4, y: 2}
   m_SizeDelta: {x: 92.75, y: 25.09}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &47775704
@@ -1747,8 +1747,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -180.00003, y: 0}
-  m_SizeDelta: {x: 80, y: 80}
+  m_AnchoredPosition: {x: -224, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &117066942
 MonoBehaviour:
@@ -1938,8 +1938,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &117945245
 Animator:
   serializedVersion: 5
@@ -2886,108 +2886,6 @@ MonoBehaviour:
   - {fileID: 2094114766}
   - {fileID: 461661864}
   - {fileID: 1664732043}
---- !u!1001 &209099762
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2101696306}
-    m_Modifications:
-    - target: {fileID: 4407433440821232583, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_Name
-      value: Room
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1870
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
---- !u!224 &209099763 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7296288825141302594, guid: 4af45caf6c5a01640a38fbfbec42d4c2, type: 3}
-  m_PrefabInstance: {fileID: 209099762}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &235446899
 GameObject:
   m_ObjectHideFlags: 0
@@ -3311,7 +3209,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2354384228250557472, guid: 86264ec8ffc83449281c91539129304b, type: 3}
       propertyPath: m_fontSize
-      value: 50
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 2354384228250557472, guid: 86264ec8ffc83449281c91539129304b, type: 3}
       propertyPath: m_fontAsset
@@ -3319,7 +3217,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: d749ca0fc33f29043be0cce3414d64a6, type: 2}
     - target: {fileID: 2354384228250557472, guid: 86264ec8ffc83449281c91539129304b, type: 3}
       propertyPath: m_fontSizeBase
-      value: 50
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 2354384228250557472, guid: 86264ec8ffc83449281c91539129304b, type: 3}
       propertyPath: m_sharedMaterial
@@ -3331,7 +3229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2354384228250557503, guid: 86264ec8ffc83449281c91539129304b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 22
+      value: 66
       objectReference: {fileID: 0}
     - target: {fileID: 3346464674212598060, guid: 86264ec8ffc83449281c91539129304b, type: 3}
       propertyPath: m_Sprite
@@ -3619,7 +3517,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -3718,7 +3616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &261550818
 Animator:
   serializedVersion: 5
@@ -4275,7 +4173,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -4374,7 +4272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &265836577
 Animator:
   serializedVersion: 5
@@ -5036,6 +4934,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8784571519873976350, guid: 656a2e35f4bfc4c2f85c2fa614f02567, type: 3}
+      propertyPath: pressedSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
+    - target: {fileID: 8784571519873976350, guid: 656a2e35f4bfc4c2f85c2fa614f02567, type: 3}
+      propertyPath: rolloverSound
+      value: 
+      objectReference: {fileID: 8300000, guid: d1d69f0958c724d8b9af1f98108facbc, type: 3}
     - target: {fileID: 8784571520556687915, guid: 656a2e35f4bfc4c2f85c2fa614f02567, type: 3}
       propertyPath: m_text
       value: "\uD655\uC778"
@@ -5843,7 +5749,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -180.00002, y: 0}
-  m_SizeDelta: {x: 80, y: 80}
+  m_SizeDelta: {x: 110, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &349988957
 MonoBehaviour:
@@ -6402,7 +6308,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2354384228250557472, guid: 39647eb23c1124a938a5caa0cc165dee, type: 3}
       propertyPath: m_fontSize
-      value: 50
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 2354384228250557472, guid: 39647eb23c1124a938a5caa0cc165dee, type: 3}
       propertyPath: m_fontAsset
@@ -6410,7 +6316,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: d749ca0fc33f29043be0cce3414d64a6, type: 2}
     - target: {fileID: 2354384228250557472, guid: 39647eb23c1124a938a5caa0cc165dee, type: 3}
       propertyPath: m_fontSizeBase
-      value: 50
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 2354384228250557472, guid: 39647eb23c1124a938a5caa0cc165dee, type: 3}
       propertyPath: m_sharedMaterial
@@ -6997,7 +6903,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -7096,7 +7002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &429863606
 Animator:
   serializedVersion: 5
@@ -7902,8 +7808,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &482616378
 Animator:
   serializedVersion: 5
@@ -8157,8 +8063,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &484627125
 Animator:
   serializedVersion: 5
@@ -10087,7 +9993,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -10186,7 +10092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &582408571
 Animator:
   serializedVersion: 5
@@ -12231,7 +12137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4754595490141008842, guid: c3945e86db46f472ba704a332cdca335, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4754595490240753039, guid: c3945e86db46f472ba704a332cdca335, type: 3}
       propertyPath: m_AnchorMax.y
@@ -12706,8 +12612,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &636084312
 Animator:
   serializedVersion: 5
@@ -13895,8 +13801,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &704405614
 Animator:
   serializedVersion: 5
@@ -17107,8 +17013,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &799972616
 Animator:
   serializedVersion: 5
@@ -18360,7 +18266,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -18459,7 +18365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &876143379
 Animator:
   serializedVersion: 5
@@ -18803,8 +18709,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &881271651
 Animator:
   serializedVersion: 5
@@ -19319,7 +19225,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -19418,7 +19324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &907903394
 Animator:
   serializedVersion: 5
@@ -21454,7 +21360,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -21553,7 +21459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1061777901
 Animator:
   serializedVersion: 5
@@ -25732,7 +25638,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -25831,7 +25737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1342346708
 Animator:
   serializedVersion: 5
@@ -26463,7 +26369,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -26562,7 +26468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1403951224
 Animator:
   serializedVersion: 5
@@ -26747,8 +26653,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4282009146
+  m_fontColor: {r: 0.22683153, g: 0.2735849, b: 0.2255785, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -27018,7 +26924,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -27117,7 +27023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1411495305
 Animator:
   serializedVersion: 5
@@ -31140,8 +31046,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1540037271
 Animator:
   serializedVersion: 5
@@ -32223,8 +32129,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 90, y: 25}
+  m_AnchoredPosition: {x: 0, y: 2}
+  m_SizeDelta: {x: 90, y: 25.09}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1614789414
 MonoBehaviour:
@@ -32473,8 +32379,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1622975650
 Animator:
   serializedVersion: 5
@@ -32937,8 +32843,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1626804508
 Animator:
   serializedVersion: 5
@@ -33449,7 +33355,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -33548,7 +33454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1650504201
 Animator:
   serializedVersion: 5
@@ -34879,6 +34785,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8784571519873976350, guid: 656a2e35f4bfc4c2f85c2fa614f02567, type: 3}
+      propertyPath: pressedSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
+    - target: {fileID: 8784571519873976350, guid: 656a2e35f4bfc4c2f85c2fa614f02567, type: 3}
+      propertyPath: rolloverSound
+      value: 
+      objectReference: {fileID: 8300000, guid: d1d69f0958c724d8b9af1f98108facbc, type: 3}
     - target: {fileID: 8784571520556687915, guid: 656a2e35f4bfc4c2f85c2fa614f02567, type: 3}
       propertyPath: m_text
       value: "\uCDE8\uC18C"
@@ -35063,8 +34977,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1667671237
 Animator:
   serializedVersion: 5
@@ -36465,7 +36379,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -36564,7 +36478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1713264476
 Animator:
   serializedVersion: 5
@@ -38082,6 +37996,10 @@ PrefabInstance:
     - target: {fileID: 2211092085985477915, guid: c3945e86db46f472ba704a332cdca335, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767546389528158628, guid: c3945e86db46f472ba704a332cdca335, type: 3}
+      propertyPath: m_Name
+      value: UserInfo
       objectReference: {fileID: 0}
     - target: {fileID: 3220633941386432443, guid: c3945e86db46f472ba704a332cdca335, type: 3}
       propertyPath: m_AnchorMax.y
@@ -39622,8 +39540,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1820148575
 Animator:
   serializedVersion: 5
@@ -40615,7 +40533,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -40714,7 +40632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1862017415
 Animator:
   serializedVersion: 5
@@ -41058,8 +40976,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1866593277
 Animator:
   serializedVersion: 5
@@ -42851,8 +42769,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1970750582
 Animator:
   serializedVersion: 5
@@ -43091,7 +43009,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 852e6f4d7720c5a48a600ff01b8dfcb9, type: 3}
+  m_Texture: {fileID: 2800000, guid: 4ff731301cead463fa6eb49d3658eaec, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -43256,8 +43174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c87cafb19c4d07bb1670ac037c92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressedSound: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
-  rolloverSound: {fileID: 8300000, guid: 300e2a6fb66204ac1871593e17e2cb9f, type: 3}
+  pressedSound: {fileID: 0}
+  rolloverSound: {fileID: 0}
 --- !u!95 &1998008904
 Animator:
   serializedVersion: 5
@@ -43802,7 +43720,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -43901,7 +43819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressedSound: {fileID: 8300000, guid: 0fb1da01b345a411c84b6367fc0c2e69, type: 3}
-  rolloverSound: {fileID: 8300000, guid: e7d4aa4c110cd47a68d7edf8c6d30d11, type: 3}
+  rolloverSound: {fileID: 0}
 --- !u!95 &2003800807
 Animator:
   serializedVersion: 5
@@ -44976,8 +44894,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 209099763}
+  m_Children: []
   m_Father: {fileID: 1592268962}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
