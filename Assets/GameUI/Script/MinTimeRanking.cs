@@ -76,7 +76,7 @@ public class MinTimeRanking : MonoBehaviour
 
     public async void ShowUIRanking ()
     {
-        databaseReference = Instance.GetDatabaseReference();
+        await RankingManager.Instance.GetClearTimeRank();
         rankerNick = await ConvertUserIdToNickName();
         Dictionary<string, float> ranking = RankingManager.Instance.ranking.cleartime;
         Debug.Log(rankerNick.Count + "민탐 랭커닉네임개수");
