@@ -61,5 +61,9 @@ public class BlinkingObject : MonoBehaviour
         materials[0] = originalMaterial;
         skinnedMeshRenderer.materials = materials;
     }
+    public void ChangeMaterial(Material newMaterial)
+    {
+        originalMaterial = newMaterial;
+    }
 
 }

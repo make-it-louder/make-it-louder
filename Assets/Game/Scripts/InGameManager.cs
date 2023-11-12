@@ -8,6 +8,7 @@ using UnityEngine;
 public class InGameManager : MonoBehaviour
 {
     private GameObject spawnedPlayer;
+    private GameObject heightManager;
     [SerializeField]
     private GameObject playerPrefab;
     [SerializeField]
@@ -42,6 +43,8 @@ public class InGameManager : MonoBehaviour
               spawnPoint + new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(-0.5f, 0.5f), -0.1f),
               Quaternion.identity
           );
+        
+
         FirebaseManager.Profile profile = RecordManager.Instance.UserProfile;
         Debug.Log($"Player character: ({(CharacterPrefabNames)profile.e_avatar})");
         spawnedPlayer.GetComponentInChildren<PlayerPrefabManager>().CharacterPrefabName = (CharacterPrefabNames)profile.e_avatar;
@@ -63,7 +66,11 @@ public class InGameManager : MonoBehaviour
         {
             chatManager.playerMove2D = playerMove2D;
         }
-
+        heightManager = PhotonNetwork.Instantiate(
+                    $"player/item",
+                    Vector3.zero, Quaternion.identity
+                );
+        heightManager.GetComponent<CharacterHeightItemManager>().SetTarget(spawnedPlayer);
         playerMoveBehavior.jumpCountText = jumpCountText;
         playerMoveBehavior.playTimeText = playTimeText;
         playerMoveBehavior.clearPopup = clearPopup;
