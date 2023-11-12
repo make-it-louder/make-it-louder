@@ -128,7 +128,10 @@ public class FixedUIController : MonoBehaviour
         int countFall = 0;
         loadingSpinner.SetActive(true);
         BackgroundMusicController backgroundMusicController = GameObject.FindObjectOfType<BackgroundMusicController>();
-        backgroundMusicController.playLobby();
+        if(backgroundMusicController != null )
+        {
+            backgroundMusicController.playLobby();
+        }
         await RecordManager.Instance.UpdateEndGameData("map1", playTime, countJump, countFall);
         // 포톤 로비연결 끊는 로직 추가해야함.
 
