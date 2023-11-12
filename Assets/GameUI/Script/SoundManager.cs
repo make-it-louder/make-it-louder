@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-using static Unity.VisualScripting.Member;
 
 public class SoundManager : MonoBehaviour
 {
@@ -20,44 +18,48 @@ public class SoundManager : MonoBehaviour
         
         [SerializeField]
         public AudioMixerGroup audioMixerGroup;
+
+        [SerializeField]
+        public string playerPrefName;
     }
-    [Header("MixerGroupSettings")]
-    //Slider
-    [SerializeField]
-    private MixerGroupSettings volume;
-    
-    [SerializeField]
-    private MixerGroupSettings mic;
-    
-    [SerializeField]
-    private MixerGroupSettings other;
+    [Header("MicSelector")]
+    public TMP_Dropdown micSelector;
+    private string selectedMicName;
 
     [Header("SynchronizedVoiceSettings")]
     [SerializeField]
     private SoundEventManager soundEventManager;
 
-    [Header("MicSelector")]
-    public TMP_Dropdown micSelector;
-    private string selectedMicName;
+    [Header("MixerGroupSettings")]
+    //Slider
+    [SerializeField]
+    private MixerGroupSettings background;
+    
+    [SerializeField]
+    private MixerGroupSettings effect;
+    
+    [SerializeField]
+    private MixerGroupSettings other;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        var defaultVolume = PlayerPrefs.GetFloat("Volume", 0.5f);
-        if (volume.slider != null)
+        var defaultBgVolume = PlayerPrefs.GetFloat(background.playerPrefName, 0.5f);
+        if (background.slider != null)
         {
-            volume.slider.value = defaultVolume;
+            background.slider.value = defaultBgVolume;
         }
-        volume.textArea.text = Mathf.RoundToInt(defaultVolume * 100).ToString();
+        background.textArea.text = Mathf.RoundToInt(defaultBgVolume * 100).ToString();
 
-        var defaultMicVolume = PlayerPrefs.GetFloat("MicVolume", 0.8f);
-        if (mic.slider != null)
+        var defaultEffectVolume = PlayerPrefs.GetFloat(effect.playerPrefName, 0.5f);
+        if (effect.slider != null)
         {
-            mic.slider.value = defaultMicVolume;
+            effect.slider.value = defaultEffectVolume;
         }
-        mic.textArea.text = Mathf.RoundToInt(defaultMicVolume * 100).ToString();
-        soundEventManager.SetMicVolume(defaultMicVolume);
+        effect.textArea.text = Mathf.RoundToInt(defaultEffectVolume * 100).ToString();
 
-        var defaultOtherMicVolume = PlayerPrefs.GetFloat("OtherMicVolume", 1.0f);
+        var defaultOtherMicVolume = PlayerPrefs.GetFloat(other.playerPrefName, 0.5f);
         if (other.slider != null)
         {
             other.slider.value = defaultOtherMicVolume;
@@ -125,34 +127,33 @@ public class SoundManager : MonoBehaviour
         //micAudioSource.Play();
     }
 
-    public void ChangeVolume(float value)
+    public void ChangeBgVolume(float value)
     {
-        PlayerPrefs.SetFloat("Volume", value);
+        PlayerPrefs.SetFloat(background.playerPrefName, value);
         PlayerPrefs.Save();
         int intValue = Mathf.RoundToInt(value * 100);
-        volume.textArea.text = intValue.ToString();
+        background.textArea.text = intValue.ToString();
 
-        volume.audioMixerGroup.audioMixer.SetFloat("BGFXVolume", calcLogDB(value));
+        background.audioMixerGroup.audioMixer.SetFloat("BgVolume", calcLogDB(value));
     }
 
-    public void ChangeMicVolume(float value)
+    public void ChangeEffectVolume(float value)
     {
-        PlayerPrefs.SetFloat("MicVolume", value);
+        PlayerPrefs.SetFloat(effect.playerPrefName, value);
         PlayerPrefs.Save();
         int intValue = Mathf.RoundToInt(value * 100);
-        mic.textArea.text = intValue.ToString();
+        effect.textArea.text = intValue.ToString();
 
-        volume.audioMixerGroup.audioMixer.SetFloat("MyMicVolume", calcLogDB(volume.slider.minValue));
-        soundEventManager.SetMicVolume(value);
+        effect.audioMixerGroup.audioMixer.SetFloat("FXVolume", calcLogDB(value));
     }
     public void ChangeOtherMicVolume(float value)
     {
-        PlayerPrefs.SetFloat("OtherMicVolume", value);
+        PlayerPrefs.SetFloat(other.playerPrefName, value);
         PlayerPrefs.Save();
         int intValue = Mathf.RoundToInt(value * 100);
         other.textArea.text = intValue.ToString();
 
-        volume.audioMixerGroup.audioMixer.SetFloat("OtherMicVolume", calcLogDB(value));
+        other.audioMixerGroup.audioMixer.SetFloat("OtherMicVolume", calcLogDB(value));
     }
 
     private float  calcLogDB(float value)
