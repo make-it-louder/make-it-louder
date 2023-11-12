@@ -44,18 +44,8 @@ namespace Suriyun
             {
                 a.SetInteger(name, value);
             }
-
-            // 3초 뒤 0번으로 값을 설정
-            Invoke("SetIntToZero", 3.0f);
         }
 
-        private void SetIntToZero()
-        {
-            foreach (Animator a in animators)
-            {
-                a.SetInteger("animation", 1);
-            }
-        }
 
         public void SetBool(string parameter = "key,value")
         {
