@@ -14,7 +14,11 @@ public class PlayerMove2D : MonoBehaviourPun
     new BoxCollider2D collider;
     new PlayerRenderManager renderer;
     private AreaEffector2D effector;
-
+    public LayerMask groundLayer; // "Ground" 레이어
+    public LayerMask playerLayer; // "Player"와 "Ground" 레이어
+    public Transform bottomBox; // 아래쪽 감지용 자식 오브젝트
+    public Transform topBox; // 위쪽 감지용 자식 오브젝트
+    public Vector2 detectionBoxSize = new Vector2(1f, 0.2f); // 감지 영역의 크기
     public MicInputManager micInput;
     private bool isHappy = false; // "Happy" 상태를 추적하는 변수
     private bool isDamage = false; // "Damage" 상태를 감정 표현으로 사용
@@ -40,6 +44,7 @@ public class PlayerMove2D : MonoBehaviourPun
 
     public Popup clearPopup;
     public AcheivementManager acheivementManager;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -281,44 +286,52 @@ public class PlayerMove2D : MonoBehaviourPun
         }
     }
 
-    /*    bool isGrounded()
-        {
-            Vector3 feet = rb.transform.position + transform.up * transform.lossyScale.y * (collider.offset.y - collider.size.y / 2 - 0.01f) + transform.right * transform.lossyScale.x * collider.offset.x; ;
-            Vector3 feetLeft = feet - transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
-            Vector3 feetRight = feet + transform.right * transform.lossyScale.x * (collider.size.x / 2) * 0.97f;
-            Debug.DrawLine(feetLeft, feetRight, Color.red);
 
-            return (Physics2D.OverlapPoint(feetLeft,1<<LayerMask.NameToLayer("Ground")) != null) || (Physics2D.OverlapPoint(feetRight,1<<LayerMask.NameToLayer("Ground")) != null || (Physics2D.OverlapPoint(feetRight, 1 << LayerMask.NameToLayer("Player"))) || (Physics2D.OverlapPoint(feetLeft, 1 << LayerMask.NameToLayer("Player"))));
-        }*/
     bool isGroundedAndRay()
     {
-        // 발의 중앙 위치를 계산합니다.
-        Vector3 feetPosition = rb.transform.position + transform.up * transform.lossyScale.y * (collider.offset.y - collider.size.y / 2 - 0.01f);
-
-        // 레이캐스트의 길이를 조절합니다. 너무 길면 플랫폼에 도달하기 전에 그라운드로 인식될 수 있습니다.
-        float rayLength = 0.1f;
-
-        // 발의 왼쪽 끝과 오른쪽 끝을 계산합니다.
-        Vector3 feetLeft = feetPosition - transform.right * transform.lossyScale.x * collider.size.x / 2;
-        Vector3 feetRight = feetPosition + transform.right * transform.lossyScale.x * collider.size.x / 2;
-
-        // 왼쪽과 오른쪽 끝에서 바닥을 감지하기 위한 레이캐스트를 발사합니다.
-        RaycastHit2D hitLeft = Physics2D.Raycast(feetLeft, -transform.up, rayLength, 1 << LayerMask.NameToLayer("Ground"));
-        RaycastHit2D hitRight = Physics2D.Raycast(feetRight, -transform.up, rayLength, 1 << LayerMask.NameToLayer("Ground"));
-        RaycastHit2D hitPlayerleft = Physics2D.Raycast(feetRight, -transform.up, rayLength, 1 << LayerMask.NameToLayer("Player"));
-        RaycastHit2D hitPlayerRight = Physics2D.Raycast(feetRight, -transform.up, rayLength, 1 << LayerMask.NameToLayer("Player"));
-
-
-        // 레이캐스트를 시각화합니다 (디버깅 용도).
-        Debug.DrawRay(feetLeft, -transform.up * rayLength, Color.red);
-        Debug.DrawRay(feetRight, -transform.up * rayLength, Color.red);
-
-        // 레이캐스트가 왼쪽 끝이나 오른쪽 끝 중 어느 한 곳에서라도 무언가에 부딪혔는지 확인합니다.
-        return (hitLeft.collider != null || hitRight.collider != null || hitPlayerleft.collider != null || hitPlayerRight.collider != null);
-
+        if (DetectGroundBelow())
+        {
+            if (!DetectAboveHead())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if (DetectPlayerBelow())
+        {
+            return true;
+        }
+        else { return false; }
     }
 
+    bool DetectGroundBelow()
+    {
+        Collider2D hit = Physics2D.OverlapBox(bottomBox.position, detectionBoxSize, 0f, groundLayer);
+        return hit != null;
+    }
 
+    bool DetectPlayerBelow()
+    {
+        Collider2D hit = Physics2D.OverlapBox(bottomBox.position, detectionBoxSize, 0f, playerLayer);
+        return hit != null;
+    }
+
+    bool DetectAboveHead()
+    {
+        Collider2D hit = Physics2D.OverlapBox(topBox.position, detectionBoxSize, 0f, groundLayer);
+        return hit != null;
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(bottomBox.position, detectionBoxSize);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(topBox.position, detectionBoxSize);
+    }
     IEnumerator ResetEmotionAfterDelay(string emotion)
     {
         yield return new WaitForSeconds(emotionDuration);

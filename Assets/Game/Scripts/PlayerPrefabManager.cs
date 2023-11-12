@@ -36,7 +36,7 @@ public class PlayerPrefabManager : MonoBehaviourPun
     [PunRPC]
     void SyncChangeCharacterPrefab(int ViewID, int characterPrefabID)
     {
-        CharacterPrefabNames characterPrefabName = (CharacterPrefabNames)characterPrefabID;
+        characterPrefabName = (CharacterPrefabNames)characterPrefabID;
         Material newMaterial = CuteBirdPrefabList.Find(characterPrefabName.ToString()).GetChild(0).GetComponent<SkinnedMeshRenderer>().sharedMaterial;
         characterPrefab.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().sharedMaterial = newMaterial;
         blinkingObject.ChangeMaterial(newMaterial);

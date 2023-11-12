@@ -80,12 +80,12 @@ public class AchievementScript : MonoBehaviour
 
         int maxForClearCount1 = 1;
         int maxForClearCount3 = 3;
-        int maxForClearCount10 = 10;
-        int maxForClearCount102 = 102;
+        int maxForClearCount10 = 5;
+        int maxForClearCount102 = 10;
 
-        int minForChallangeJump100 = 100;
+        int minForChallangeJump100 = 250;
 
-        int maxCharacterAchievement = 14;
+        int maxCharacterAchievement = 10;
 
 
 
@@ -225,15 +225,18 @@ public class AchievementScript : MonoBehaviour
         // 클리어하지 않은 상태일 때 예외 처리
         if (Min_clearsecond == 0)
         {
-            ChallangeTime15.text = "클리어 기록 없음";
+            ChallangeTime15.text = "[0/1]";
             ChallangeTime15icon.SetActive(false); // 아이콘을 비활성화
         }
         else
         {
             int minutes = (int)(Min_clearsecond / 60);
-            UpdateAchievementChallengeMinTime(ChallangeTime15, ChallangeTime15icon, minutes, 15);
+            // 달성 했을 때는 [1/1] 로 표시, 아니면 [0/1] 로 표시
+            ChallangeTime15.text = (minutes <= 15) ? "[1/1]" : "[0/1]";
+            ChallangeTime15icon.SetActive(minutes <= 15);
         }
     }
+
 
     private void UpdateAchievementChallengeMinTime(TMP_Text achieveText, GameObject icon, int currentMinutes, int minMinutes)
     {
@@ -252,20 +255,22 @@ public class AchievementScript : MonoBehaviour
         icon.SetActive(currentNum >= maxNum);
     }
 
-private void UpdateAchievementChallangeJump(TMP_Text achieveText, GameObject icon, int MinCurrentClearJump, int minForChallangeJump100)
-{
-    // 클리어하지 않은 상태일 때 예외 처리
-    if (MinCurrentClearJump == 0)
+    private void UpdateAchievementChallangeJump(TMP_Text achieveText, GameObject icon, int MinCurrentClearJump, int minForChallangeJump100)
     {
-        achieveText.text = "클리어 기록 없음";
-        icon.SetActive(false); // 아이콘을 비활성화
+        // 클리어하지 않은 상태일 때 예외 처리
+        if (MinCurrentClearJump == 0)
+        {
+            achieveText.text = "[0/1]";
+            icon.SetActive(false); // 아이콘을 비활성화
+        }
+        else
+        {
+            // 달성 했을 때는 [1/1] 로 표시
+            achieveText.text = (MinCurrentClearJump >= minForChallangeJump100) ? "[1/1]" : "[0/1]";
+            icon.SetActive(MinCurrentClearJump >= minForChallangeJump100);
+        }
     }
-    else
-    {
-        achieveText.text = string.Format("현재달성도 [{0:N0}/{1:N0}]", Mathf.Max(MinCurrentClearJump, minForChallangeJump100), minForChallangeJump100);
-        icon.SetActive(minForChallangeJump100 >= MinCurrentClearJump);
-    }
-}
+
 
 
 }
