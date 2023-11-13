@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class CharacterSettings : MonoBehaviour
 {
     public GameObject characterChangeForm;
-    public GameObject otherChangeForm;
     [SerializeField]
     private CharacterListManager characterListManager;
     FirebaseManager.Profile profile;
@@ -20,7 +19,6 @@ public class CharacterSettings : MonoBehaviour
     private void Awake()
     {
         characterChangeForm.SetActive(true);
-        otherChangeForm.SetActive(false);
         profile = RecordManager.Instance.UserProfile;
         avatars = profile.avatars;
         e_avatar = profile.e_avatar;
@@ -57,11 +55,9 @@ public class CharacterSettings : MonoBehaviour
         if (!value)
         {
             characterChangeForm.SetActive(false);
-            otherChangeForm.SetActive(true);
         } else
         {
             characterChangeForm.SetActive(true);
-            otherChangeForm.SetActive(false);
         }
     }
 
