@@ -391,6 +391,7 @@ MonoBehaviour:
   playTimeText: {fileID: 0}
   jumpSound: {fileID: 0}
   clearPopup: {fileID: 0}
+  acheivementManager: {fileID: 0}
   playTime: 0
   SkyboxMaterials:
   - {fileID: 2100000, guid: 2441c79940171dc43b33badf9fe97828, type: 2}

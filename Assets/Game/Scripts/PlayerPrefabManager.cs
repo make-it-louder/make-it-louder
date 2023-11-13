@@ -40,7 +40,7 @@ public class PlayerPrefabManager : MonoBehaviourPun
         Material newMaterial = CuteBirdPrefabList.Find(characterPrefabName.ToString()).GetChild(0).GetComponent<SkinnedMeshRenderer>().sharedMaterial;
         characterPrefab.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().sharedMaterial = newMaterial;
         blinkingObject.ChangeMaterial(newMaterial);
-        SyncChangeCharacterFace(ViewID, (int)characterFacePrefabName);
+        SyncChangeCharacterFace(ViewID, (int)characterPrefabID);
     }
     private void OnCharacterPrefabChanged(CharacterPrefabNames value)
     {
@@ -74,6 +74,19 @@ public class PlayerPrefabManager : MonoBehaviourPun
     [PunRPC]
     void SyncChangeCharacterFace(int ViewID, int characterFaceID)
     {
+
+        if (characterFaceID == 9)
+        {
+            characterFaceID = 2;
+        }
+        else if (characterFaceID == 11)
+        {
+            characterFaceID = 3;
+        }
+        else if (characterFaceID == 13)
+        {
+            characterFaceID = 0;
+        }
         CharacterFacePrefabNames characterFaceName = (CharacterFacePrefabNames)characterFaceID;
         GameObject go = PhotonView.Find(ViewID).transform.GetChild(0).Find("CuteBird_Face").gameObject;
         characterFaceMaterial = FaceList.Find(characterFaceName.ToString()).GetComponent<SkinnedMeshRenderer>().sharedMaterial;
