@@ -15,7 +15,7 @@ public class ChatManager : MonoBehaviourPun
     public GameObject scrollBarVertical;
     public GameObject Handle;
     public PlayerMove2D playerMove2D;
-    public Transform targetTransform;
+    public GameObject targetTransform;
     private void Update()
     {
         KeyDownEnter();
