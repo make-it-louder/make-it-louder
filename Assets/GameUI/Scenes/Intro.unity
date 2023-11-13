@@ -614,6 +614,9 @@ MonoBehaviour:
   lobby: {fileID: 8300000, guid: 40ee11237d8a0db4786489ec2f804603, type: 3}
   forest: {fileID: 8300000, guid: fc86bc26235d6d94d88f7ea3390fa308, type: 3}
   cliff: {fileID: 8300000, guid: 571f5e10e18791048a97bb080a176429, type: 3}
+  lobbyVol: 0.08
+  forestVol: 0.2
+  cliffVol: 0.2
 --- !u!82 &698144233
 AudioSource:
   m_ObjectHideFlags: 0
@@ -628,7 +631,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
