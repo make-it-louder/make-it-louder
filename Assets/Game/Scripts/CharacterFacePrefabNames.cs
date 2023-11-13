@@ -17,6 +17,6 @@ public enum CharacterFacePrefabNames
     z,
     Dino_Face13,
     x,
-    Dino_Face15
+    Dino_Face25
 
 }
