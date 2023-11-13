@@ -266,8 +266,8 @@ public class AchievementScript : MonoBehaviour
         else
         {
             // 달성 했을 때는 [1/1] 로 표시
-            achieveText.text = (MinCurrentClearJump >= minForChallangeJump100) ? "현재 달성도 [1/1]" : "[0/1]";
-            icon.SetActive(MinCurrentClearJump >= minForChallangeJump100);
+            achieveText.text = (MinCurrentClearJump >= minForChallangeJump100) ? "현재 달성도 [0/1]" : "현재 달성도 [1/1]";
+            icon.SetActive(MinCurrentClearJump <= minForChallangeJump100);
         }
     }
 
