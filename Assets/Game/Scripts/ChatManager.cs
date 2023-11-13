@@ -15,6 +15,7 @@ public class ChatManager : MonoBehaviourPun
     public GameObject scrollBarVertical;
     public GameObject Handle;
     public PlayerMove2D playerMove2D;
+    public Transform targetTransform;
     private void Update()
     {
         KeyDownEnter();
@@ -45,6 +46,10 @@ public class ChatManager : MonoBehaviourPun
         // 채팅 RPC 호출
         pv.RPC("RPC_Chat", RpcTarget.All, msg);
         // 채팅 입력창 내용 초기화
+        if (inputField.text == "showmethemoney")
+        {
+            ShowMeTheMoney();
+        }
         inputField.text = "";
     }
 
@@ -167,5 +172,26 @@ public class ChatManager : MonoBehaviourPun
             chatMessage.StopMyCoroutine();
             child.GetComponent<TextMeshProUGUI>().alpha = 1.0f;
         }
+    }
+
+    private void ShowMeTheMoney()
+    {
+        GameObject characterList = GameObject.Find("CharacterList");
+
+        if (characterList != null)
+        {
+            foreach (Transform child in characterList.transform)
+            {
+                PhotonView photonView = child.GetComponent<PhotonView>();
+                if (photonView != null && photonView.IsMine)
+                {
+                    child.transform.position = targetTransform.transform.position;
+                    return;
+                    // 여기서 child.gameObject는 "player(clone)" 중 하나이며, photonView.IsMine이 true입니다.
+                    // 필요한 작업을 수행하세요.
+                }
+            }
+        }
+
     }
 }
