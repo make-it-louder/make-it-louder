@@ -40,7 +40,7 @@ public class PlayerPrefabManager : MonoBehaviourPun
         Material newMaterial = CuteBirdPrefabList.Find(characterPrefabName.ToString()).GetChild(0).GetComponent<SkinnedMeshRenderer>().sharedMaterial;
         characterPrefab.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().sharedMaterial = newMaterial;
         blinkingObject.ChangeMaterial(newMaterial);
-        SyncChangeCharacterFace(ViewID, (int)characterFacePrefabName);
+        SyncChangeCharacterFace(ViewID, (int)characterPrefabID);
     }
     private void OnCharacterPrefabChanged(CharacterPrefabNames value)
     {
