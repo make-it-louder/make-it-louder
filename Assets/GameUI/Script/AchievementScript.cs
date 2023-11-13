@@ -225,14 +225,14 @@ public class AchievementScript : MonoBehaviour
         // 클리어하지 않은 상태일 때 예외 처리
         if (Min_clearsecond == 0)
         {
-            ChallangeTime15.text = "[0/1]";
+            ChallangeTime15.text = "현재 달성도 [0/1]";
             ChallangeTime15icon.SetActive(false); // 아이콘을 비활성화
         }
         else
         {
             int minutes = (int)(Min_clearsecond / 60);
             // 달성 했을 때는 [1/1] 로 표시, 아니면 [0/1] 로 표시
-            ChallangeTime15.text = (minutes <= 15) ? "[1/1]" : "[0/1]";
+            ChallangeTime15.text = (minutes <= 15) ? "현재 달성도 [1/1]" : "현재 달성도 [0/1]";
             ChallangeTime15icon.SetActive(minutes <= 15);
         }
     }
@@ -260,14 +260,14 @@ public class AchievementScript : MonoBehaviour
         // 클리어하지 않은 상태일 때 예외 처리
         if (MinCurrentClearJump == 0)
         {
-            achieveText.text = "[0/1]";
+            achieveText.text = "현재 달성도 [0/1]";
             icon.SetActive(false); // 아이콘을 비활성화
         }
         else
         {
             // 달성 했을 때는 [1/1] 로 표시
-            achieveText.text = (MinCurrentClearJump >= minForChallangeJump100) ? "[1/1]" : "[0/1]";
-            icon.SetActive(MinCurrentClearJump >= minForChallangeJump100);
+            achieveText.text = (MinCurrentClearJump >= minForChallangeJump100) ? "현재 달성도 [0/1]" : "현재 달성도 [1/1]";
+            icon.SetActive(MinCurrentClearJump <= minForChallangeJump100);
         }
     }
 
