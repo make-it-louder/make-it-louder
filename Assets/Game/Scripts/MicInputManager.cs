@@ -19,6 +19,8 @@ public class MicInputManager : MonoBehaviourPun, INormalizedSoundInput
         set
         {
             if (minDB == value) return;
+            PlayerPrefs.SetFloat("MinDB", value);
+            PlayerPrefs.Save();
             photonView.RPC("SyncMinDB", RpcTarget.OthersBuffered, minDB);
             minDB = value; 
         }
@@ -35,6 +37,8 @@ public class MicInputManager : MonoBehaviourPun, INormalizedSoundInput
         set 
         {
             if (maxDB == value) return;
+            PlayerPrefs.SetFloat("MaxDB", value);
+            PlayerPrefs.Save();
             photonView.RPC("SyncMaxDB", RpcTarget.OthersBuffered, maxDB);
             maxDB = value; 
             
@@ -155,6 +159,8 @@ public class MicInputManager : MonoBehaviourPun, INormalizedSoundInput
 
         Pitch = 0;
         db = 0;
+        MinDB = PlayerPrefs.GetFloat("MinDB", -15.0f);
+        MaxDB = PlayerPrefs.GetFloat("MaxDB", 0.0f);
     }
 
     void Update()
