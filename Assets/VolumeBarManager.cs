@@ -26,7 +26,7 @@ public class VolumeBarManager : MonoBehaviour
     void Update()
     {
         progressBar.value = micInputManager.DB;
-        micInputManager.minDB = sliderRange.Value1;
-        micInputManager.maxDB = sliderRange.Value2;
+        micInputManager.MinDB = sliderRange.Value1;
+        micInputManager.MaxDB = sliderRange.Value2;
     }
 }
