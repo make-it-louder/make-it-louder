@@ -14,13 +14,11 @@ public class SoundEventManager : MonoBehaviourPun
 
     private Dictionary<int, INormalizedSoundInput> soundInputs;
     private Dictionary<int, AudioSource> soundSources;
-    private Dictionary<int, float> micVoiceInputSettings;
     private INormalizedSoundInput mine;
     void Awake()
     {
         soundInputs = new Dictionary<int, INormalizedSoundInput>();
         soundSources = new Dictionary<int, AudioSource>();
-        micVoiceInputSettings = new Dictionary<int, float>();
     }
     [PunRPC]
     void PhotonAddPublisher(int viewID)
@@ -59,7 +57,6 @@ public class SoundEventManager : MonoBehaviourPun
     [PunRPC]
     void PhotonSetMicVolume(int viewID, float volume)
     {
-        micVoiceInputSettings[viewID] = volume;
         if(soundSources.ContainsKey(viewID)){
             soundSources[viewID].volume = volume;
         }
@@ -97,6 +94,14 @@ public class SoundEventManager : MonoBehaviourPun
         if (ViewID == null)
         {
             Debug.LogError("RemovePublisher: the publisher you want to add has no ViewID in the GameObject");
+            return;
+        }
+        if (!soundSources.ContainsKey(ViewID.Value))
+        {
+            return;
+        }
+        if(soundSources[ViewID.Value].volume != newVolume)
+        {
             return;
         }
         photonView.RPC("PhotonSetMicVolume", RpcTarget.AllBuffered, ViewID.Value, newVolume);
