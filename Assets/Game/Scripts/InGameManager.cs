@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 using UltimateClean;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UIElements;
 
 public class InGameManager : MonoBehaviour
 {
@@ -23,6 +25,13 @@ public class InGameManager : MonoBehaviour
     private CharacterListManager characterListManager;
     [SerializeField]
     private VolumeBarManager volumeBarManager;
+    [SerializeField]
+    private AudioMixerGroup bgVolume;
+    [SerializeField]
+    private AudioMixerGroup effect;
+    [SerializeField]
+    private AudioMixerGroup other;
+
     void Start()
     {
         if (!PhotonNetwork.IsConnected)
@@ -82,6 +91,21 @@ public class InGameManager : MonoBehaviour
         acvmtController.player = spawnedPlayer;
 
         volumeBarManager.micInputManager = spawnedPlayer.GetComponentInChildren<MicInputManager>();
+
+
+        var defaultBgVolume = PlayerPrefs.GetFloat("Background", 0.5f);
+        var defaultEffectVolume = PlayerPrefs.GetFloat("Effect", 0.5f);
+        var defaultOtherMicVolume = PlayerPrefs.GetFloat("OtherPlayer", 0.5f);
+
+
+        bgVolume.audioMixer.SetFloat("BgVolume", calcLogDB(defaultBgVolume));
+        effect.audioMixer.SetFloat("FXVolume", calcLogDB(defaultEffectVolume));
+        other.audioMixer.SetFloat("OtherMicVolume", calcLogDB(defaultOtherMicVolume));
         yield break;
     }
+    private float calcLogDB(float value)
+    {
+        return Mathf.Log10(value) * 20;
+    }
+
 }

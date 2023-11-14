@@ -16992,6 +16992,9 @@ MonoBehaviour:
   clearPopup: {fileID: 2508498369120458880}
   characterListManager: {fileID: 856396608}
   volumeBarManager: {fileID: 2815995417539280812}
+  bgVolume: {fileID: -7819194557798664461, guid: b565cf93f4cb53c4595e6e2627dcd819, type: 2}
+  effect: {fileID: -923115967746050193, guid: b565cf93f4cb53c4595e6e2627dcd819, type: 2}
+  other: {fileID: 3482960038557135826, guid: b565cf93f4cb53c4595e6e2627dcd819, type: 2}
 --- !u!4 &918361633
 Transform:
   m_ObjectHideFlags: 0
