@@ -57,6 +57,8 @@ public class FixedUIController : MonoBehaviour
             {
                 Debug.Log("끄는중");
                 CloseSettingsForm();
+                quitPopup.SetActive(false);
+                exitPopup.SetActive(false);
             }
         }
     }
