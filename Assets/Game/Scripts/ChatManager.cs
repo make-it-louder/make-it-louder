@@ -46,10 +46,10 @@ public class ChatManager : MonoBehaviourPun
         // 채팅 RPC 호출
         pv.RPC("RPC_Chat", RpcTarget.All, msg);
         // 채팅 입력창 내용 초기화
-        if (inputField.text == "showmethemoney")
-        {
-            ShowMeTheMoney();
-        }
+        //if (inputField.text == "showmethemoney")
+        //{
+        //    ShowMeTheMoney();
+        //}
         inputField.text = "";
     }
 

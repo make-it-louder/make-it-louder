@@ -612,11 +612,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lobby: {fileID: 8300000, guid: 40ee11237d8a0db4786489ec2f804603, type: 3}
-  forest: {fileID: 8300000, guid: fc86bc26235d6d94d88f7ea3390fa308, type: 3}
-  cliff: {fileID: 8300000, guid: 571f5e10e18791048a97bb080a176429, type: 3}
+  forest: {fileID: 8300000, guid: 988567c5c68cf994baccb58d3967f450, type: 3}
+  cliff: {fileID: 8300000, guid: c935091d9007d024c9b69fb84a50feec, type: 3}
   lobbyVol: 0.08
-  forestVol: 0.2
-  cliffVol: 0.2
+  forestVol: 0.8
+  cliffVol: 0.8
 --- !u!82 &698144233
 AudioSource:
   m_ObjectHideFlags: 0

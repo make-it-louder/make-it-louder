@@ -25,7 +25,6 @@ public class BackgroundMusicController : MonoBehaviour
     public void playForest()
     {
         audioSource.clip = forest;
-        audioSource.volume = forestVol;
         audioSource.Play();
     }
 
@@ -33,14 +32,12 @@ public class BackgroundMusicController : MonoBehaviour
     public void playCliff()
     {
         audioSource.clip = cliff;
-        audioSource.volume = cliffVol;
         audioSource.Play();
     }
 
     public void playLobby()
     {
         audioSource.clip = lobby;
-        audioSource.volume = lobbyVol;
         audioSource.Play();
     }
     public bool isPlay(AudioClip clip)

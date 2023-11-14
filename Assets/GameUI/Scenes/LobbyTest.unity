@@ -29771,7 +29771,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 687432735571719863, guid: 48984b8d93d4cda418f7c9a087e263ac, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 152.86249
+      value: 152.8625
       objectReference: {fileID: 0}
     - target: {fileID: 687432735571719863, guid: 48984b8d93d4cda418f7c9a087e263ac, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -31869,7 +31869,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uCD5C\uB2E4\uD50C\uB808\uC774"
+  m_text: "\uD50C\uB808\uC774\uC2DC\uAC04"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d749ca0fc33f29043be0cce3414d64a6, type: 2}
   m_sharedMaterial: {fileID: 3599568209478230527, guid: d749ca0fc33f29043be0cce3414d64a6, type: 2}
@@ -35030,7 +35030,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8784571519873976348, guid: 656a2e35f4bfc4c2f85c2fa614f02567, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: QuitGame
+      value: QuitGame2
       objectReference: {fileID: 0}
     - target: {fileID: 8784571519873976348, guid: 656a2e35f4bfc4c2f85c2fa614f02567, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -37706,7 +37706,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uCD5C\uB2E4\uD50C\uB808\uC774"
+  m_text: "\uD50C\uB808\uC774\uC2DC\uAC04"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d749ca0fc33f29043be0cce3414d64a6, type: 2}
   m_sharedMaterial: {fileID: 3599568209478230527, guid: d749ca0fc33f29043be0cce3414d64a6, type: 2}

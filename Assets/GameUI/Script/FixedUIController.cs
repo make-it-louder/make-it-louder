@@ -182,4 +182,9 @@ public class FixedUIController : MonoBehaviour
         FirebaseManager.Instance.SignOut();
         SceneManager.LoadScene("Login");
     }
+
+    public void QuitGame2()
+    {
+        Application.Quit();
+    }
 }
