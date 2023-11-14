@@ -27,7 +27,7 @@ public class RotateObstacle : MonoBehaviour
         //Debug.Log(soundSubscriber.normalizedDB);
         if (soundSubscriber.normalizedDB > 0.001f)
         {
-            rotateSpeed = 0.6f;
+            rotateSpeed = Mathf.Clamp(soundSubscriber.normalizedDB * 2,0.2f,2.0f);
         }
         else
         {
