@@ -16723,7 +16723,7 @@ MonoBehaviour:
   acvmtController: {fileID: 1944073032}
   clearPopup: {fileID: 2508498369120458880}
   characterListManager: {fileID: 856396608}
-  volumeBarManager: {fileID: 0}
+  volumeBarManager: {fileID: 2815995417539280812}
 --- !u!4 &918361633
 Transform:
   m_ObjectHideFlags: 0
@@ -26290,6 +26290,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9f49e94a6170e644a3bb29c384d93f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2815995417539280812 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4422605524150630304, guid: a9f33483a3bae0f4da6b6c9affa199d3, type: 3}
+  m_PrefabInstance: {fileID: 2815995417539280810}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d5ebb0408553ac4ba8e3c6a6315a47f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2906070757683393565

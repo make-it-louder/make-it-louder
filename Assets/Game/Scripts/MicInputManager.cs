@@ -7,11 +7,43 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Audio;
 
-public class MicInputManager : MonoBehaviour, INormalizedSoundInput
+public class MicInputManager : MonoBehaviourPun, INormalizedSoundInput
 {
 
-    public float minDB = -15.0f;
-    public float maxDB = 5.0f;
+    private float minDB = -15.0f;
+    private float maxDB = 5.0f;
+
+    public float MinDB
+    {
+        get { return minDB; }
+        set
+        {
+            photonView.RPC("SyncMinDB", RpcTarget.OthersBuffered, minDB);
+            minDB = value; 
+        }
+    }
+    [PunRPC]
+    public void SyncMinDB(float value, PhotonMessageInfo info)
+    {
+        minDB = value;
+    }
+
+    public float MaxDB
+    {
+        get { return maxDB; }
+        set 
+        {
+            photonView.RPC("SyncMaxDB", RpcTarget.OthersBuffered, maxDB);
+            maxDB = value; 
+            
+        }
+    }
+    [PunRPC]
+    public void SyncMaxDB(float value, PhotonMessageInfo info)
+    {
+        maxDB = value;
+    }
+
     private AudioSource audioSource;
     private float[] samples;
     private float[] spectrum;
