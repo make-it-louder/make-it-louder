@@ -18,6 +18,7 @@ public class MicInputManager : MonoBehaviourPun, INormalizedSoundInput
         get { return minDB; }
         set
         {
+            if (minDB == value) return;
             photonView.RPC("SyncMinDB", RpcTarget.OthersBuffered, minDB);
             minDB = value; 
         }
@@ -33,6 +34,7 @@ public class MicInputManager : MonoBehaviourPun, INormalizedSoundInput
         get { return maxDB; }
         set 
         {
+            if (maxDB == value) return;
             photonView.RPC("SyncMaxDB", RpcTarget.OthersBuffered, maxDB);
             maxDB = value; 
             
