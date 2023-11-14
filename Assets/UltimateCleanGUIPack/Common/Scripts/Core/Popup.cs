@@ -2,7 +2,9 @@
 // This code can only be used under the standard Unity Asset Store End User License Agreement.
 // A Copy of the Asset Store EULA is available at http://unity3d.com/company/legal/as_terms.
 
+using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +21,9 @@ namespace UltimateClean
         public float destroyTime = 0.5f;
 
         private GameObject m_background;
+        public TMP_Text time;
+        public TMP_Text jump;
+        public TMP_Text done;
 
         public void Open()
         {
@@ -80,5 +85,6 @@ namespace UltimateClean
                 image.CrossFadeAlpha(0.0f, 0.2f, false);
             }
         }
+
     }
 }

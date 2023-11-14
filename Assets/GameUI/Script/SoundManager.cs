@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class SoundManager : MonoBehaviour
 {
@@ -43,9 +44,10 @@ public class SoundManager : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         var defaultBgVolume = PlayerPrefs.GetFloat(background.playerPrefName, 0.5f);
+
         if (background.slider != null)
         {
             background.slider.value = defaultBgVolume;
@@ -58,7 +60,6 @@ public class SoundManager : MonoBehaviour
             effect.slider.value = defaultEffectVolume;
         }
         effect.textArea.text = Mathf.RoundToInt(defaultEffectVolume * 100).ToString();
-
         var defaultOtherMicVolume = PlayerPrefs.GetFloat(other.playerPrefName, 0.5f);
         if (other.slider != null)
         {

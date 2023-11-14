@@ -17,7 +17,7 @@ MonoBehaviour:
     AppIdFusion: 
     AppIdChat: eaeb909a-7819-46ae-9e61-a57800f6aa3f
     AppIdVoice: 7b34ba69-4c2d-49f3-97a5-aab1e90ca566
-    AppVersion: 1
+    AppVersion: 1.1
     UseNameServer: 1
     FixedRegion: 
     Server: 
@@ -55,6 +55,8 @@ MonoBehaviour:
   - SyncSetAnimation
   - SyncSetParent
   - SyncSetTarget
+  - SyncMaxDB
+  - SyncMinDB
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

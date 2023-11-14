@@ -7,11 +7,49 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Audio;
 
-public class MicInputManager : MonoBehaviour, INormalizedSoundInput
+public class MicInputManager : MonoBehaviourPun, INormalizedSoundInput
 {
 
-    public float minDB = -15.0f;
-    public float maxDB = 5.0f;
+    private float minDB = -15.0f;
+    private float maxDB = 5.0f;
+
+    public float MinDB
+    {
+        get { return minDB; }
+        set
+        {
+            if (minDB == value) return;
+            PlayerPrefs.SetFloat("MinDB", value);
+            PlayerPrefs.Save();
+            photonView.RPC("SyncMinDB", RpcTarget.OthersBuffered, minDB);
+            minDB = value; 
+        }
+    }
+    [PunRPC]
+    public void SyncMinDB(float value, PhotonMessageInfo info)
+    {
+        minDB = value;
+    }
+
+    public float MaxDB
+    {
+        get { return maxDB; }
+        set 
+        {
+            if (maxDB == value) return;
+            PlayerPrefs.SetFloat("MaxDB", value);
+            PlayerPrefs.Save();
+            photonView.RPC("SyncMaxDB", RpcTarget.OthersBuffered, maxDB);
+            maxDB = value; 
+            
+        }
+    }
+    [PunRPC]
+    public void SyncMaxDB(float value, PhotonMessageInfo info)
+    {
+        maxDB = value;
+    }
+
     private AudioSource audioSource;
     private float[] samples;
     private float[] spectrum;
@@ -36,6 +74,11 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
     {
         get
         {
+            if (minDB == maxDB)
+            {
+                if (DB > minDB) return 1;
+                else return 0;
+            }
             return Mathf.Clamp((DB - minDB) / (maxDB - minDB), 0.0f, 1.0f);
         }
     }
@@ -116,6 +159,8 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
 
         Pitch = 0;
         db = 0;
+        MinDB = PlayerPrefs.GetFloat("MinDB", -15.0f);
+        MaxDB = PlayerPrefs.GetFloat("MaxDB", 0.0f);
     }
 
     void Update()
