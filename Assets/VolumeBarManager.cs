@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class VolumeBarManager : MonoBehaviour
 {
-    ProgressBar progressBar;
+    Slider progressBar;
     SliderRange sliderRange;
     public MicInputManager micInputManager;
     public float physicalMinVolume = -50.0f;
@@ -14,17 +14,19 @@ public class VolumeBarManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        progressBar = GetComponentInChildren<ProgressBar>();
+        progressBar = GetComponentInChildren<Slider>();
         sliderRange = GetComponentInChildren<SliderRange>();
         sliderRange.MinValue = physicalMinVolume;
         sliderRange.MaxValue = physicalMaxVolume;
-        progressBar.MaxValue = 1.0f;
+        progressBar.minValue = physicalMinVolume;
+        progressBar.maxValue = physicalMaxVolume;
     }
 
     // Update is called once per frame
     void Update()
     {
-        progressBar.CurrentValue = micInputManager.normalizedDB;
-        progressBar.transform.Find("Foreground Area").Find("Foreground").GetComponent<Image>().color = Color.HSVToRGB(progressBar.CurrentValue, 1, 1);
+        progressBar.value = micInputManager.DB;
+        micInputManager.MinDB = sliderRange.Value1;
+        micInputManager.MaxDB = sliderRange.Value2;
     }
 }
