@@ -432,20 +432,20 @@ public class PlayerMove2D : MonoBehaviourPun
             await RankingManager.Instance.UpdateClearTimeRank(playTime, userId); // 클리어했으니 클리어타임 랭킹 업데이트
             await RankingManager.Instance.UpdateMinJumpRank(jumpCount, userId); // 클리어했으니 점프랭킹 업데이트
             done++;
-            if (done == 1) { 
-
+            if (done == 1) {
+                string convertedPT = ConvertToTime(playTime);
                 copy.gameObject.SetActive(true);
-                copy.time.text = playTime.ToString();
-                copy.jump.text = jumpCount.ToString();
+                copy.time.text = convertedPT;
+                copy.jump.text = jumpCount.ToString() + "번";
                 copy.done.text = "기록이 업데이트 되었습니다!";
                 copy.Open();
             }
             else
             {
-                copy.gameObject.SetActive(true);
                 string convertedPT = ConvertToTime(playTime);
+                copy.gameObject.SetActive(true);
                 copy.time.text = convertedPT;
-                copy.jump.text = jumpCount.ToString();
+                copy.jump.text = jumpCount.ToString() + "번";
                 copy.done.text = "기록이 업데이트에 실패했습니다. (오류)";
                 copy.Open();
             }
