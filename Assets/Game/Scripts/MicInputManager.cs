@@ -36,6 +36,11 @@ public class MicInputManager : MonoBehaviour, INormalizedSoundInput
     {
         get
         {
+            if (minDB == maxDB)
+            {
+                if (DB > minDB) return 1;
+                else return 0;
+            }
             return Mathf.Clamp((DB - minDB) / (maxDB - minDB), 0.0f, 1.0f);
         }
     }

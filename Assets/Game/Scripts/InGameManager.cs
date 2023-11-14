@@ -21,6 +21,8 @@ public class InGameManager : MonoBehaviour
     private Popup clearPopup;
     [SerializeField]
     private CharacterListManager characterListManager;
+    [SerializeField]
+    private VolumeBarManager volumeBarManager;
     void Start()
     {
         if (!PhotonNetwork.IsConnected)
@@ -78,6 +80,8 @@ public class InGameManager : MonoBehaviour
         characterListManager.Mine = spawnedPlayer;
         controller.player = spawnedPlayer;
         acvmtController.player = spawnedPlayer;
+
+        volumeBarManager.micInputManager = spawnedPlayer.GetComponentInChildren<MicInputManager>();
         yield break;
     }
 }
