@@ -82,11 +82,11 @@ public class FirebaseManager : MonoBehaviour
     {
         // returns the firebaseAuth
         auth = FirebaseAuth.DefaultInstance;
-/*
+
         if (auth.CurrentUser != null)
         {
             auth.SignOut();
-        }*/
+        }
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
 

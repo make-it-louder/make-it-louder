@@ -6,6 +6,7 @@ using Photon.Pun;
 using TMPro;
 using System;
 using UltimateClean;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerMove2D : MonoBehaviourPun
 {
@@ -422,15 +423,34 @@ public class PlayerMove2D : MonoBehaviourPun
                 return;
             }
             isClear = 1;
+            int done = 0;
+
             Debug.Log("골인");
             Popup copy = Instantiate(clearPopup, clearPopup.transform.parent);
-            copy.gameObject.SetActive(true);
-            copy.Open();
             string userId = RecordManager.Instance.currentId;
             await RecordManager.Instance.UpdateClearRecords("map1", jumpCount, playTime); // 최소점프, 최소 클리어타임 업데이트
             await RecordManager.Instance.UpdateEndGameData("map1", playTime, jumpCount, 0); // 이 방에서의 기록 중간업데이트
             await RankingManager.Instance.UpdateClearTimeRank(playTime, userId); // 클리어했으니 클리어타임 랭킹 업데이트
             await RankingManager.Instance.UpdateMinJumpRank(jumpCount, userId); // 클리어했으니 점프랭킹 업데이트
+            done++;
+            if (done == 1) {
+                string convertedPT = ConvertToTime(playTime);
+                copy.gameObject.SetActive(true);
+                copy.time.text = string.Format("시간: " + convertedPT);
+                copy.jump.text = string.Format("점프: {0:N0} 회", jumpCount);
+                copy.done.text = "기록 업데이트 완료!";
+                copy.Open();
+            }
+            else
+            {
+                string convertedPT = ConvertToTime(playTime);
+                copy.gameObject.SetActive(true);
+                copy.time.text = string.Format("시간: " + convertedPT);
+                copy.jump.text = string.Format("{0:N0} 회", jumpCount);
+
+                copy.done.text = "기록 업데이트에 실패(오류)";
+                copy.Open();
+            }
             if (acheivementManager != null)
             {
                 Debug.Log("acvm 있어요");
@@ -458,5 +478,23 @@ public class PlayerMove2D : MonoBehaviourPun
         {
             Debug.LogError("Cannot find parent");
         }
+    }
+    private string ConvertToTime(float time)
+    {
+        // 정수 초 부분과 밀리초 부분 분리
+        int intPart = (int)time; // 정수 부분
+        int milliPart = (int)((time - intPart) * 1000); // 밀리세컨드 부분
+
+        // TimeSpan 객체로 변환
+        TimeSpan toTime = TimeSpan.FromSeconds(intPart);
+
+        // 시간 형식 문자열로 변환
+        string timeFormat = string.Format("{0:D2}:{1:D2}:{2:D2}.<size=70%>{3:D2}</size>",
+            (int)toTime.TotalHours, // 시간
+            toTime.Minutes,         // 분
+            toTime.Seconds,         // 초
+            (int)milliPart / 10);           // 밀리세컨드
+
+        return timeFormat;
     }
 }
