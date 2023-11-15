@@ -15,7 +15,7 @@ public class ChatManager : MonoBehaviourPun
     public GameObject scrollBarVertical;
     public GameObject Handle;
     public PlayerMove2D playerMove2D;
-    public GameObject targetTransform;
+    public GameObject[] targetObject;
     private void Update()
     {
         KeyDownEnter();
@@ -44,12 +44,8 @@ public class ChatManager : MonoBehaviourPun
         string msg = $"{nickname} : {inputField.text}";
         Debug.Log(msg + " 입력 메세지~~~");
         // 채팅 RPC 호출
-        pv.RPC("RPC_Chat", RpcTarget.All, msg);
         // 채팅 입력창 내용 초기화
-        //if (inputField.text == "showmethemoney")
-        //{
-        //    ShowMeTheMoney();
-        //}
+        ShowMeTheMoney(inputField.text, msg);
         inputField.text = "";
     }
 
@@ -174,24 +170,44 @@ public class ChatManager : MonoBehaviourPun
         }
     }
 
-    private void ShowMeTheMoney()
+    private void ShowMeTheMoney(string input, string msg)
     {
-        GameObject characterList = GameObject.Find("CharacterList");
-
-        if (characterList != null)
+        // input을 정수로 안전하게 변환
+        if (int.TryParse(input, out int index))
         {
-            foreach (Transform child in characterList.transform)
+            // index가 targetTransforms 배열의 범위 내에 있는지 확인
+            if (index >= 0 && index < targetObject.Length)
             {
-                PhotonView photonView = child.GetComponent<PhotonView>();
-                if (photonView != null && photonView.IsMine)
+                GameObject characterList = GameObject.Find("CharacterList");
+
+                if (characterList != null)
                 {
-                    child.transform.position = targetTransform.transform.position;
-                    return;
-                    // 여기서 child.gameObject는 "player(clone)" 중 하나이며, photonView.IsMine이 true입니다.
-                    // 필요한 작업을 수행하세요.
+                    foreach (Transform child in characterList.transform)
+                    {
+                        PhotonView photonView = child.GetComponent<PhotonView>();
+                        if (photonView != null && photonView.IsMine)
+                        {
+                            // 배열의 해당 인덱스 위치로 이동
+                            child.transform.position = targetObject[index].transform.position;
+                            return;
+                        }
+                    }
                 }
             }
-        }
+            else
+            {
+                Debug.LogError("Index out of range");
+                pv.RPC("RPC_Chat", RpcTarget.All, msg);
 
+            }
+        }
+        else
+        {
+            Debug.LogError("Invalid input: Not an integer");
+            pv.RPC("RPC_Chat", RpcTarget.All, msg);
+
+        }
     }
+
+
 }
