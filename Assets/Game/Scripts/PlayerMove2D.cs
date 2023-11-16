@@ -428,6 +428,8 @@ public class PlayerMove2D : MonoBehaviourPun
             Debug.Log("골인");
             Popup copy = Instantiate(clearPopup, clearPopup.transform.parent);
             string userId = RecordManager.Instance.currentId;
+            await RankingManager.Instance.GetClearTimeRank();
+            await RankingManager.Instance.GetMinJumpRank();
             await RecordManager.Instance.UpdateClearRecords("map1", jumpCount, playTime); // 최소점프, 최소 클리어타임 업데이트
             await RecordManager.Instance.UpdateEndGameData("map1", playTime, jumpCount, 0); // 이 방에서의 기록 중간업데이트
             await RankingManager.Instance.UpdateClearTimeRank(playTime, userId); // 클리어했으니 클리어타임 랭킹 업데이트
