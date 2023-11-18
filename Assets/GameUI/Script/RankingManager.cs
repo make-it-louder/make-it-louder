@@ -157,13 +157,21 @@ public class RankingManager : MonoBehaviour
         }
         else  // 이미 10위 이상있을때 10위를 빼고 넣으면 됨.
         {
+
             Debug.Log("넣을게");
             float lastRankTime = ranking.cleartime[cleartimeRank[9]];
             if (minClearTime < lastRankTime)  //랭킹안에 들때 넣기
             {
-                ranking.cleartime.Remove(cleartimeRank[9]);
-                ranking.cleartime.Add(userId, minClearTime);
-                await UpdateClearTimeDB();
+                if (isDuplicated)
+                {
+                    ranking.cleartime[userId] = Math.Min(ranking.cleartime[userId], minClearTime);
+                }
+                else
+                {
+                    ranking.cleartime.Remove(cleartimeRank[9]);
+                    ranking.cleartime.Add(userId, minClearTime);
+                    await UpdateClearTimeDB();
+                }
             }
         }
         await GetClearTimeRank(); // 리스트 재정렬
@@ -231,9 +239,16 @@ public class RankingManager : MonoBehaviour
             int lastRankJump = ranking.min_jump[minJumpRank[9]];
             if (minJump < lastRankJump)  //랭킹안에 들때 넣기
             {
-                ranking.min_jump.Remove(minJumpRank[9]);
-                ranking.min_jump.Add(userId, minJump);
-                await UpdateMinJumpDB();
+                if (isDuplicated)
+                {
+                    ranking.min_jump[userId] = Math.Min(ranking.min_jump[userId], minJump);
+                }
+                else
+                {
+                    ranking.min_jump.Remove(minJumpRank[9]);
+                    ranking.min_jump.Add(userId, minJump);
+                    await UpdateMinJumpDB();
+                }
             }
         }
         await GetMinJumpRank(); // 리스트 재정렬
