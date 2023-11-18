@@ -26,7 +26,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             Connect(nicknameInputField.text);
         }
-        SceneManager.LoadScene(2);
     }
 
     public void Connect(string nickname)
@@ -39,8 +38,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
-        PhotonNetwork.JoinLobby();
-        //PhotonNetwork.JoinOrCreateRoom("Roomrr", new RoomOptions { MaxPlayers = 6 }, null);
+        //PhotonNetwork.JoinLobby();
+        PhotonNetwork.JoinOrCreateRoom("Roomrr", new RoomOptions { MaxPlayers = 6 }, null);
     }
 
     public void JoinRoom(string roomName)
@@ -58,7 +57,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.Log("IAmMasterClient");
-            PhotonNetwork.LoadLevel(3); // ���Ӿ����� ��ȯ
+            PhotonNetwork.LoadLevel("Game/Scenes/MakeItLouder"); // ���Ӿ����� ��ȯ
         }
     }
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -88,9 +87,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("OnSceneLoaded");
         Debug.Log($"Scene name: {scene.name}, InRoom: {PhotonNetwork.InRoom}");
         // ���� ���� �ε�� ���
-        if (scene.buildIndex == 3)
+        if (scene.name == "MakeItLouder")
         {
-            StartCoroutine(OnScene3Loaded());
+            StartCoroutine(OnMakeItLouderLoaded());
         }
     }
 
@@ -99,9 +98,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         // ���� ������Ʈ�� �ı��� �� �̺�Ʈ���� �޼��带 ����
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-    IEnumerator OnScene3Loaded() {
+    IEnumerator OnMakeItLouderLoaded() {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
-        GameObject spawnedPlayer = PhotonNetwork.Instantiate("player/"+playerPrefab.name, new Vector3(Random.Range(-5f, 5f), 1, Random.Range(-5f, 5f)), Quaternion.identity);
+        GameObject spawnedPlayer = PhotonNetwork.Instantiate(
+            "player/" + playerPrefab.name,
+            new Vector3(Random.Range(15f, 19f), -3f, 0),
+            Quaternion.identity
+        );
 
         GridCamera2D camera = GameObject.Find("Main Camera").GetComponent<GridCamera2D>();
         camera.follows = spawnedPlayer;

@@ -1,3 +1,4 @@
+using Photon.Voice.PUN;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -43,7 +44,7 @@ public class SoundManager : MonoBehaviour
     private MixerGroupSettings other;
 
 
-    // Start is called before the first frame update
+
     void Awake()
     {
         var defaultBgVolume = PlayerPrefs.GetFloat(background.playerPrefName, 0.5f);
@@ -67,9 +68,15 @@ public class SoundManager : MonoBehaviour
         }
         other.textArea.text = Mathf.RoundToInt(defaultOtherMicVolume * 100).ToString();
 
+
+        micInput = FindObjectOfType<MicInput>();
         InitializeMicSelector();
 
+        micSelector.onValueChanged.AddListener(OnMicSelectorValueChanged);
     }
+    // Start is called before the first frame update
+
+    private MicInput micInput;
 
 
     void InitializeMicSelector()
@@ -86,28 +93,28 @@ public class SoundManager : MonoBehaviour
         micSelector.AddOptions(options);
 
         // 저장된 마이크 선택 (이전에 선택한 마이크를 복원)
-        selectedMicName = PlayerPrefs.GetString("SelectedMic", ""); // 기본값은 빈 문자열
-
+        selectedMicName = PlayerPrefs.GetString("SelectedMic", null);
+        if (Array.IndexOf(myMIC, selectedMicName) == -1 && myMIC.Length > 0)
+        {
+            selectedMicName = myMIC[0];
+        }
         if (!string.IsNullOrEmpty(selectedMicName))
         {
             int micIndex = Array.IndexOf(myMIC, selectedMicName);
             if (micIndex != -1)
             {
                 micSelector.value = micIndex;
+                if (micInput == null)
+                {
+                    micInput = FindObjectOfType<MicInput>();
+                    if (micInput == null)
+                    {
+                        return;
+                    }
+                }
+                micInput.SetMicName(selectedMicName);
             }
         }
-
-        // 마이크 선택 후 초기화
-        micSelector.onValueChanged.AddListener(OnMicSelectorValueChanged);
-        //int audioFrequency = 44100;
-
-        //// 마이크를 시작하고 입력을 재생1
-        //micAudioSource = gameObject.AddComponent<AudioSource>();
-        //micAudioSource.clip = Microphone.Start(selectedMicName, true, 10, audioFrequency);
-        //micAudioSource.volume = micSlider.value;
-        //micAudioSource.loop = true;
-        //while (Microphone.GetPosition(selectedMicName) <= 0) { }
-        //micAudioSource.Play();
     }
 
 
@@ -120,12 +127,16 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.SetString("SelectedMic", selectedMicName);
         PlayerPrefs.Save();
 
-        // 마이크를 시작하고 입력을 재생
-        //int audioFrequency = 44100;
-        //micAudioSource.clip = Microphone.Start(selectedMicName, true, 10, audioFrequency);
-        //micAudioSource.volume = micSlider.value;
-        //while (Microphone.GetPosition(selectedMicName) <= 0) { }
-        //micAudioSource.Play();
+        if (micInput == null)
+        {
+            micInput = FindObjectOfType<MicInput>();
+            if (micInput == null)
+            {
+                Debug.Log("Cannot find micInput");
+                return;
+            }
+        }
+        micInput.SetMicName(selectedMicName);
     }
 
     public void ChangeBgVolume(float value)
@@ -134,6 +145,7 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.Save();
         int intValue = Mathf.RoundToInt(value * 100);
         background.textArea.text = intValue.ToString();
+
 
         background.audioMixerGroup.audioMixer.SetFloat("BgVolume", calcLogDB(value));
     }
@@ -144,6 +156,7 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.Save();
         int intValue = Mathf.RoundToInt(value * 100);
         effect.textArea.text = intValue.ToString();
+
 
         effect.audioMixerGroup.audioMixer.SetFloat("FXVolume", calcLogDB(value));
     }
@@ -157,14 +170,12 @@ public class SoundManager : MonoBehaviour
         other.audioMixerGroup.audioMixer.SetFloat("OtherMicVolume", calcLogDB(value));
     }
 
-    private float  calcLogDB(float value)
+    private float  calcAudioMixerVolume(float value)
     {
         return Mathf.Log10(value) * 20;
     }
-
-
-
-    // 여기에 플레이어들 볼륨함수? 
-
-
+    private void OnEnable()
+    {
+        InitializeMicSelector();
+    }
 }
