@@ -1,6 +1,7 @@
 using Photon.Voice.PUN;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -44,6 +45,7 @@ public class SoundManager : MonoBehaviour
     private MixerGroupSettings other;
 
 
+    private string[] micList;
 
     void Awake()
     {
@@ -70,6 +72,7 @@ public class SoundManager : MonoBehaviour
 
 
         micInput = FindObjectOfType<MicInput>();
+        micList = Microphone.devices;
         InitializeMicSelector();
 
         micSelector.onValueChanged.AddListener(OnMicSelectorValueChanged);
@@ -79,9 +82,19 @@ public class SoundManager : MonoBehaviour
     private MicInput micInput;
 
 
+    void Update()
+    {
+        string[] newMicList = Microphone.devices;
+        bool eq = Enumerable.SequenceEqual(micList, newMicList);
+        if (!eq)
+        {
+            micList = newMicList;
+            InitializeMicSelector();
+        }
+    }
     void InitializeMicSelector()
     {
-        string[] myMIC = Microphone.devices;
+        string[] myMIC = micList;
         Debug.Log(myMIC.Length);
         micSelector.ClearOptions();
         List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
@@ -147,7 +160,7 @@ public class SoundManager : MonoBehaviour
         background.textArea.text = intValue.ToString();
 
 
-        background.audioMixerGroup.audioMixer.SetFloat("BgVolume", calcLogDB(value));
+        background.audioMixerGroup.audioMixer.SetFloat("BgVolume", calcAudioMixerVolume(value));
     }
 
     public void ChangeEffectVolume(float value)
@@ -158,7 +171,7 @@ public class SoundManager : MonoBehaviour
         effect.textArea.text = intValue.ToString();
 
 
-        effect.audioMixerGroup.audioMixer.SetFloat("FXVolume", calcLogDB(value));
+        effect.audioMixerGroup.audioMixer.SetFloat("FXVolume", calcAudioMixerVolume(value));
     }
     public void ChangeOtherMicVolume(float value)
     {
@@ -167,10 +180,10 @@ public class SoundManager : MonoBehaviour
         int intValue = Mathf.RoundToInt(value * 100);
         other.textArea.text = intValue.ToString();
 
-        other.audioMixerGroup.audioMixer.SetFloat("OtherMicVolume", calcLogDB(value));
+        other.audioMixerGroup.audioMixer.SetFloat("OtherMicVolume", calcAudioMixerVolume(value));
     }
 
-    private float  calcAudioMixerVolume(float value)
+    private float calcAudioMixerVolume(float value)
     {
         return Mathf.Log10(value) * 20;
     }
