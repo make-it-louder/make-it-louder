@@ -11,7 +11,7 @@ public class RotateObstacle : MonoBehaviour
     [SerializeField]
     SoundEventManager soundManager;
 
-    private float rotateSpeed = 0.2f;
+    private float rotateSpeed = 0.4f;
     public bool reverse;
 
     void Awake()
@@ -27,11 +27,11 @@ public class RotateObstacle : MonoBehaviour
         //Debug.Log(soundSubscriber.normalizedDB);
         if (soundSubscriber.normalizedDB > 0.001f)
         {
-            rotateSpeed = Mathf.Clamp(soundSubscriber.normalizedDB * 2,0.2f,2.0f);
+            rotateSpeed = Mathf.Clamp(soundSubscriber.normalizedDB * 3,0.4f,3.0f);
         }
         else
         {
-            rotateSpeed = 0.2f;
+            rotateSpeed = 0.4f;
         }
 
         if (!reverse)
