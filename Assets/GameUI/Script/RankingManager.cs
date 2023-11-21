@@ -170,8 +170,8 @@ public class RankingManager : MonoBehaviour
                 {
                     ranking.cleartime.Remove(cleartimeRank[9]);
                     ranking.cleartime.Add(userId, minClearTime);
-                    await UpdateClearTimeDB();
                 }
+                await UpdateClearTimeDB();
             }
         }
         await GetClearTimeRank(); // 리스트 재정렬
@@ -247,8 +247,9 @@ public class RankingManager : MonoBehaviour
                 {
                     ranking.min_jump.Remove(minJumpRank[9]);
                     ranking.min_jump.Add(userId, minJump);
-                    await UpdateMinJumpDB();
                 }
+
+                await UpdateMinJumpDB();
             }
         }
         await GetMinJumpRank(); // 리스트 재정렬
